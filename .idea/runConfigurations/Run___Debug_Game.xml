@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run &amp; Debug Game" type="CompoundRunConfigurationType">
+    <toRun name="Run Game (Debug w/ wait)" type="ShConfigurationType" />
+    <toRun name="Connect Debugger" type="lua.emmy.debugger" />
+    <method v="2" />
+  </configuration>
+</component>
