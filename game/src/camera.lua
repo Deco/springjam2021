@@ -20,18 +20,20 @@ function TheCamera:specialRender()
 
     --Engine.spatialGrid:draw(self._bounds)
 
-    local entsToRender = Engine.spatialGrid:inSameCells(self._bounds)
+    local entsToRender = {}--Engine.spatialGrid:inSameCells(self._bounds)
     table.sort(entsToRender, function(a, b)
         return (a._pos.x * a._pos.y) < (b._pos.x * b._pos.y) -- todo: real render sorting logic
     end)
     for _, ent in ipairs(entsToRender) do
         if ent ~= self then
+            Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
             if not rawget(ent, 'renderSeperately') then
                 love.graphics.push()
                 love.graphics.translate(ent._pos.x, ent._pos.y)
                 Engine:callEntMethod(ent, 'render', nil)
                 love.graphics.pop()
             end
+            Engine.DP:popEvent()
         end
     end
 

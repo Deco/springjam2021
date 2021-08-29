@@ -52,23 +52,25 @@ do
         self.asset = assert(data.asset)
         self.source = self.source or self.asset.handle:clone()
         self.birth = self.birth or GAMETIME
+        self.didPause = util.default(self.didPause, false)
     end
     function SFX:spawned()
         self:updateAudioSource()
         --self.source:stop()
         self.source:setLooping(not not self.asset.looping)
         self.source:play()
-        print('FUCKING SPAWNED', self, self.asset.path)
     end
     function SFX:removed()
-        print('FUCKING removed', self, self.asset.path)
         self.source:stop()
         self.source:release()
     end
     function SFX:updateAudioSource()
         local offset = self._pos - Engine.camera._pos
         --self.source:setPosition(offset.x, offset.y, 0)
-        self.source:setVolume(math.remapClamp(offset:mag(), 200, 1, 400, 0.0))
+        local vol = math.remapClamp(offset:mag(), 400, 900, 1.0, 0.12)
+        vol = vol * (self.asset.volume or 1)
+        self.source:setVolume(vol)
+        SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
     end
     function SFX:render()
         self:updateAudioSource() -- done in render, not update, to ensure maximum update rate
@@ -78,15 +80,19 @@ do
         --love.graphics.line(0, -10, 0, 10)
     end
     function SFX:onPause()
-        if self.source:isPlaying() then self.source:pause() end
+        if self.source:isPlaying() then
+            self.didPause = true
+            self.source:pause()
+        end
     end
     function SFX:onResume()
-        if self.source:isPaused() then self.source:play() end
+        if self.didPause then
+            self.didPause = false
+            self.source:play()
+        end
     end
     function SFX:update(time, dt)
-        print('FUCKING update', self, self.asset.path)
         if not self.asset.looping and time > self.birth + self.source:getDuration() then
-            print('FUCKING killme', self, self.asset.path)
             Engine:Remove(self)
         end
     end

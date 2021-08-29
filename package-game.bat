@@ -1,0 +1,30 @@
+
+set GAMENAME=Untitled
+
+set THIS_DIR=%~dp0
+set GAME_DIR=%THIS_DIR%\game
+set DIST_DIR=%THIS_DIR%\dist
+set LOVETOOL_DIR=%THIS_DIR%\tools\love
+set LOVEZIP_FILE=%DIST_DIR%\game.zip
+set LOVELOVE_FILE=%DIST_DIR%\game.love
+set UPLOAD_DIR=%DIST_DIR%\%GAMENAME%
+set UPLOADZIP_FILE=%DIST_DIR%\%GAMENAME%.zip
+
+@REM del %DIST_DIR%
+
+mkdir %DIST_DIR%
+tar.exe -a -c -f %LOVEZIP_FILE% -C %GAME_DIR% *
+move %LOVEZIP_FILE% %LOVELOVE_FILE%
+
+mkdir %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\love.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\lua51.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\mpg123.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\msvcp120.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\msvcr120.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\OpenAL32.dll %UPLOAD_DIR%
+copy %LOVETOOL_DIR%\SDL2.dll %UPLOAD_DIR%
+copy /b %LOVETOOL_DIR%\love.exe+%LOVELOVE_FILE% %UPLOAD_DIR%\%GAMENAME%.exe
+
+tar.exe -a -c -f %UPLOADZIP_FILE% -C %UPLOAD_DIR% *
+

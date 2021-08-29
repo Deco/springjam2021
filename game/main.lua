@@ -1,5 +1,5 @@
 local conf = require 'conf'
-local debugger = require 'src.debugger'
+local debugger = require 'src.misc.debugger'
 local bytecodeParser = require 'lib.bytecode-parser'
 
 local globalTable = _G
@@ -95,7 +95,9 @@ local hotFilesPathInfoMap = {}--util.mapListToTable(hotFilesList, function(info)
 for idx, path in ipairs({
     'src/util.lua',
     'src/math.lua',
-    'src/spatial-grid.lua',
+    'src/misc/probe.lua',
+    'src/misc/spatial-grid.lua',
+    'src/misc/spatial.lua',
     'src/engine.lua',
     'assets.lua',
     'src/menu.lua',
@@ -120,7 +122,7 @@ for idx, path in ipairs({
     hotFilesPathInfoMap[path] = info
 end
 
-globalTable._G.watchHotAssetFile = function(path, reloadHandlerFunc)
+globalTable._G.watchHotAssetFile = function(path, reloadHandlerKey, reloadHandlerFunc)
     local info = hotFilesPathInfoMap[path]
     if info == nil then
         info = {
@@ -128,11 +130,22 @@ globalTable._G.watchHotAssetFile = function(path, reloadHandlerFunc)
             kind = 'asset',
             lastModified = love.timer.getTime() + 1,
             dirty = false,
-            reloadHandlerFuncSet = {},
+            reloadHandlerFuncMap = {},
         }
         hotFilesPathInfoMap[path] = info
+        table.insert(hotFilesList, info)
     end
-    info.reloadHandlerFuncSet[reloadHandlerFunc] = true
+    info.reloadHandlerFuncMap[reloadHandlerKey] = reloadHandlerFunc
+end
+
+globalTable._G.unwatchHotAssetFile = function(path, reloadHandlerKey)
+    local info = hotFilesPathInfoMap[path]
+    assert(info)
+    info.reloadHandlerFuncMap[reloadHandlerKey] = nil
+    if next(info.reloadHandlerFuncMap) == nil then
+        hotFilesPathInfoMap[path] = nil -- no one wants this file anymore
+        table.remove(hotFilesList, util.findIndex(info))
+    end
 end
 
 local gatherDelay = 0.4
@@ -188,7 +201,7 @@ local function doHotness(time)
                         end
                     end
                 else
-                    for func in pairs(fileInfo.reloadHandlerFuncSet) do
+                    for key, func in pairs(fileInfo.reloadHandlerFuncMap) do
                         wrap(func, fileInfo.path)
                     end
                 end

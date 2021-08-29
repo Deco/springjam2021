@@ -10,7 +10,8 @@ local assets = {
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 
-    ['sfx/explosion1.wav'] = { type = 'sfx' },
+    ['sfx/explosion1.wav'] = { type = 'sfx', volume = 0.6 },
+    ['sfx/explosion2.wav'] = { type = 'sfx', volume = 0.8 },
     ['sfx/fuse.wav'] = { type = 'sfx', looping = true },
 }
 
@@ -21,5 +22,6 @@ for assetKey, assetDescription in pairs(assets) do
 end
 
 Engine:_theseAreTheAssets(assets)
+
 
 

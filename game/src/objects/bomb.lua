@@ -13,7 +13,7 @@ end
 
 function Bomb:spawned()
     self.trigger = CircleTrigger.new(self, {
-        radius = 80,
+        radius = 350,
         filter = function(ent) return ent.class == Player end,
         onTrigger = function(ent, action) self:onTrigger(ent, action) end,
     })
@@ -31,12 +31,14 @@ end
 
 function Bomb:explode()
     SpawnVFX('art/fx/explosion.png', self:getPos())
-    EmitSound('sfx/explosion1.wav', self:getPos())
+    EmitSound('sfx/explosion2.wav', self:getPos())
     Engine:Remove(self)
 end
 
 function Bomb:update()
-
+    Engine.UP:pushEvent('haha nothing')
+    --for i = 0, 1 do print('slow') end
+    Engine.UP:popEvent('haha nothing')
 end
 
 function Bomb:render()

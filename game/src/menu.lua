@@ -10,8 +10,10 @@ _G.MenuStage = {
 }
 
 function TheMenu:setup()
-    self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
-    self.bigFont = Engine:getAsset('fonts/HelvetiPixel.ttf:60').handle
+    --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
+    --self.bigFont = Engine:getAsset('fonts/HelvetiPixel.ttf:60').handle
+    self.jfcFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 24)
+    self.jfcBigFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 60)
     self.gameTitle = "Untitled!"
 
     self.stage = self.stage or MenuStage.Loading
@@ -37,7 +39,7 @@ function TheMenu:specialUpdate(time, dt)
     elseif self.stage == MenuStage.MainMenu then
         suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
 
-        suit.Label(self.gameTitle, { align = "center", font = self.bigFont }, suit.layout:row(menuW, 2 * menuButtonH))
+        suit.Label(self.gameTitle, { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
 
         if suit.Button('Play', suit.layout:row(menuW, menuButtonH)).hit then
             self:gotoStage(MenuStage.Playing)
@@ -50,13 +52,12 @@ function TheMenu:specialUpdate(time, dt)
             end
             suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
 
-            suit.Label("Paused", { align = "center", font = self.bigFont }, suit.layout:row(menuW, 2 * menuButtonH))
+            suit.Label("Paused", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
         else
             if self.wasPaused then
                 Engine:onResume()
             end
-            local clampedDt = math.min(dt, 0.1)
-            Engine:setGameTime(GAMETIME + dt)
+            Engine:accumulateUpdateTime(dt)
         end
         self.wasPaused = self.isPaused
 

@@ -13,13 +13,25 @@ Engine.assetKeyInfoMap = Engine.assetKeyInfoMap or {}
 
 _G.GAMETIME = -1
 
+_G.ProfileMode = {
+    Off = 0,
+    Running = 1,
+    Paused = 2,
+}
+
 function Engine:load(args)
     -- Only runs when the game launches!
+    self.profileMode = ProfileMode.Off
+    self.DP = PROBE.new()
+    self.DP:enable(true)
+    self.UP = PROBE.new()
+    self.UP:enable(true)
 
     self.entitiesList = {}
     self.nextId = 0
-    self.spatialGrid = SpatialGrid.new()
-    self.lastGameTime = 0
+    --self.spatialGrid = SpatialGrid.new()
+    self.spatialThing = SpatialThing.new()
+    self.accumulatedUpdateTime = 0
     self.entitiesThatJustDiedList = {}
     self.debugScreenText = {}
 
@@ -102,23 +114,25 @@ function Engine:EntityClass(name)
 end
 
 function Engine:_entBoundsSetup(ent)
-    self.spatialGrid:registerObject(ent, ent._bounds)
+    --self.spatialGrid:registerObject(ent, ent._bounds)
+    self.spatialThing:registerObject(ent)
     ent._oldBounds = ent._bounds
 end
 function Engine:_entBoundsChanged(ent)
-    self.spatialGrid:updateObject(ent, ent._oldBounds, ent._bounds)
+    --self.spatialGrid:updateObject(ent, ent._oldBounds, ent._bounds)
+    self.spatialThing:updateObject(ent)
     ent._oldBounds = ent._bounds
 end
 
-function Engine:GetEntitiesWithCentersInRadius(center, radius)
-    local potentials = self.spatialGrid:inSameCells(AABBFromCenterAndSize(center, Vec(2 * radius, 2 * radius)))
-    local radiusSq = radius * radius
+function Engine:GetEntitiesWithCentersInRadius(center, radius, filterFunc)
+    --local potentials = self.spatialGrid:inSameCells(AABBFromCenterAndSize(center, Vec(2 * radius, 2 * radius)))
+    --local radiusSq = radius * radius
     local out = {}
-    for _, potentialObject in ipairs(potentials) do
-        if potentialObject._pos:distSq(center) <= radiusSq then
-            table.insert(out, potentialObject)
-        end
-    end
+    --for _, potentialObject in ipairs(potentials) do
+    --    if potentialObject._pos:distSq(center) <= radiusSq and (not filterFunc or filterFunc(potentialObject)) then
+    --        table.insert(out, potentialObject)
+    --    end
+    --end
     return out
 end
 
@@ -126,7 +140,8 @@ function Engine:Remove(ent)
     if not ent.alive then return end
     print(string.format("[%s E%i] X", ent.__name, ent.id))
     if rawget(ent, '_pos') then
-        self.spatialGrid:deregisterObject(ent, ent._bounds)
+        --self.spatialGrid:deregisterObject(ent, ent._bounds)
+        self.spatialThing:deregisterObject(ent)
     end
     ent.alive = false
     self:callEntMethod(ent, 'removed', nil)
@@ -142,33 +157,43 @@ function Engine:Remove(ent)
 end
 
 function Engine:update(time, dt)
+    self.UP:startCycle()
+
+    --self.UP:pushEvent('menu special update')
     self.menu:specialUpdate(time, dt)
+    --self.UP:popEvent()
     if self.menu.isPaused then return end
-    local gameTime = GAMETIME
-    local gameDelta = math.max(0, GAMETIME - self.lastGameTime)
-    self.lastGameTime = gameTime
-    for _, ent in ipairs(self.entitiesList) do
-        SCREENTEXT('updoot' .. tostring(ent))
-        self:callEntMethod(ent, 'update', '_additionalUpdates', gameTime, gameDelta)
+
+    local step = 1 / 60
+    while self.accumulatedUpdateTime - step > 0.0 do
+        self.accumulatedUpdateTime = self.accumulatedUpdateTime - step
+        GAMETIME = GAMETIME + step
+
+        for _, ent in ipairs(self.entitiesList) do
+            --self.UP:pushEvent(string.format('update %s', tostring(ent)))
+            self:callEntMethod(ent, 'update', '_additionalUpdates', GAMETIME, step)
+            --self.UP:popEvent()
+        end
+        for _, ent in ipairs(self.entitiesThatJustDiedList) do
+            setmetatable(ent, nil)
+            util.clear(ent)
+            setmetatable(ent, util.copyFromTo(entityMetaExtensions, {
+                __tostring = function(self) return string.format('[%s E%i VERY DEAD]', ent.__name, ent.id) end,
+                __index = function() maybeError('dead entity!') end,
+                __newindex = function() maybeError('dead entity!') end,
+            }))
+        end
+        self.entitiesThatJustDiedList = {}
     end
-    for _, ent in ipairs(self.entitiesThatJustDiedList) do
-        setmetatable(ent, nil)
-        util.clear(ent)
-        setmetatable(ent, util.copyFromTo(entityMetaExtensions, {
-            __tostring = function(self) return string.format('[%s E%i VERY DEAD]', ent.__name, ent.id) end,
-            __index = function() maybeError('dead entity!') end,
-            __newindex = function() maybeError('dead entity!') end,
-        }))
-    end
-    self.entitiesThatJustDiedList = {}
+
+    self.UP:endCycle()
 end
 
-function Engine:setGameTime(t)
-    assert(t >= GAMETIME)
-    GAMETIME = t
+function Engine:accumulateUpdateTime(dt)
+    self.accumulatedUpdateTime = math.min(self.accumulatedUpdateTime + dt, 1.0)
 end
 function Engine:resetGameTime()
-    GAMETIME = -1
+    self.accumulatedUpdateTime = -1
 end
 function Engine:onPause()
     for _, ent in ipairs(self.entitiesList) do
@@ -182,16 +207,21 @@ function Engine:onResume()
 end
 
 function Engine:draw()
+    self.DP:startCycle()
     --love.graphics.setColor(0, 1, 1, 1)
     --love.graphics.rectangle('fill', 10, 10, 1280 - 20, 720 - 20)
 
     if self.camera then
+        self.DP:pushEvent('camera render')
         self.camera:specialRender()
+        self.DP:popEvent()
     end
     for _, ent in ipairs(self.entitiesList) do
+        self.DP:pushEvent(string.format('screenRender %s', tostring(ent)))
         love.graphics.push()
         self:callEntMethod(ent, 'screenRender', nil)
         love.graphics.pop()
+        self.DP:popEvent()
     end
     love.graphics.push()
     self.menu:specialRender()
@@ -203,6 +233,14 @@ function Engine:draw()
     end
     self.debugScreenText = {}
     love.graphics.pop()
+    self.DP:endCycle()
+
+    local winW, winH = love.graphics.getDimensions()
+    if self.profileMode ~= ProfileMode.Off then
+        love.graphics.setColor(255, 255, 255)
+        self.DP:draw(20, 20, 200, winH - 20 - 20, "DRAW CYCLE")
+        self.UP:draw(winW - 20 - 200, 20, 200, winH - 40, "UPDATE CYCLE")
+    end
 end
 
 function _G.SCREENTEXT(text)
@@ -214,6 +252,17 @@ function Engine:onWindowResize(w, h)
 end
 
 function Engine:onKeyPressed(key, scancode, isrepeat)
+    if key == 'f2' then
+        if self.profileMode == ProfileMode.Off then
+            self.profileMode = ProfileMode.Running
+        elseif self.profileMode == ProfileMode.Running then
+            self.profileMode = ProfileMode.Paused
+        elseif self.profileMode == ProfileMode.Paused then
+            self.profileMode = ProfileMode.Off
+        end
+        self.DP:enable(self.profileMode == ProfileMode.Running)
+        self.UP:enable(self.profileMode == ProfileMode.Running)
+    end
     self.menu:onKeyPressed(key, scancode, isrepeat)
 end
 
@@ -302,24 +351,30 @@ function Engine:_theseAreTheAssets(assetDescriptors)
                 key = assetKey,
                 type = assetDescriptor.type,
                 path = assetDescriptor.path,
+                alreadyWatchedPath = nil,
             }
             self.assetKeyInfoMap[assetKey] = assetInfo
-            if assetInfo.path ~= false then
-                watchHotAssetFile(assetInfo.path, function()
-                    AssetTypes[assetInfo.type].destroy(assetInfo)
-                    if assetInfo.create ~= nil then
-                        assetInfo.create(assetInfo)
-                    else
-                        AssetTypes[assetInfo.type].create(assetInfo)
-                    end
-                end)
-            end
+        end
+        if assetInfo.alreadyWatchedPath ~= nil and assetInfo.path ~= assetInfo.alreadyWatchedPath then
+            unwatchHotAssetFile(assetInfo.alreadyWatchedPath, 'engine hotness')
+            assetInfo.alreadyWatchedPath = nil
+        end
+        if assetInfo.path ~= false then
+            watchHotAssetFile(assetInfo.path, 'engine hotness', function()
+                wrap(AssetTypes[assetInfo.type].destroy, assetInfo)
+                if assetInfo.create ~= nil then
+                    wrap(assetInfo.create, assetInfo)
+                else
+                    wrap(AssetTypes[assetInfo.type].create, assetInfo)
+                end
+            end)
+            assetInfo.alreadyWatchedPath = assetInfo.path
         end
         util.copyFromTo(assetDescriptor, assetInfo)
         if assetInfo.create ~= nil then
-            assetInfo.create(assetInfo)
+            wrap(assetInfo.create, assetInfo)
         else
-            AssetTypes[assetInfo.type].create(assetInfo)
+            wrap(AssetTypes[assetInfo.type].create, assetInfo)
         end
     end
 end
