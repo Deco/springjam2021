@@ -13,6 +13,10 @@ function math.mod(a, b)
     return ((a % b) + b) % b
 end
 
+function math.floorTo(val, interval)
+    return math.floor(val / interval) * interval
+end
+
 function math.remap(v, srcLow, srcHigh, destLow, destHigh)
     return destLow + (destHigh - destLow) * (v - srcLow) / (srcHigh - srcLow)
 end
@@ -27,6 +31,13 @@ end
 
 function math.easeOutQuad(t, start, final) return (start - final) * t * (t - 2) + start end
 function math.easeOutQuint(t, start, final) return (final - start) * (pow(t, 5) + 1) + start end
+
+--function math.aspectFit(mode)
+--    if mode == 'contain' then
+--
+--    elseif mode == 'cover' then
+--    else assert(false) end
+--end
 
 do
     local vector = {}
@@ -231,6 +242,24 @@ do
 
     function aabb:xy()
         return self.x, self.y
+    end
+
+    function aabb:expandToIncludeVec(vec)
+        return ffi.new(new,
+            math.min(self.x0, vec.x),
+            math.min(self.y0, vec.y),
+            math.max(self.x1, vec.x),
+            math.max(self.y1, vec.y)
+        )
+    end
+
+    function aabb:expandToIncludeAABB(other)
+        return ffi.new(new,
+            math.min(self.x0, other.x0),
+            math.min(self.y0, other.y0),
+            math.max(self.x1, other.x1),
+            math.max(self.y1, other.y1)
+        )
     end
 
     function aabb:__tostring()

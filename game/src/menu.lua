@@ -140,7 +140,7 @@ end
 function TheMenu:onMouseWheel(dx, dy)
     if Engine.camera then
         local rate = 0.3
-        Engine.camera.zoomScale = Engine.camera.zoomScale * (dy < 0 and (1 + rate) or 1 / (1 + rate))
+        Engine.camera:setZoomScale(Engine.camera:getZoomScale() * (dy < 0 and (1 + rate) or 1 / (1 + rate)))
     end
 end
 

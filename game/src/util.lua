@@ -93,8 +93,13 @@ end
 --    return tbl
 --end
 
-function util.enumToString(enum, val)
+--function util.enumToString(enum, val)
+--
+--end
 
+function util.assertOnlyOne(list)
+    assert(#list == 1)
+    return list[1]
 end
 
 function util.getOrPut(tbl, key, make, ...)

@@ -2,9 +2,16 @@ Player = Engine:EntityClass('Player')
 
 function Player:setup(data)
     self.image = Engine:getAsset('art/player/idle.png')
-    self._size = Vec(50, 50)
     self.inputActive = false
-    BasicEntSetup(self, data)
+    BasicEntSetup(self, util.mergeTables({
+        solid = true,
+        shape = love.physics.newCircleShape(0.4),
+        dynamic = true,
+        density = 1,
+    }, data))
+    self:getBody():setBullet(true)
+    self:getBody():setSleepingAllowed(false)
+    self:getBody():setFixedRotation(true)
 end
 
 function Player:update(time, dt)
@@ -22,8 +29,10 @@ function Player:processInput(time, dt)
         moveDir.x = moveDir.x + 1
     end
     moveDir:normalizeMe()
-    local speed = 1000
-    self:setPos(self:getPos() + moveDir * speed * dt)
+    local speed = 11
+    self:getBody():setLinearVelocity((moveDir * speed):xy())
+    --self:getBody():setPosition((Vec(self:getBody():getPosition()) + moveDir * speed * dt):xy())
+    self:getBody():setAngle(moveDir:angle() * math.tau)
 end
 
 function Player:render()

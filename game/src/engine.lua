@@ -30,10 +30,19 @@ function Engine:load(args)
     self.entitiesList = {}
     self.nextId = 0
     --self.spatialGrid = SpatialGrid.new()
-    self.spatialThing = SpatialThing.new()
+    --self.spatialThing = SpatialThing.new()
+    self.physWorld = love.physics.newWorld(0, 0, true)
+    self.physWorld:setCallbacks(
+        function(...) self:onBeginContact(...) end,
+        function(...) self:onEndContact(...) end,
+        function(...) self:onPreSolve(...) end,
+        function(...) self:onPostSolve(...) end
+    )
     self.accumulatedUpdateTime = 0
     self.entitiesThatJustDiedList = {}
-    self.debugScreenText = {}
+    self.drawDebugScreenText = {}
+    self.updateDebugScreenText = {}
+    self.currDebugScreenText = nil
 
     self.menu = TheMenu.new('special case for root')
     self.camera = nil
@@ -82,7 +91,9 @@ function Engine:EntityClass(name)
             class = class,
             ownedSet = {},
             _initData = initData,
-            _additionalUpdates = {},
+            _hooks_Update = {},
+            _hooks_OnBeginContact = {},
+            _hooks_onEndContact = {},
         }
         self.nextId = self.nextId + 1
         classInfo.instancesSet[instance] = true
@@ -105,7 +116,6 @@ function Engine:EntityClass(name)
         BLOCK_NONREPEATABLE_STUFF = false
 
         self:callEntMethod(instance, 'spawned', nil)
-        print(util.findIndex(self.entitiesList, instance))
 
         return instance
     end
@@ -113,16 +123,16 @@ function Engine:EntityClass(name)
     return class
 end
 
-function Engine:_entBoundsSetup(ent)
-    --self.spatialGrid:registerObject(ent, ent._bounds)
-    self.spatialThing:registerObject(ent)
-    ent._oldBounds = ent._bounds
-end
-function Engine:_entBoundsChanged(ent)
-    --self.spatialGrid:updateObject(ent, ent._oldBounds, ent._bounds)
-    self.spatialThing:updateObject(ent)
-    ent._oldBounds = ent._bounds
-end
+--function Engine:_entBoundsSetup(ent)
+--    --self.spatialGrid:registerObject(ent, ent._bounds)
+--    self.spatialThing:registerObject(ent)
+--    ent._oldBounds = ent._bounds
+--end
+--function Engine:_entBoundsChanged(ent)
+--    --self.spatialGrid:updateObject(ent, ent._oldBounds, ent._bounds)
+--    self.spatialThing:updateObject(ent)
+--    ent._oldBounds = ent._bounds
+--end
 
 function Engine:GetEntitiesWithCentersInRadius(center, radius, filterFunc)
     --local potentials = self.spatialGrid:inSameCells(AABBFromCenterAndSize(center, Vec(2 * radius, 2 * radius)))
@@ -139,10 +149,16 @@ end
 function Engine:Remove(ent)
     if not ent.alive then return end
     print(string.format("[%s E%i] X", ent.__name, ent.id))
+
     if rawget(ent, '_pos') then
         --self.spatialGrid:deregisterObject(ent, ent._bounds)
         self.spatialThing:deregisterObject(ent)
     end
+
+    if rawget(ent, '_body') then
+        rawget(ent, '_body'):destroy()
+    end
+
     ent.alive = false
     self:callEntMethod(ent, 'removed', nil)
     ent.owner.ownedSet[ent] = nil
@@ -162,52 +178,46 @@ function Engine:update(time, dt)
     --self.UP:pushEvent('menu special update')
     self.menu:specialUpdate(time, dt)
     --self.UP:popEvent()
-    if self.menu.isPaused then return end
+    if not self.menu.isPaused then
+        local step = 1 / 60
+        while self.accumulatedUpdateTime - step > 0.0 do
+            self.updateDebugScreenText = {}
+            self.currDebugScreenText = self.updateDebugScreenText
 
-    local step = 1 / 60
-    while self.accumulatedUpdateTime - step > 0.0 do
-        self.accumulatedUpdateTime = self.accumulatedUpdateTime - step
-        GAMETIME = GAMETIME + step
+            self.accumulatedUpdateTime = self.accumulatedUpdateTime - step
+            GAMETIME = GAMETIME + step
 
-        for _, ent in ipairs(self.entitiesList) do
-            --self.UP:pushEvent(string.format('update %s', tostring(ent)))
-            self:callEntMethod(ent, 'update', '_additionalUpdates', GAMETIME, step)
-            --self.UP:popEvent()
+            for _, ent in ipairs(self.entitiesList) do
+                --self.UP:pushEvent(string.format('update %s', tostring(ent)))
+                self:callEntMethod(ent, 'update', '_hooks_Update', GAMETIME, step)
+                --self.UP:popEvent()
+            end
+            for _, ent in ipairs(self.entitiesThatJustDiedList) do
+                setmetatable(ent, nil)
+                util.clear(ent)
+                ent.alive = false
+                setmetatable(ent, {
+                    __tostring = function(self) return string.format('[%s E%i VERY DEAD]', ent.__name, ent.id) end,
+                    __index = function() maybeError('dead entity!') end,
+                    __newindex = function() maybeError('dead entity!') end,
+                })
+            end
+            self.entitiesThatJustDiedList = {}
+
+            Engine.UP:pushEvent('box2d')
+            self.physWorld:update(step)
+            Engine.UP:popEvent()
+
+            self.currDebugScreenText = nil
         end
-        for _, ent in ipairs(self.entitiesThatJustDiedList) do
-            setmetatable(ent, nil)
-            util.clear(ent)
-            setmetatable(ent, util.copyFromTo(entityMetaExtensions, {
-                __tostring = function(self) return string.format('[%s E%i VERY DEAD]', ent.__name, ent.id) end,
-                __index = function() maybeError('dead entity!') end,
-                __newindex = function() maybeError('dead entity!') end,
-            }))
-        end
-        self.entitiesThatJustDiedList = {}
     end
 
     self.UP:endCycle()
 end
 
-function Engine:accumulateUpdateTime(dt)
-    self.accumulatedUpdateTime = math.min(self.accumulatedUpdateTime + dt, 1.0)
-end
-function Engine:resetGameTime()
-    self.accumulatedUpdateTime = -1
-end
-function Engine:onPause()
-    for _, ent in ipairs(self.entitiesList) do
-        self:callEntMethod(ent, 'onPause', nil)
-    end
-end
-function Engine:onResume()
-    for _, ent in ipairs(self.entitiesList) do
-        self:callEntMethod(ent, 'onResume', nil)
-    end
-end
-
 function Engine:draw()
     self.DP:startCycle()
+    self.currDebugScreenText = self.drawDebugScreenText
     --love.graphics.setColor(0, 1, 1, 1)
     --love.graphics.rectangle('fill', 10, 10, 1280 - 20, 720 - 20)
 
@@ -228,10 +238,17 @@ function Engine:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(Engine:getAsset('devfont').handle)
     --love.graphics.print(string.format("FT (ms): %3.3f", love.timer.getAverageDelta()), 10, 10)
-    for idx, text in ipairs(self.debugScreenText) do
-        love.graphics.print(tostring(text), 10, 10 + 20 * idx)
+    local screenTextIdx = 0
+    for _, text in ipairs(self.updateDebugScreenText) do
+        love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
+        screenTextIdx = screenTextIdx + 1
     end
-    self.debugScreenText = {}
+    for _, text in ipairs(self.drawDebugScreenText) do
+        love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
+        screenTextIdx = screenTextIdx + 1
+    end
+    self.drawDebugScreenText = {}
+    self.currDebugScreenText = nil
     love.graphics.pop()
     self.DP:endCycle()
 
@@ -243,8 +260,49 @@ function Engine:draw()
     end
 end
 
+function Engine:onBeginContact(fixture0, fixture1, contact)
+    local ent0, ent1 = fixture0:getUserData(), fixture1:getUserData()
+    if not ent0 or not ent1 then return end
+    local ent0Map, ent1Map = rawget(ent0, '_otherEntContactMap'), rawget(ent1, '_otherEntContactMap')
+    local ent0Counter, ent1Counter = -1, -1
+    if ent0Map then ent0Counter = (ent0Map[ent1] or 0) + 1 end
+    if ent1Map then ent1Counter = (ent1Map[ent0] or 0) + 1 end
+    if ent0Counter == 1 or ent1Counter == 1 then print('onBeginContact', ent0, ent0Counter, ent1, ent1Counter) end
+    if ent0Map then
+        ent0Map[ent1] = ent0Counter
+        for _, cb in pairs(rawget(ent0, '_hooks_OnBeginContact')) do cb(ent0, fixture0, ent1, fixture1, contact) end
+    end
+    if ent1Map then
+        ent1Map[ent0] = ent1Counter
+        for _, cb in pairs(rawget(ent1, '_hooks_OnBeginContact')) do cb(ent1, fixture1, ent0, fixture0, contact) end
+    end
+end
+function Engine:onEndContact(fixture0, fixture1, contact)
+    local ent0, ent1 = fixture0:getUserData(), fixture1:getUserData()
+    if not ent0 or not ent1 then return end
+    local ent0Map, ent1Map = rawget(ent0, '_otherEntContactMap'), rawget(ent1, '_otherEntContactMap')
+    local ent0Counter, ent1Counter = -1, -1
+    if ent0Map then ent0Counter = (ent0Map[ent1] or 0) - 1 end
+    if ent1Map then ent1Counter = (ent1Map[ent0] or 0) - 1 end
+    if ent0Counter == 0 or ent1Counter == 0 then print('onEndContact', ent0, ent0Counter, ent1, ent1Counter) end
+    if ent0Map then
+        ent0Map[ent1] = ent0Counter
+        for _, cb in pairs(rawget(ent0, '_hooks_onEndContact')) do cb(ent0, fixture0, ent1, fixture1, contact) end
+    end
+    if ent1Map then
+        ent1Map[ent0] = ent1Counter
+        for _, cb in pairs(rawget(ent1, '_hooks_onEndContact')) do cb(ent1, fixture1, ent0, fixture0, contact) end
+    end
+end
+function Engine:onPreSolve(fixture0, fixture1, contact)
+    --
+end
+function Engine:onPostSolve(fixture0, fixture1, contact, normalImpulse0, tangentImpulse0, normalImpulse1, tangentImpulse1)
+    --
+end
+
 function _G.SCREENTEXT(text)
-    table.insert(Engine.debugScreenText, text)
+    table.insert(Engine.currDebugScreenText, text)
 end
 
 function Engine:onWindowResize(w, h)
@@ -401,4 +459,19 @@ function Engine:getAsset(key)
     return assetInfo
 end
 
-
+function Engine:accumulateUpdateTime(dt)
+    self.accumulatedUpdateTime = math.min(self.accumulatedUpdateTime + dt, 1.0)
+end
+function Engine:resetGameTime()
+    self.accumulatedUpdateTime = -1
+end
+function Engine:onPause()
+    for _, ent in ipairs(self.entitiesList) do
+        self:callEntMethod(ent, 'onPause', nil)
+    end
+end
+function Engine:onResume()
+    for _, ent in ipairs(self.entitiesList) do
+        self:callEntMethod(ent, 'onResume', nil)
+    end
+end

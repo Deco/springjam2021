@@ -24,24 +24,23 @@ do
             )
         )
         local scale = math.easeOutQuad(ageFrac, 0.0, 1.1)
-        love.graphics.translate((-self._pos):xy())
+        love.graphics.translate((-self:getPos()):xy())
         local desiredSize = self.asset.size * scale
         local s = desiredSize / Vec(self.asset.imageHandle:getWidth(), self.asset.imageHandle:getHeight())
         love.graphics.scale(s:xy())
-        love.graphics.translate(((self._pos - 0.5 * desiredSize) / s):xy())
+        love.graphics.translate(((self:getPos() - 0.5 * desiredSize) / s):xy())
         love.graphics.draw(self.asset.imageHandle)
         love.graphics.pop()
     end
 
     _G.SpawnVFX = function(assetKey, posOrEnt)
-        local isFollow, owner, pos = false, WORLD, posOrEnt
-        if type(posOrEnt) ~= "cdata" then
-            owner = posOrEnt
-            pos = posOrEnt:getPos()
-            isFollow = true
+        local vfx
+        if type(posOrEnt) == "cdata" then
+            vfx = VFX.new(WORLD, { solid = true, pos = posOrEnt, asset = Engine:getAsset(assetKey), })
+        else
+            vfx = VFX.new(posOrEnt, { attachTo = posOrEnt, asset = Engine:getAsset(assetKey), })
         end
-        local vfx = VFX.new(owner, { pos = posOrEnt, asset = Engine:getAsset(assetKey) })
-        if isFollow then AttachToEnt(vfx, posOrEnt) end
+        return vfx
     end
 end
 
@@ -65,9 +64,9 @@ do
         self.source:release()
     end
     function SFX:updateAudioSource()
-        local offset = self._pos - Engine.camera._pos
+        local offset = self:getPos() - Engine.camera:getPos()
         --self.source:setPosition(offset.x, offset.y, 0)
-        local vol = math.remapClamp(offset:mag(), 400, 900, 1.0, 0.12)
+        local vol = math.remapClamp(offset:mag(), 8, 20, 1.0, 0.12)
         vol = vol * (self.asset.volume or 1)
         self.source:setVolume(vol)
         SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
@@ -97,14 +96,13 @@ do
         end
     end
     _G.EmitSound = function(assetKey, posOrEnt)
-        local isFollow, owner, pos = false, WORLD, posOrEnt
-        if type(posOrEnt) ~= "cdata" then
-            owner = posOrEnt
-            pos = posOrEnt:getPos()
-            isFollow = true
+        local sfx
+        if type(posOrEnt) == "cdata" then
+            sfx = SFX.new(WORLD, { solid = true, pos = posOrEnt, asset = Engine:getAsset(assetKey), })
+        else
+            sfx = SFX.new(posOrEnt, { attachTo = posOrEnt, asset = Engine:getAsset(assetKey), })
         end
-        local sfx = SFX.new(owner, { pos = pos, asset = Engine:getAsset(assetKey) })
-        if isFollow then AttachToEnt(sfx, posOrEnt) end
+        return sfx
     end
 end
 

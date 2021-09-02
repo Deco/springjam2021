@@ -5,6 +5,7 @@ local assets = {
 
     ['art/tree.png'] = { type = 'image' },
     ['art/bomb.png'] = { type = 'image' },
+    ['art/crate.png'] = { type = 'image' },
     ['art/player/idle.png'] = { type = 'image' },
     ['art/player/walking.png'] = { type = 'image' },
 

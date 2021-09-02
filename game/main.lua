@@ -102,6 +102,7 @@ for idx, path in ipairs({
     'assets.lua',
     'src/menu.lua',
     'src/gamestate.lua',
+    'src/world.lua',
     'src/camera.lua',
     'src/entity-basics.lua',
     'src/rendering.lua',
@@ -111,6 +112,7 @@ for idx, path in ipairs({
     'src/player.lua',
     --
     'src/objects/bomb.lua',
+    'src/objects/crate.lua',
 }) do
     local info = {
         path = path,
