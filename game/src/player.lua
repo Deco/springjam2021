@@ -4,9 +4,13 @@ local playerSize = 0.4
 
 function Player:setup(data)
     self.renderDepth = 20
-
-    self.image = Engine:getAsset('art/player/idle.png')
+    self.image_dir_set = {
+        {Cardinal.Up = Engine:getAsset('art/player/idle_u.png')},
+        {Cardinal.Left = Engine:getAsset('art/player/idle.png')},
+        {Cardinal.Down = Engine:getAsset('art/player/idle.png')},
+        {Cardinal.Right = Engine:getAsset('art/player/idle.png')}
     self.inputActive = false
+    self.moveDir = nil
     BasicEntSetup(self, data)
 
     self.lastMoveTime = 0
@@ -39,14 +43,13 @@ end
 
 function Player:processInput(time, dt)
     if not self.alive then return end
+    self.moveDir = nil
+    if love.keyboard.isDown('w') then self.moveDir = Cardinal.Up end
+    if love.keyboard.isDown('a') then self.moveDir = Cardinal.Left end
+    if love.keyboard.isDown('s') then self.moveDir = Cardinal.Down end
+    if love.keyboard.isDown('d') then self.moveDir = Cardinal.Right end
 
-    local moveDir = nil
-    if love.keyboard.isDown('w') then moveDir = Cardinal.Up end
-    if love.keyboard.isDown('a') then moveDir = Cardinal.Left end
-    if love.keyboard.isDown('s') then moveDir = Cardinal.Down end
-    if love.keyboard.isDown('d') then moveDir = Cardinal.Right end
-
-    if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 10 * ONETICK then
+    if self.moveDir ~= nil and GAMETIME >= self.lastMoveTime + 20 * ONETICK then
         self.lastMoveTime = GAMETIME
         self:tryMove(moveDir)
         self:setRot(moveDir)
@@ -72,7 +75,7 @@ function Player:render()
     else
         love.graphics.setColor(0.3, 0, 0, 1)
     end
-    DrawSimpleEntImage(self, self.image, playerSize)
+    DrawSimpleEntImage(self, self.image_dir_set(self.moveDir), playerSize)
 
     --love.graphics.setColor(1, 1, 0, 1)
     --love.graphics.line(-10, 0, 10, 0)
