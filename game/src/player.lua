@@ -5,15 +5,10 @@ local playerSize = 0.4
 function Player:setup(data)
     self.image = Engine:getAsset('art/player/idle.png')
     self.inputActive = false
-    BasicEntSetup(self, util.mergeTables({
-        solid = true,
-        shape = love.physics.newCircleShape(playerSize),
-        dynamic = true,
-        density = 1,
-    }, data))
-    self:getBody():setBullet(true)
-    self:getBody():setSleepingAllowed(false)
-    self:getBody():setFixedRotation(true)
+    BasicEntSetup(self, data)
+
+    self.lastMoveTime = 0
+    self.lastMoveDir = nil
 end
 
 function Player:update(time, dt)
@@ -23,26 +18,15 @@ function Player:update(time, dt)
 end
 
 function Player:processInput(time, dt)
-    local moveDir = Vec(0, 0)
-    if love.keyboard.isDown('w') then moveDir = moveDir:withY(moveDir.y - 1) end
-    if love.keyboard.isDown('a') then moveDir = moveDir:withX(moveDir.x - 1) end
-    if love.keyboard.isDown('s') then moveDir = moveDir:withY(moveDir.y + 1) end
-    if love.keyboard.isDown('d') then moveDir = moveDir:withX(moveDir.x + 1) end
-    moveDir = moveDir:normalized()
-    local speed = 11
-    self:getBody():setLinearVelocity((moveDir * speed):xy())
-    --self:getBody():setPosition((Vec(self:getBody():getPosition()) + moveDir * speed * dt):xy())
-    if moveDir:magSq() > 0 then
-        local currAng = self:getRot()
-        local desiredAng = moveDir:angle()
-        local delta = math.wrapAng(desiredAng - currAng)
-        local newAng = currAng + math.clampMag(2 * dt * math.sign(delta), math.abs(delta)) + math.remap(math.random(), 0, 1, -0.001, 0.001)
+    local moveDir = nil
+    if love.keyboard.isDown('w') then moveDir = Cardinal.Up end
+    if love.keyboard.isDown('a') then moveDir = Cardinal.Left end
+    if love.keyboard.isDown('s') then moveDir = Cardinal.Down end
+    if love.keyboard.isDown('d') then moveDir = Cardinal.Right end
 
-        SCREENTEXT(currAng)
-        SCREENTEXT(desiredAng)
-        SCREENTEXT(delta)
-
-        self:getBody():setAngle(newAng * math.tau)
+    if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 20 * ONETICK then
+        self.lastMoveTime = GAMETIME
+        self:tryMove(moveDir)
     end
 end
 

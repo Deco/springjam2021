@@ -1,20 +1,20 @@
 --
 
-function _G.SetCircleTrigger(self, radius, filterFunc, onTriggerFunc)
-    local body = self:getBody()
-    body:setSleepingAllowed(false)
-    self._otherEntContactMap = self._otherEntContactMap or {}
-
-    local shape = love.physics.newCircleShape(radius)
-    local fixture = love.physics.newFixture(body, shape)
-    fixture:setUserData(self)
-    fixture:setSensor(true)
-
-    self._hooks_OnBeginContact['SetCircleTrigger'] = function(_, ourFixture, other, otherFixture, contact)
-        if not filterFunc(other) then return end
-        onTriggerFunc(other)
-    end
-end
+--function _G.SetCircleTrigger(self, radius, filterFunc, onTriggerFunc)
+--    local body = self:getBody()
+--    body:setSleepingAllowed(false)
+--    self._otherEntContactMap = self._otherEntContactMap or {}
+--
+--    local shape = love.physics.newCircleShape(radius)
+--    local fixture = love.physics.newFixture(body, shape)
+--    fixture:setUserData(self)
+--    fixture:setSensor(true)
+--
+--    self._hooks_OnBeginContact['SetCircleTrigger'] = function(_, ourFixture, other, otherFixture, contact)
+--        if not filterFunc(other) then return end
+--        onTriggerFunc(other)
+--    end
+--end
 
 
 

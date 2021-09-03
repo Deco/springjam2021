@@ -26,6 +26,8 @@ function TheMenu:setup()
 end
 
 function TheMenu:specialUpdate(time, dt)
+    Engine.UP:pushEvent('menu special update')
+
     -- https://suit.readthedocs.io/en/latest/layout.html#
     local winW, winH = love.graphics.getDimensions()
     local menuW = 400
@@ -72,6 +74,8 @@ function TheMenu:specialUpdate(time, dt)
     if IS_DEBUG then
         love.window.setTitle(string.format('%s - %1.3fms / %3.1fFPS', self.gameTitle, love.timer.getAverageDelta() * 1000, love.timer.getFPS()))
     end
+
+    Engine.UP:popEvent()
 end
 
 function TheMenu:gotoStage(newStage)

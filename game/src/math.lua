@@ -2,30 +2,43 @@
 local ffi = require "ffi"
 local sqrt, cos, sin, atan2, pow = math.sqrt, math.cos, math.sin, math.atan2, math.pow
 
---[[
-    Important! We're working with -0.5 to 0.5 angles! 1.0 = one full rotation
-     -0.50  = down             [rad = -0.75 * tau]
-     -0.25  = left             [rad = -0.5  * tau]
-      0.00  = up               [rad = -0.25 * tau]
-     +0.25  = right            [rad =  0.00 * tau]
-    (+0.50  = down again)      [rad =  0.25 * tau]
-]]
+_G.Cardinal = {
+    Up = 1,
+    Right = 2,
+    Down = 3,
+    Left = 4,
+}
+
+_G.Diagonal = {
+    Up = 1,
+    UpRight = 2,
+    Right = 3,
+    DownRight = 4,
+    Down = 5,
+    DownLeft = 6,
+    Left = 7,
+    UpLeft = 8,
+}
 
 math.tau = 2 * math.pi
 math.oneOverTau = 1 / (2 * math.pi)
 math.epsilon = 0.00001
 
---function math.radToUnitAng(rad)
---    return math.remap(rad * math.oneOverTau, -0.25, 0.25, 0, 0.5)
---end
---function math.unitAngToRad(ang)
---    return math.remap(ang, 0, 0.5, -0.25, 0.25) * math.tau
---end
-
-function math.wrapAng(ang)
-    -- into -0.5 to 0.5 range
-    return math.mod(ang + 0.5, 1.0) - 0.5
+function math.cardinalToAng(dir)
+    return dir * 0.25 * math.tau
 end
+
+function math.cardinalToOffset(dir)
+    if dir == Cardinal.Up then return Vec(0, -1) end
+    if dir == Cardinal.Right then return Vec(1, 0) end
+    if dir == Cardinal.Down then return Vec(0, 1) end
+    if dir == Cardinal.Left then return Vec(-1, 0) end
+end
+
+--function math.wrapAng(ang)
+--    -- into -0.5 to 0.5 range
+--    return math.mod(ang + 0.5, 1.0) - 0.5
+--end
 
 function math.nearlyEqual(a, b, e)
     return math.abs(b - a) <= (e or math.epsilon)

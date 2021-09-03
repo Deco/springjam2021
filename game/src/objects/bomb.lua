@@ -6,15 +6,12 @@ function Bomb:setup(data)
     --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
     self.image = Engine:getAsset('art/bomb.png')
 
-    BasicEntSetup(self, util.mergeTables({
-        solid = true, dynamic = true,
-        shape = love.physics.newCircleShape(bombSize),
-    }, data))
+    BasicEntSetup(self, data)
 
-    SetCircleTrigger(self, 1,
-        function(ent) return ent.class == Player end,
-        function(ent) self:onTrigger(ent) end
-    )
+    --SetCircleTrigger(self, 1,
+    --    function(ent) return ent.class == Player end,
+    --    function(ent) self:onTrigger(ent) end
+    --)
     self.hasBeenTriggered = self.hasBeenTriggered or false
 end
 
@@ -59,7 +56,7 @@ function Bomb:render()
     else
         love.graphics.setColor(1, 1, 1, 1)
     end
-    DrawSimpleEntImage(self, self.image, bombSize)
+    DrawSimpleEntImage(self, self.image)
 end
 
 
