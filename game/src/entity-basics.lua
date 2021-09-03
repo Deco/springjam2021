@@ -39,9 +39,14 @@ local entityBasicStuff = {
         if not destCell:traversableTest(self) then
             return false
         end
-
+        for v in pairs(destCell.entsSet) do
+            print("trying to move: " .. v.__name)
+            if not  v:tryMove(dir) then return false end
+        end
         self:setPos(destPos)
         return true
+
+
     end,
 }
 
