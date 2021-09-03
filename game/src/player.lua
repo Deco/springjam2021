@@ -3,12 +3,32 @@ Player = Engine:EntityClass('Player')
 local playerSize = 0.4
 
 function Player:setup(data)
+    self.renderDepth = 20
+
     self.image = Engine:getAsset('art/player/idle.png')
     self.inputActive = false
     BasicEntSetup(self, data)
 
     self.lastMoveTime = 0
-    self.lastMoveDir = nil
+
+    self.alive = util.default(self.alive, true)
+
+    self.inventory = {
+        coffee = {
+            order = 0,
+            image = Engine:getAsset('art/coffee.png'),
+            count = 0,
+        },
+        key = {
+            order = 1,
+            image = Engine:getAsset('art/key.png'),
+            count = 0,
+        },
+    }
+end
+
+function Player:spawned()
+    --
 end
 
 function Player:update(time, dt)
@@ -18,20 +38,40 @@ function Player:update(time, dt)
 end
 
 function Player:processInput(time, dt)
+    if not self.alive then return end
+
     local moveDir = nil
     if love.keyboard.isDown('w') then moveDir = Cardinal.Up end
     if love.keyboard.isDown('a') then moveDir = Cardinal.Left end
     if love.keyboard.isDown('s') then moveDir = Cardinal.Down end
     if love.keyboard.isDown('d') then moveDir = Cardinal.Right end
 
-    if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 20 * ONETICK then
+    if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 10 * ONETICK then
         self.lastMoveTime = GAMETIME
         self:tryMove(moveDir)
+        self:setRot(moveDir)
+    end
+end
+
+function Player:onTouch(other)
+    if other.class == Key then
+        self.inventory.key.count = self.inventory.key.count + 1
+        Engine:Remove(other)
+    elseif other.class == Coffee then
+        self.inventory.coffee.count = self.inventory.coffee.count + 1
+        Engine:Remove(other)
+    elseif other.class == Spikes or other.class == Vampire then
+        self.alive = false
+        print('DEAD')
     end
 end
 
 function Player:render()
-    love.graphics.setColor(1, 1, 1, 1)
+    if self.alive then
+        love.graphics.setColor(1, 1, 1, 1)
+    else
+        love.graphics.setColor(0.3, 0, 0, 1)
+    end
     DrawSimpleEntImage(self, self.image, playerSize)
 
     --love.graphics.setColor(1, 1, 0, 1)

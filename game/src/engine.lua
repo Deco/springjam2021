@@ -57,7 +57,7 @@ function Engine:callEntMethod(ent, methodName, additionalsName, ...)
 end
 
 local entityMetaExtensions = {
-    __tostring = function(self) return string.format('[%s E%i%s]', self.__name, self.id, self.alive and '' or ' DEAD') end,
+    __tostring = function(self) return string.format('[%s E%i%s]', self.__name, self.id, self.valid and '' or ' INVALID') end,
 }
 function Engine:EntityClass(name)
     local class = GMAKER(name)
@@ -76,9 +76,9 @@ function Engine:EntityClass(name)
     end
 
     class.new = function(owner, initData)
-        if BLOCK_NONREPEATABLE_STUFF then maybeError(string.format("Noooo you can't create entities here!")) end
+        if BLOCK_NONREPEATABLE_STUFF and class ~= Cell then maybeError(string.format("Noooo you can't create entities here!")) end
         local instance = {
-            alive = true,
+            valid = true,
             owner = owner,
             id = self.nextId,
             class = class,
@@ -115,10 +115,10 @@ function Engine:EntityClass(name)
 end
 
 function Engine:Remove(ent)
-    if not ent.alive then return end
+    if not ent.valid then return end
     print(string.format("[%s E%i] X", ent.__name, ent.id))
 
-    ent.alive = false
+    ent.valid = false
     self:callEntMethod(ent, 'removed', nil)
     ent.owner.ownedSet[ent] = nil
     table.remove(self.entitiesList, util.findIndex(self.entitiesList, ent))
@@ -152,7 +152,7 @@ function Engine:update(time, dt)
             for _, ent in ipairs(self.entitiesThatJustDiedList) do
                 setmetatable(ent, nil)
                 util.clear(ent)
-                ent.alive = false
+                ent.valid = false
                 setmetatable(ent, {
                     __tostring = function(self) return string.format('[%s E%i VERY DEAD]', ent.__name, ent.id) end,
                     __index = function() maybeError('dead entity!') end,
@@ -255,9 +255,9 @@ function Engine:onMousePressed(x, y, button, istouch)
         local trans = self.camera:getTransform()
         local worldPos = Vec(trans:inverseTransformPoint(x, y))
         print(worldPos)
-        if GAMESTATE then
-            GAMESTATE.player:setPos(worldPos)
-        end
+        --if GAMESTATE then
+        --    GAMESTATE.player:setPos(worldPos)
+        --end
     end
 end
 

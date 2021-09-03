@@ -3,11 +3,20 @@ local assets = {
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
     ['fonts/HelvetiPixel.ttf:60'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
 
-    ['art/tree.png'] = { type = 'image' },
-    ['art/bomb.png'] = { type = 'image' },
-    ['art/crate.png'] = { type = 'image' },
     ['art/player/idle.png'] = { type = 'image' },
     ['art/player/walking.png'] = { type = 'image' },
+
+    ['art/wall.png'] = { type = 'image' },
+
+    ['art/bomb.png'] = { type = 'image' },
+    ['art/coffee.png'] = { type = 'image' },
+    ['art/crate.png'] = { type = 'image' },
+    ['art/gate.png'] = { type = 'image' },
+    ['art/key.png'] = { type = 'image' },
+    ['art/pressure-plate.png'] = { type = 'image' },
+    ['art/spikes.png'] = { type = 'image' },
+    ['art/tomb.png'] = { type = 'image' },
+    ['art/vampire.png'] = { type = 'image' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 
