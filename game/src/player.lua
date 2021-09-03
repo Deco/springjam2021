@@ -5,10 +5,10 @@ local playerSize = 0.4
 function Player:setup(data)
     self.renderDepth = 20
     self.image_dir_set = {
-        [Cardinal.Up] = Engine:getAsset('art/tree.png'),
-        [Cardinal.Left] = Engine:getAsset('art/player/idle.png'),
-        [Cardinal.Down] = Engine:getAsset('art/player/idle.png'),
-        [Cardinal.Right] = Engine:getAsset('art/player/idle.png'),
+        [Cardinal.Up] = Engine:getAsset('art/player/idle_up.png'),
+        [Cardinal.Right] = Engine:getAsset('art/player/idle_right.png'),
+        [Cardinal.Down] = Engine:getAsset('art/player/idle_down.png'),
+        [Cardinal.Left] = Engine:getAsset('art/player/idle_left.png'),
     }
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
@@ -53,7 +53,7 @@ function Player:processInput(time, dt)
     if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 10 * ONETICK then
         self.lastMoveTime = GAMETIME
         self:tryMove(moveDir)
-        self:setRot(moveDir)
+        --self:setRot(moveDir)
         self.lastMoveDir = moveDir
     end
 end
@@ -65,9 +65,9 @@ function Player:onTouch(other)
     elseif other.class == Coffee then
         self.inventory.coffee.count = self.inventory.coffee.count + 1
         Engine:Remove(other)
-        --elseif other.class == Spikes or other.class == Vampire then
-        --    self.alive = false
-        --    print('DEAD')
+    elseif other.class == Spikes or other.class == Vampire then
+        self.alive = false
+        print('DEAD')
     end
 end
 

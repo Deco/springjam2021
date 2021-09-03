@@ -5,12 +5,12 @@ local entityBasicStuff = {
         return self._pos
     end,
     setPos = function(self, pos)
-        if self._lastPos ~= nil then
-            local currCell = WORLD:getCell(self._lastPos)
-            currCell.entsSet[self] = nil
+        if self._cellIn ~= nil then
+            self._cellIn.entsSet[self] = nil
         end
         local newCell = WORLD:getCell(pos)
         newCell.entsSet[self] = true
+        self._cellIn = newCell
         self._lastPos = self._pos
         self._pos = Vec(math.floor(pos.x), math.floor(pos.y))
 
@@ -46,6 +46,7 @@ local entityBasicStuff = {
 function _G.BasicEntSetup(self, data)
     util.copyFromTo(entityBasicStuff, self)
 
+    self._cellIn = self._cellIn or nil
     self:setPos(self._pos or assert(data.pos))
     self._lastPos = self._lastPos or self._pos
     self:setRot(self._rot or data.rot or Cardinal.Up)

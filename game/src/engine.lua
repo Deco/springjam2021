@@ -118,6 +118,11 @@ function Engine:Remove(ent)
     if not ent.valid then return end
     print(string.format("[%s E%i] X", ent.__name, ent.id))
 
+    local cellIn = rawget(ent, '_cellIn')
+    if cellIn then
+        cellIn.entsSet[ent] = nil
+    end
+
     ent.valid = false
     self:callEntMethod(ent, 'removed', nil)
     ent.owner.ownedSet[ent] = nil
