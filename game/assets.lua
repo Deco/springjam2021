@@ -3,10 +3,12 @@ local assets = {
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
     ['fonts/HelvetiPixel.ttf:60'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
 
+
     ['art/player/idle_up.png'] = { type = 'image' },
     ['art/player/idle_right.png'] = { type = 'image' },
     ['art/player/idle_down.png'] = { type = 'image' },
     ['art/player/idle_left.png'] = { type = 'image' },
+    ['art/player/walking_u.png'] = { type = 'image' },
 
     ['art/wall.png'] = { type = 'image' },
 
