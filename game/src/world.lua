@@ -60,8 +60,8 @@ function World:initLevel()
                     --Vampire.new(self, { pos = cell.pos })
                 elseif cellChar == 'E' then
                     --ExitDoor.new(self, { pos = cell.pos })
-                elseif  cellChar == 'c' then
-                    Crate.new(self, {pos = cell.pos})
+                elseif cellChar == 'c' then
+                    Crate.new(self, { pos = cell.pos })
                 elseif tonumber(cellChar, 10) ~= nil then
                     local thing = self.levelStuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
@@ -213,6 +213,7 @@ function Cell:setup(data)
     self.pos = self.pos or data.pos
     self.isWall = util.default(self.isWall, data.isWall)
     self.entsSet = self.entsSet or {}
+    self.isMovable = self.isMovable
 end
 
 function Cell:getPos()

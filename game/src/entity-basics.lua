@@ -39,6 +39,7 @@ local entityBasicStuff = {
         if not destCell:traversableTest(self) then
             return false
         end
+
         self:setPos(destPos)
         return true
     end,
