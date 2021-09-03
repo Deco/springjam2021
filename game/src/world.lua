@@ -10,7 +10,7 @@ local levelData = {
     'S    #####     #',
     '#    #   #     #',
     '# C  @ 1 @   T #',
-    '#    #   #     #',
+    '# c  #   #     #',
     '#    #####     #',
     '#              #',
     '#              #',
@@ -24,7 +24,7 @@ local logicGroups = {
 }
 local levelStuff = {
     [1] = { type = "PressurePlate", group = 1, },
-    [2] = { type = "Gate", group = 1, },
+    [2] = { type = "Gate", group = 1, }
 }
 
 function World:setup(data)
@@ -59,6 +59,8 @@ function World:initLevel()
                     Tomb.new(self, { pos = cell.pos })
                 elseif cellChar == 'E' then
                     --ExitDoor.new(self, { pos = cell.pos })
+                elseif  cellChar == 'c' then
+                    Crate.new(self, {pos = cell.pos})
                 elseif tonumber(cellChar, 10) ~= nil then
                     local thing = levelStuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
