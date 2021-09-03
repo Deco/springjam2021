@@ -9,6 +9,16 @@ function Gate:setup(data)
     BasicEntSetup(self, data)
 end
 
+function Gate:isLocked()
+    local logicGroup = WORLD:getLogicGroup(self.logicGroupIdx)
+    for _, input in ipairs(logicGroup) do
+        if input.hasBeenTriggered then
+            return false
+        end
+    end
+    return true
+end
+
 function Gate:render()
     love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
     DrawSimpleEntImage(self, self.image)

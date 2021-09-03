@@ -4,20 +4,20 @@
 World = Engine:EntityClass('World')
 
 local levelData = {
-    '###############',
-    '#             #',
-    '#             #',
-    'S    #####    #',
-    '#    #   #    #',
-    '# C  @ 1 @  T #',
-    '#    #   #    #',
-    '#    #####    #',
-    '#             #',
-    '#             #',
-    '#         #####',
-    '#         2   E',
-    '#         #####',
-    '###############',
+    '################',
+    '#              #',
+    '#              #',
+    'S    #####     #',
+    '#    #   #     #',
+    '# C  @ 1 @   T #',
+    '#    #   #     #',
+    '#    #####     #',
+    '#              #',
+    '#              #',
+    '#          #####',
+    '#          2   E',
+    '#          #####',
+    '################',
 }
 local logicGroups = {
     [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
@@ -62,9 +62,11 @@ function World:initLevel()
                 elseif tonumber(cellChar, 10) ~= nil then
                     local thing = levelStuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
-                        PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                        local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
                     elseif thing.type == 'Gate' then
-                        Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                        local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
                     end
                 end
             end
@@ -124,7 +126,15 @@ function Cell:getPos()
 end
 
 function Cell:solidTest(ent)
-    return self.isWall
+    if self.isWall then return true end
+    for other in pairs(self.entsSet) do
+        if other ~= ent then
+            if other.class == Gate then
+                if other.isLocked then return true end
+            end
+        end
+    end
+    return false
 end
 
 
