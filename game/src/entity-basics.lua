@@ -36,10 +36,11 @@ local entityBasicStuff = {
     tryMove = function(self, dir)
         local destPos = self:getPos() + math.cardinalToOffset(dir)
         local destCell = WORLD:getCell(destPos)
-        if destCell:solidTest(self) then
-            return
+        if not destCell:traversableTest(self) then
+            return false
         end
         self:setPos(destPos)
+        return true
     end,
 }
 

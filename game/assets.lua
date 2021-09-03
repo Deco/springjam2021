@@ -8,7 +8,6 @@ local assets = {
     ['art/player/idle_right.png'] = { type = 'image' },
     ['art/player/idle_down.png'] = { type = 'image' },
     ['art/player/idle_left.png'] = { type = 'image' },
-    ['art/player/walking_u.png'] = { type = 'image' },
 
     ['art/wall.png'] = { type = 'image' },
 

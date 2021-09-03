@@ -1,7 +1,5 @@
 Gate = Engine:EntityClass('Gate')
 
-local bombSize = 0.15
-
 function Gate:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')

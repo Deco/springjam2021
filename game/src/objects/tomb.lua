@@ -1,7 +1,5 @@
 Tomb = Engine:EntityClass('Tomb')
 
-local bombSize = 0.15
-
 _G.TombStage = {
     Closed = 1,
     Opening = 2,
@@ -29,6 +27,7 @@ function Tomb:update(time, dt)
     if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + 2.5 then
         self.stage = TombStage.Opened
         Vampire.new(WORLD, { pos = self:getPos(), })
+        Key.new(WORLD, { pos = self:getPos(), })
     end
 end
 

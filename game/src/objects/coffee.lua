@@ -1,7 +1,5 @@
 Coffee = Engine:EntityClass('Coffee')
 
-local bombSize = 0.15
-
 function Coffee:setup(data)
     self.image = Engine:getAsset('art/coffee.png')
 
