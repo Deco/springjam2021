@@ -6,6 +6,7 @@ World = Engine:EntityClass('World')
 local levelData = {
     '###############',
     '#             #',
+    '#             #',
     'S    #####    #',
     '#    #   #    #',
     '# C  @ 1 @  T #',
@@ -18,9 +19,12 @@ local levelData = {
     '#         #####',
     '###############',
 }
+local logicGroups = {
+    [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
+}
 local levelStuff = {
-    [1] = { type = "PressurePlate", triggers = 2, },
-    [2] = { type = "Door" },
+    [1] = { type = "PressurePlate", group = 1, },
+    [2] = { type = "Gate", group = 1, },
 }
 
 function World:setup(data)
@@ -29,10 +33,12 @@ function World:setup(data)
     self.grid = self.grid or {}
     self.bounds = self.bounds or AABBfromXYWH(0, 0, 0, 0)
 
-    self.startDoorPos = nil
+    self.startDoorPos = self.startDoorPos or nil
+
+    self.wallImage = Engine:getAsset('art/wall.png')
 end
 
-function World:spawned()
+function World:initLevel()
     for rowIdx, rowStr in ipairs(levelData) do
         for colIdx = 1, #rowStr do
             local cellChar = rowStr:sub(colIdx, colIdx)
@@ -44,21 +50,38 @@ function World:spawned()
                 cell.isWall = false
 
                 if cellChar == 'S' then
-                    self.startDoorPos = cell
-                    GAMESTATE.player:setPos(Vec(colIdx, rowIdx))
+                    self.startDoorPos = cell.pos
+                elseif cellChar == 'C' then
+                    Coffee.new(self, { pos = cell.pos })
+                elseif cellChar == '@' then
+                    Spikes.new(self, { pos = cell.pos })
+                elseif cellChar == 'T' then
+                    Tomb.new(self, { pos = cell.pos })
+                elseif cellChar == 'E' then
+                    --ExitDoor.new(self, { pos = cell.pos })
+                elseif tonumber(cellChar, 10) ~= nil then
+                    local thing = levelStuff[tonumber(cellChar, 10)]
+                    if thing.type == 'PressurePlate' then
+                        PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                    elseif thing.type == 'Gate' then
+                        Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                    end
                 end
             end
         end
     end
+
+    GAMESTATE.player:setPos(WORLD.startDoorPos)
 end
 
 function World:specialRender()
     -- temp
+    local sixteenToOne = 1 / 16
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
             if cell.isWall then
-                love.graphics.rectangle('fill', x, y, 1, 1)
+                love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
             end
         end
     end
@@ -84,12 +107,16 @@ function World:getCell(pos)
     return cell
 end
 
+function World:getLogicGroup(idx)
+    return logicGroups[idx]
+end
+
 Cell = Engine:EntityClass('Cell')
 
 function Cell:setup(data)
-    self.pos = data.pos
-    self.isWall = data.isWall
-    self.entsSet = {}
+    self.pos = self.pos or data.pos
+    self.isWall = util.default(self.isWall, data.isWall)
+    self.entsSet = self.entsSet or {}
 end
 
 function Cell:getPos()

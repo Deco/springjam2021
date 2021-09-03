@@ -25,7 +25,7 @@ math.oneOverTau = 1 / (2 * math.pi)
 math.epsilon = 0.00001
 
 function math.cardinalToAng(dir)
-    return dir * 0.25 * math.tau
+    return (dir - 1) * 0.25 * math.tau
 end
 
 function math.cardinalToOffset(dir)
@@ -141,13 +141,13 @@ do
         return a.x == b.x and a.y == b.y
     end
 
-    function vector.__lt(a, b)
-        return a.x < b.x or (a.x == b.x and a.y < b.y)
-    end
-
-    function vector.__le(a, b)
-        return a.x <= b.x and a.y <= b.y
-    end
+    --function vector.__lt(a, b)
+    --    return a.x < b.x or (a.x == b.x and a.y < b.y)
+    --end
+    --
+    --function vector.__le(a, b)
+    --    return a.x <= b.x and a.y <= b.y
+    --end
 
     function vector:magSq()
         return self.x * self.x + self.y * self.y

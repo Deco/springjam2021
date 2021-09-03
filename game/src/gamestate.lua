@@ -10,10 +10,12 @@ end
 
 function GameState:spawned()
     GAMESTATE = self
-    Engine.camera = TheCamera.new(self, { pos = Vec(0, 0) })
-    self.player = Player.new(self, { pos = Vec(0, 0) })
     self.world = World.new(self, { pos = Vec(0, 0) })
     WORLD = self.world
+    Engine.camera = TheCamera.new(self, { pos = Vec(0, 0) })
+    self.player = Player.new(self, { pos = Vec(0, 0) })
+
+    self.world:initLevel()
 end
 function GameState:removed()
     WORLD = false
