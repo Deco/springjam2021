@@ -1,7 +1,5 @@
 Key = Engine:EntityClass('Key')
 
-local bombSize = 0.15
-
 function Key:setup(data)
     self.image = Engine:getAsset('art/key.png')
 

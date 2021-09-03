@@ -260,9 +260,10 @@ function Engine:onMousePressed(x, y, button, istouch)
         local trans = self.camera:getTransform()
         local worldPos = Vec(trans:inverseTransformPoint(x, y))
         print(worldPos)
-        --if GAMESTATE then
-        --    GAMESTATE.player:setPos(worldPos)
-        --end
+        if GAMESTATE and WORLD then
+            --local cell = WORLD:trace(GAMESTATE.player:getPos(), worldPos)
+            --cell.isWall = not cell.isWall
+        end
     end
 end
 
