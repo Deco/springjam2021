@@ -3,8 +3,12 @@ local assets = {
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
     ['fonts/HelvetiPixel.ttf:60'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
 
-    ['art/player/idle.png'] = { type = 'image' },
-    ['art/player/walking.png'] = { type = 'image' },
+
+    ['art/player/idle_up.png'] = { type = 'image' },
+    ['art/player/idle_right.png'] = { type = 'image' },
+    ['art/player/idle_down.png'] = { type = 'image' },
+    ['art/player/idle_left.png'] = { type = 'image' },
+    ['art/player/walking_u.png'] = { type = 'image' },
 
     ['art/wall.png'] = { type = 'image' },
 
@@ -12,6 +16,7 @@ local assets = {
     ['art/coffee.png'] = { type = 'image' },
     ['art/crate.png'] = { type = 'image' },
     ['art/gate.png'] = { type = 'image' },
+    ['art/gate_open.png'] = { type = 'image' },
     ['art/key.png'] = { type = 'image' },
     ['art/pressure-plate.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },

@@ -3,31 +3,31 @@
 
 World = Engine:EntityClass('World')
 
-local levelData = {
-    '################',
-    '#              #',
-    '#              #',
-    'S    #####     #',
-    '#    #   #     #',
-    '# C  @ 1 @   T #',
-    '# c  #   #     #',
-    '#    #####     #',
-    '#              #',
-    '#              #',
-    '#          #####',
-    '#          2   E',
-    '#          #####',
-    '################',
-}
-local logicGroups = {
-    [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
-}
-local levelStuff = {
-    [1] = { type = "PressurePlate", group = 1, },
-    [2] = { type = "Gate", group = 1, }
-}
-
 function World:setup(data)
+    self.levelData = self.levelData or {
+        '################',
+        '#              #',
+        '#              #',
+        'S    #####     #',
+        '#    #   #     #',
+        '# C  @ 1 @   T #',
+        '# c  #   #     #',
+        '#    #####     #',
+        '#              #',
+        '#              #',
+        '#          #####',
+        '#          2   E',
+        '#          #####',
+        '################',
+    }
+    self.logicGroups = self.logicGroups or {
+        [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
+    }
+    self.levelStuff = self.levelStuff or {
+        [1] = { type = "PressurePlate", group = 1, },
+        [2] = { type = "Gate", group = 1, }
+    }
+
     self.renderDepth = 0
 
     self.grid = self.grid or {}
@@ -39,7 +39,7 @@ function World:setup(data)
 end
 
 function World:initLevel()
-    for rowIdx, rowStr in ipairs(levelData) do
+    for rowIdx, rowStr in ipairs(self.levelData) do
         for colIdx = 1, #rowStr do
             local cellChar = rowStr:sub(colIdx, colIdx)
             local cell = self:getCell(Vec(colIdx, rowIdx))
@@ -62,13 +62,13 @@ function World:initLevel()
                 elseif  cellChar == 'c' then
                     Crate.new(self, {pos = cell.pos})
                 elseif tonumber(cellChar, 10) ~= nil then
-                    local thing = levelStuff[tonumber(cellChar, 10)]
+                    local thing = self.levelStuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
                         local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
                         table.insert(self:getLogicGroup(thing.group).inputsList, ent)
                     elseif thing.type == 'Gate' then
                         local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+                        table.insert(self:getLogicGroup(thing.group).outputsList, ent)
                     end
                 end
             end
@@ -112,7 +112,7 @@ function World:getCell(pos)
 end
 
 function World:getLogicGroup(idx)
-    return logicGroups[idx]
+    return self.logicGroups[idx]
 end
 
 Cell = Engine:EntityClass('Cell')
@@ -132,7 +132,7 @@ function Cell:solidTest(ent)
     for other in pairs(self.entsSet) do
         if other ~= ent then
             if other.class == Gate then
-                if other.isLocked then return true end
+                if other:isLocked() then return true end
             end
         end
     end
