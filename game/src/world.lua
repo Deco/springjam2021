@@ -10,7 +10,7 @@ local levelData = {
     'w               w      www ',
     'w p   b         w      w w ',
     'w               w      www ',
-    'w                          ',
+    'w     c    c               ',
     'w                    w     ',
     'wwwwwwwww             w    ',
     'wwwwwwwww             bbbbb',
@@ -54,6 +54,8 @@ function World:spawned()
                 GAMESTATE.player:setPos(pos)
             elseif cellChar == 'b' then
                 Bomb.new(self, { pos = pos })
+            elseif cellChar == 'c' then
+                Crate.new(self, { pos = pos })
             end
         end
     end
