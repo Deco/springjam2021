@@ -151,6 +151,26 @@ function World:spawned()
     end
 end
 
+function World:render()
+    -- temp
+
+    love.graphics.setLineWidth(0.03)
+    for fixtureIdx, fixture in ipairs(self:getBody():getFixtures()) do
+        local shape = fixture:getShape()
+        love.graphics.setColor(1, 1, 1, 1)
+
+        local lx, ly
+        for pointIdx = 1, shape:getVertexCount() do
+            local px, py = shape:getPoint(pointIdx)
+            if lx then
+                --love.graphics.print(string.format("%i", pointIdx), (lx + px) / 2, (ly + py) / 2, 0, 0.05, 0.05)
+                love.graphics.line(lx, ly, px, py)
+            end
+            lx, ly = px, py
+        end
+    end
+end
+
 function World:getCellAtCoords(coords)
     local isNew = false
     local row = self.grid[coords.y]
@@ -162,7 +182,7 @@ function World:getCellAtCoords(coords)
     local cell = row[coords.x]
     if cell == nil then
         cell = SHAPED({
-            coord = coords:clone(),
+            coord = coords,
             contents = NIL,
         })
         row[coords.x] = cell

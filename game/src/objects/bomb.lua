@@ -1,12 +1,14 @@
 Bomb = Engine:EntityClass('Bomb')
 
+local bombSize = 0.15
+
 function Bomb:setup(data)
     --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
     self.image = Engine:getAsset('art/bomb.png')
 
     BasicEntSetup(self, util.mergeTables({
         solid = true, dynamic = true,
-        shape = love.physics.newCircleShape(0.15),
+        shape = love.physics.newCircleShape(bombSize),
     }, data))
 
     SetCircleTrigger(self, 1,
@@ -57,7 +59,7 @@ function Bomb:render()
     else
         love.graphics.setColor(1, 1, 1, 1)
     end
-    DrawEntImage(self, self.image)
+    DrawSimpleEntImage(self, self.image, bombSize)
 end
 
 

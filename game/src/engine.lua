@@ -22,6 +22,7 @@ _G.ProfileMode = {
 function Engine:load(args)
     -- Only runs when the game launches!
     self.profileMode = ProfileMode.Off
+    self.debugDraw = false
     self.DP = PROBE.new()
     self.DP:enable(true)
     self.UP = PROBE.new()
@@ -267,7 +268,7 @@ function Engine:onBeginContact(fixture0, fixture1, contact)
     local ent0Counter, ent1Counter = -1, -1
     if ent0Map then ent0Counter = (ent0Map[ent1] or 0) + 1 end
     if ent1Map then ent1Counter = (ent1Map[ent0] or 0) + 1 end
-    if ent0Counter == 1 or ent1Counter == 1 then print('onBeginContact', ent0, ent0Counter, ent1, ent1Counter) end
+    --if ent0Counter == 1 or ent1Counter == 1 then print('onBeginContact', ent0, ent0Counter, ent1, ent1Counter) end
     if ent0Map then
         ent0Map[ent1] = ent0Counter
         for _, cb in pairs(rawget(ent0, '_hooks_OnBeginContact')) do cb(ent0, fixture0, ent1, fixture1, contact) end
@@ -284,7 +285,7 @@ function Engine:onEndContact(fixture0, fixture1, contact)
     local ent0Counter, ent1Counter = -1, -1
     if ent0Map then ent0Counter = (ent0Map[ent1] or 0) - 1 end
     if ent1Map then ent1Counter = (ent1Map[ent0] or 0) - 1 end
-    if ent0Counter == 0 or ent1Counter == 0 then print('onEndContact', ent0, ent0Counter, ent1, ent1Counter) end
+    --if ent0Counter == 0 or ent1Counter == 0 then print('onEndContact', ent0, ent0Counter, ent1, ent1Counter) end
     if ent0Map then
         ent0Map[ent1] = ent0Counter
         for _, cb in pairs(rawget(ent0, '_hooks_onEndContact')) do cb(ent0, fixture0, ent1, fixture1, contact) end
@@ -320,6 +321,8 @@ function Engine:onKeyPressed(key, scancode, isrepeat)
         end
         self.DP:enable(self.profileMode == ProfileMode.Running)
         self.UP:enable(self.profileMode == ProfileMode.Running)
+    elseif key == 'f3' then
+        self.debugDraw = not self.debugDraw
     end
     self.menu:onKeyPressed(key, scancode, isrepeat)
 end
@@ -341,7 +344,14 @@ function Engine:onMouseMoved(x, y, dx, dy, istouch)
 end
 
 function Engine:onMousePressed(x, y, button, istouch)
-    --
+    if self.camera then
+        local trans = self.camera:getTransform()
+        local worldPos = Vec(trans:inverseTransformPoint(x, y))
+        print(worldPos)
+        if GAMESTATE then
+            GAMESTATE.player:setPos(worldPos)
+        end
+    end
 end
 
 function Engine:onMouseReleased(x, y, button)

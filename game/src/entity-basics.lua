@@ -9,6 +9,14 @@ local entityBasicStuff = {
     setPos = function(self, pos)
         self._body:setPosition(pos.x, pos.y)
     end,
+    getRot = function(self)
+        if self._body ~= nil then return self._body:getAngle() * math.oneOverTau end
+        if self._attachedTo ~= nil and self._attachedTo.alive then return self._attachedTo:getRot() end
+        return nil
+    end,
+    setRot = function(self, rot)
+        self._body:setAngle(rot * math.tau)
+    end,
     getBody = function(self)
         if self._body ~= nil then return self._body end
         if self._attachedTo ~= nil then return self._attachedTo:getBody() end
@@ -83,34 +91,6 @@ end
 --    if ent._pos ~= owner._pos then ent:setPos(owner:getPos()) end
 --end
 
-_G.DrawEntImage = function(ent, imageAsset)
-    if imageAsset then
-        love.graphics.push()
-        --love.graphics.translate((-ent:getPos()):xy())
-        --local boundsSize = ent._bounds:size()
-        --local scale = boundsSize / imageAsset.size
-        --love.graphics.scale(scale:xy())
-        --love.graphics.translate(((ent._pos - 0.5 * boundsSize) / scale):xy())
-        --love.graphics.draw(imageAsset.handle)
-        love.graphics.rectangle('fill', 0, 0, 0.2, 0.2)
-        love.graphics.pop()
-
-        --love.graphics.push()
-        --love.graphics.scale((ent._bounds:size() / imageAsset.size):xy())
-        --love.graphics.translate((-0.5 * ent._pos):xy())
-        --love.graphics.draw(imageAsset.handle)
-        --love.graphics.pop()
-        --local offset = -0.5 * ent._pos
-        --local scale = ent._bounds:size() / imageAsset.size
-        --love.graphics.draw(
-        --    imageAsset.handle
-        --    --offset.x, offset.y,
-        --    --0,
-        --    --scale.x, scale.y,
-        --    --offset.x, offset.y
-        --)
-    end
-end
 
 
 

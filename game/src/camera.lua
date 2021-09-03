@@ -21,30 +21,7 @@ function TheCamera:specialRender()
 
     love.graphics.push()
 
-    local pixelSize = Vec(love.graphics.getDimensions())
-
-    -- first we translate so the middle of the screen is 0,0
-    love.graphics.translate(0.5 * pixelSize.x, 0.5 * pixelSize.y)
-
-    -- fixed downscale and screen bounds for debugging
-    --love.graphics.scale(0.5)
-    --love.graphics.rectangle('line', -0.5 * pixelSize.x, -0.5 * pixelSize.y, pixelSize.x, pixelSize.y)
-
-    -- scale to cover screen camera rect with world camera rect
-    local scale
-    if (self._worldSize.x / self._worldSize.y) > (pixelSize.x / pixelSize.y) then
-        scale = pixelSize.y / self._worldSize.y
-    else
-        scale = pixelSize.x / self._worldSize.x
-    end
-    love.graphics.scale(scale)
-
-    --love.graphics.setColor(1, 0, 0, 1)
-    --love.graphics.setLineWidth(0.02)
-    --love.graphics.rectangle('line', -0.5 * self._worldSize.x, -0.5 * self._worldSize.y, self._worldSize.x, self._worldSize.y)
-
-    -- translate by camera's offset in world
-    love.graphics.translate((-self:getPos()):xy())
+    love.graphics.applyTransform(self:getTransform())
 
     -- find entities to render
     local entsToRender = {}
@@ -59,60 +36,74 @@ function TheCamera:specialRender()
         return a.id < b.id
     end)
 
-    love.graphics.push()
-    love.graphics.translate(self:getPos():xy())
-    love.graphics.setColor(1, 0, 0, 1)
-    love.graphics.setLineWidth(0.02)
-    love.graphics.rectangle('line', -0.5 * self._worldSize.x, -0.5 * self._worldSize.y, self._worldSize.x, self._worldSize.y)
-    love.graphics.pop()
+    --love.graphics.push()
+    --love.graphics.translate(self:getPos():xy())
+    --love.graphics.setColor(1, 0, 0, 1)
+    --love.graphics.setLineWidth(0.02)
+    --love.graphics.rectangle('line', -0.5 * self._worldSize.x, -0.5 * self._worldSize.y, self._worldSize.x, self._worldSize.y)
+    --love.graphics.pop()
 
-    -- render them!
-    for _, ent in ipairs(entsToRender) do
-        Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
-        love.graphics.push()
+    -- debug draw
+    if Engine.debugDraw then
+        for _, ent in ipairs(entsToRender) do
+            Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
+            love.graphics.push()
 
-        local body = rawget(ent, '_body')
-        if body then
-            for fixtureIdx, fixture in ipairs(body:getFixtures()) do
-                local shape = fixture:getShape()
-                love.graphics.setColor(1, 1, 1, 1)
-                if shape:typeOf("CircleShape") then
-                    local cx, cy = body:getWorldPoints(shape:getPoint())
-                    love.graphics.push()
-                    love.graphics.translate(cx, cy)
-                    love.graphics.rotate(body:getAngle())
-                    local radius = shape:getRadius()
-                    love.graphics.circle("line", 0, 0, radius)
-                    love.graphics.line(0, -radius, 0, 0.8 * -radius)
-                    love.graphics.pop()
-                elseif shape:typeOf("PolygonShape") then
-                    love.graphics.polygon("line", body:getWorldPoints(shape:getPoints()))
-                elseif shape:typeOf("ChainShape") then
-                    --love.graphics.polygon("line", body:getWorldPoints(shape:getPoints()))
-                    --love.graphics.polygon("line", points)
-                    --local cx, cy = body:getPosition()
-                    local lx, ly
-                    for pointIdx = 1, shape:getVertexCount() do
-                        local px, py = shape:getPoint(pointIdx)
-                        if lx then
-                            --love.graphics.print(string.format("%i", pointIdx), (lx + px) / 2, (ly + py) / 2, 0, 0.05, 0.05)
-                            love.graphics.line(lx, ly, px, py)
+            local body = rawget(ent, '_body')
+            if body then
+                for fixtureIdx, fixture in ipairs(body:getFixtures()) do
+                    local shape = fixture:getShape()
+                    love.graphics.setColor(1, 1, 1, 1)
+                    if shape:typeOf("CircleShape") then
+                        local cx, cy = body:getWorldPoints(shape:getPoint())
+                        love.graphics.push()
+                        love.graphics.translate(cx, cy)
+                        love.graphics.rotate(body:getAngle())
+                        local radius = shape:getRadius()
+                        love.graphics.circle("line", 0, 0, radius)
+                        love.graphics.line(0, -radius, 0, 0.8 * -radius)
+                        love.graphics.pop()
+                    elseif shape:typeOf("PolygonShape") then
+                        love.graphics.polygon("line", body:getWorldPoints(shape:getPoints()))
+                    elseif shape:typeOf("ChainShape") then
+                        --love.graphics.polygon("line", body:getWorldPoints(shape:getPoints()))
+                        --love.graphics.polygon("line", points)
+                        --local cx, cy = body:getPosition()
+                        local lx, ly
+                        for pointIdx = 1, shape:getVertexCount() do
+                            local px, py = shape:getPoint(pointIdx)
+                            if lx then
+                                --love.graphics.print(string.format("%i", pointIdx), (lx + px) / 2, (ly + py) / 2, 0, 0.05, 0.05)
+                                love.graphics.line(lx, ly, px, py)
+                            end
+                            lx, ly = px, py
                         end
-                        lx, ly = px, py
+                    else
+                        local cx, cy = body:getPosition()
+                        love.graphics.print(tostring(ent), cx, cy, 0, 0.05, 0.05)
                     end
-                else
-                    local cx, cy = body:getPosition()
-                    love.graphics.print(tostring(ent), cx, cy, 0, 0.05, 0.05)
                 end
             end
+
+            local pos = ent:getPos()
+            love.graphics.translate(pos:xy())
+            --Engine:callEntMethod(ent, 'render', nil)
+
+            love.graphics.pop()
+            Engine.DP:popEvent()
         end
+    else
+        for _, ent in ipairs(entsToRender) do
+            Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
+            love.graphics.push()
 
-        local pos = ent:getPos()
-        love.graphics.translate(pos:xy())
-        --Engine:callEntMethod(ent, 'render', nil)
+            --local pos = ent:getPos()
+            --love.graphics.translate(pos:xy())
+            Engine:callEntMethod(ent, 'render', nil)
 
-        love.graphics.pop()
-        Engine.DP:popEvent()
+            love.graphics.pop()
+            Engine.DP:popEvent()
+        end
     end
 
     --local entsToRender = {}--Engine.spatialGrid:inSameCells(self._bounds)
@@ -133,6 +124,37 @@ function TheCamera:specialRender()
     --end
 
     love.graphics.pop()
+end
+
+function TheCamera:getTransform()
+    local trans = love.math.newTransform()
+
+    local pixelSize = Vec(love.graphics.getDimensions())
+
+    -- first we translate so the middle of the screen is 0,0
+    trans:translate(0.5 * pixelSize.x, 0.5 * pixelSize.y)
+
+    -- fixed downscale and screen bounds for debugging
+    --trans:scale(0.5)
+    --love.graphics.rectangle('line', -0.5 * pixelSize.x, -0.5 * pixelSize.y, pixelSize.x, pixelSize.y)
+
+    -- scale to cover screen camera rect with world camera rect
+    local scale
+    if (self._worldSize.x / self._worldSize.y) > (pixelSize.x / pixelSize.y) then
+        scale = pixelSize.y / self._worldSize.y
+    else
+        scale = pixelSize.x / self._worldSize.x
+    end
+    trans:scale(scale)
+
+    --love.graphics.setColor(1, 0, 0, 1)
+    --love.graphics.setLineWidth(0.02)
+    --love.graphics.rectangle('line', -0.5 * self._worldSize.x, -0.5 * self._worldSize.y, self._worldSize.x, self._worldSize.y)
+
+    -- translate by camera's offset in world
+    trans:translate((-self:getPos()):xy())
+
+    return trans
 end
 
 function TheCamera:screenRender()

@@ -2,11 +2,37 @@
 local ffi = require "ffi"
 local sqrt, cos, sin, atan2, pow = math.sqrt, math.cos, math.sin, math.atan2, math.pow
 
+--[[
+    Important! We're working with -0.5 to 0.5 angles! 1.0 = one full rotation
+     -0.50  = down             [rad = -0.75 * tau]
+     -0.25  = left             [rad = -0.5  * tau]
+      0.00  = up               [rad = -0.25 * tau]
+     +0.25  = right            [rad =  0.00 * tau]
+    (+0.50  = down again)      [rad =  0.25 * tau]
+]]
+
 math.tau = 2 * math.pi
+math.oneOverTau = 1 / (2 * math.pi)
 math.epsilon = 0.00001
+
+--function math.radToUnitAng(rad)
+--    return math.remap(rad * math.oneOverTau, -0.25, 0.25, 0, 0.5)
+--end
+--function math.unitAngToRad(ang)
+--    return math.remap(ang, 0, 0.5, -0.25, 0.25) * math.tau
+--end
+
+function math.wrapAng(ang)
+    -- into -0.5 to 0.5 range
+    return math.mod(ang + 0.5, 1.0) - 0.5
+end
 
 function math.nearlyEqual(a, b, e)
     return math.abs(b - a) <= (e or math.epsilon)
+end
+
+function math.sign(val)
+    return val > 0 and 1 or val < 0 and -1 or 0
 end
 
 function math.mod(a, b)
@@ -25,12 +51,17 @@ function math.clamp(v, min, max)
     return math.min(math.max(v, min), max)
 end
 
+function math.clampMag(v, mag)
+    return math.sign(v) * math.clamp(math.abs(v), 0, mag)
+end
+
 function math.remapClamp(v, srcLow, srcHigh, destLow, destHigh)
     return destLow + (destHigh - destLow) * math.clamp((v - srcLow) / (srcHigh - srcLow), 0, 1)
 end
 
 function math.easeOutQuad(t, start, final) return (start - final) * t * (t - 2) + start end
 function math.easeOutQuint(t, start, final) return (final - start) * (pow(t, 5) + 1) + start end
+
 
 --function math.aspectFit(mode)
 --    if mode == 'contain' then
@@ -44,9 +75,12 @@ do
     vector.__index = vector
     local new
 
-    function vector:clone()
-        return new(self.x, self.y)
-    end
+    --function vector:clone()
+    --    return new(self.x, self.y)
+    --end
+
+    function vector:withX(x) return new(x, self.y) end
+    function vector:withY(y) return new(self.x, y) end
 
     function vector:xy()
         return self.x, self.y
@@ -120,24 +154,30 @@ do
         return (dx * dx + dy * dy)
     end
 
-    function vector:normalizeMe()
+    --function vector:normalizeMe()
+    --    local mag = self:mag()
+    --    if mag < math.epsilon then return end -- uuuuuh
+    --    self.x, self.y = self.x / mag, self.y / mag
+    --end
+
+    function vector:normalizedOrNil()
         local mag = self:mag()
-        if mag < math.epsilon then return end -- uuuuuh
-        self.x, self.y = self.x / mag, self.y / mag
+        if mag < math.epsilon then return nil end -- careful!
+        return new(self.x / mag, self.y / mag)
     end
 
     function vector:normalized()
         local mag = self:mag()
-        if mag < math.epsilon then return nil end -- uuuuuh
+        if mag < math.epsilon then return new(0, 0) end
         return new(self.x / mag, self.y / mag)
     end
 
-    function vector:rotateMe(frac)
-        local phi = frac * -math.tau
-        local c, s = cos(phi), sin(phi)
-        self.x, self.y = c * self.x - s * self.y, s * self.x + c * self.y
-        return self
-    end
+    --function vector:rotateMe(frac)
+    --    local phi = frac * -math.tau
+    --    local c, s = cos(phi), sin(phi)
+    --    self.x, self.y = c * self.x - s * self.y, s * self.x + c * self.y
+    --    return self
+    --end
 
     function vector:rotated(frac)
         local phi = frac * -math.tau
@@ -157,18 +197,10 @@ do
 
     -- ref.: http://blog.signalsondisplay.com/?p=336
     function vector:clampedMag(maxMag)
-        if self:magSq() <= maxMag * maxMag then return self:clone() end
+        if self:magSq() <= maxMag * maxMag then return self end
         return self:normalized() * maxMag
     end
 
-    --[[
-        Important! We're working with 0.0 to 1.0 angles! 1.0 = one full rotation
-        0.00 = up
-        0.25 = right
-        0.50 = down
-        0.75 = left
-        (1.00 = up again)
-    ]]
     function vector:angle()
         return atan2(self.x, -self.y) / math.tau -- returns -0.5 to 0.5
     end
@@ -184,7 +216,7 @@ do
     function vector.__new(ct, x, y)
         return ffi.new(ct, x, y)
     end
-    _G.Vec = ffi.metatype("struct { double x, y; }", vector)
+    _G.Vec = ffi.metatype("struct { const double x, y; }", vector)
     new = Vec
 
     --local function hmm(frac, mag)
