@@ -18,6 +18,8 @@ local assets = {
     ['art/tomb.png'] = { type = 'image' },
     ['art/vampire.png'] = { type = 'image' },
 
+    ['art/tree.png'] = { type = 'image' },
+
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 
     ['sfx/explosion1.wav'] = { type = 'sfx', volume = 0.6 },
