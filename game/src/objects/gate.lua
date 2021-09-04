@@ -1,23 +1,23 @@
 Gate = Engine:EntityClass('Gate')
 
-local bombSize = 0.15
-
 function Gate:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')
     self.logicGroupIdx = data.logicGroupIdx
+    self.blocksTraversal = true
 
     BasicEntSetup(self, data)
 end
 
 function Gate:isLocked()
     local logicGroup = WORLD:getLogicGroup(self.logicGroupIdx)
+    local anyUnsatisfied = false
     for _, input in ipairs(logicGroup.inputsList) do
-        if input.hasBeenTriggered then
-            return false
+        if not input:considerSatisfied() then
+            anyUnsatisfied = true
         end
     end
-    return true
+    return anyUnsatisfied
 end
 
 function Gate:render()

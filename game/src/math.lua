@@ -35,6 +35,13 @@ function math.cardinalToOffset(dir)
     if dir == Cardinal.Left then return Vec(-1, 0) end
 end
 
+function math.offsetToCardinal(offset)
+    if offset == Vec(0, -1) then return Cardinal.Up end
+    if offset == Vec(1, 0) then return Cardinal.Right end
+    if offset == Vec(0, 1) then return Cardinal.Down end
+    if offset == Vec(-1, 0) then return Cardinal.Left end
+end
+
 --function math.wrapAng(ang)
 --    -- into -0.5 to 0.5 range
 --    return math.mod(ang + 0.5, 1.0) - 0.5

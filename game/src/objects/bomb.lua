@@ -1,7 +1,5 @@
 Bomb = Engine:EntityClass('Bomb')
 
-local bombSize = 0.15
-
 function Bomb:setup(data)
     --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
     self.image = Engine:getAsset('art/bomb.png')

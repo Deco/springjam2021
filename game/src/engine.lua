@@ -181,6 +181,20 @@ function Engine:draw()
     if self.camera then
         self.camera:specialRender()
     end
+
+    love.graphics.push()
+
+    local pixelSize = Vec(love.graphics.getDimensions())
+    local referenceSize = Vec(500, 200)
+    local scale
+    if (referenceSize.x / referenceSize.y) > (pixelSize.x / pixelSize.y) then
+        scale = pixelSize.y / referenceSize.y
+    else
+        scale = pixelSize.x / referenceSize.x
+    end
+    scale = math.floorTo(scale, 1)
+    love.graphics.scale(scale)
+
     for _, ent in ipairs(self.entitiesList) do
         self.DP:pushEvent(string.format('screenRender %s', tostring(ent)))
         love.graphics.push()
@@ -188,8 +202,12 @@ function Engine:draw()
         love.graphics.pop()
         self.DP:popEvent()
     end
-    love.graphics.push()
+
     self.menu:specialRender()
+
+    love.graphics.pop()
+
+    love.graphics.push()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(Engine:getAsset('devfont').handle)
     --love.graphics.print(string.format("FT (ms): %3.3f", love.timer.getAverageDelta()), 10, 10)
@@ -205,8 +223,8 @@ function Engine:draw()
     self.drawDebugScreenText = {}
     self.currDebugScreenText = nil
     love.graphics.pop()
-    self.DP:endCycle()
 
+    self.DP:endCycle()
     local winW, winH = love.graphics.getDimensions()
     if self.profileMode ~= ProfileMode.Off then
         love.graphics.setColor(255, 255, 255)
@@ -216,7 +234,9 @@ function Engine:draw()
 end
 
 function _G.SCREENTEXT(text)
-    table.insert(Engine.currDebugScreenText, text)
+    if Engine.currDebugScreenText then
+        table.insert(Engine.currDebugScreenText, text)
+    end
 end
 
 function Engine:onWindowResize(w, h)
@@ -224,18 +244,24 @@ function Engine:onWindowResize(w, h)
 end
 
 function Engine:onKeyPressed(key, scancode, isrepeat)
-    if key == 'f2' then
-        if self.profileMode == ProfileMode.Off then
-            self.profileMode = ProfileMode.Running
-        elseif self.profileMode == ProfileMode.Running then
-            self.profileMode = ProfileMode.Paused
-        elseif self.profileMode == ProfileMode.Paused then
-            self.profileMode = ProfileMode.Off
+    if IS_DEBUG then
+        if key == 'f2' then
+            if self.profileMode == ProfileMode.Off then
+                self.profileMode = ProfileMode.Running
+            elseif self.profileMode == ProfileMode.Running then
+                self.profileMode = ProfileMode.Paused
+            elseif self.profileMode == ProfileMode.Paused then
+                self.profileMode = ProfileMode.Off
+            end
+            self.DP:enable(self.profileMode == ProfileMode.Running)
+            self.UP:enable(self.profileMode == ProfileMode.Running)
+        elseif key == 'f3' then
+            self.debugDraw = not self.debugDraw
         end
-        self.DP:enable(self.profileMode == ProfileMode.Running)
-        self.UP:enable(self.profileMode == ProfileMode.Running)
-    elseif key == 'f3' then
-        self.debugDraw = not self.debugDraw
+
+        if tonumber(key, 10) ~= nil then
+            local targetLevelNum = (key == '0' and 10 or tonumber(key, 10)) + love.keyboard.isS
+        end
     end
     self.menu:onKeyPressed(key, scancode, isrepeat)
 end
@@ -261,9 +287,10 @@ function Engine:onMousePressed(x, y, button, istouch)
         local trans = self.camera:getTransform()
         local worldPos = Vec(trans:inverseTransformPoint(x, y))
         print(worldPos)
-        --if GAMESTATE then
-        --    GAMESTATE.player:setPos(worldPos)
-        --end
+        if GAMESTATE and WORLD then
+            --local cell = WORLD:trace(GAMESTATE.player:getPos(), worldPos)
+            --cell.isWall = not cell.isWall
+        end
     end
 end
 
@@ -298,6 +325,7 @@ local AssetTypes = {
         extensions = { "png", "jpg" },
         create = function(info)
             info.handle = love.graphics.newImage(info.path)
+            info.handle:setFilter(info.filterMin or 'nearest', info.filterMax or 'nearest', info.anisotropy or nil)
             info.size = Vec(info.handle:getWidth(), info.handle:getHeight())
         end,
         destroy = function(info)

@@ -1,7 +1,5 @@
 Tomb = Engine:EntityClass('Tomb')
 
-local bombSize = 0.15
-
 _G.TombStage = {
     Closed = 1,
     Opening = 2,
@@ -10,25 +8,46 @@ _G.TombStage = {
 
 function Tomb:setup(data)
     self.image = Engine:getAsset('art/tomb.png')
+    self.blocksTraversal = true
 
     BasicEntSetup(self, data)
 
-    self.stage = TombStage.Closed
-    self.stageChangeTime = 0
+    self.stage = self.stage or TombStage.Closed
+    self.stageChangeTime = self.stageChangeTime or 0
 end
 
 function Tomb:onTouch(other)
-    if other.class == Player and self.stage == TombStage.Closed and other.inventory.coffee.count > 0 then
-        other.inventory.coffee.count = other.inventory.coffee.count - 1
+    --if other.class == Player and self.stage == TombStage.Closed and other.inventory.coffee.count > 0 then
+    --    other.inventory.coffee.count = other.inventory.coffee.count - 1
+    --    self.stage = TombStage.Opening
+    --    self.stageChangeTime = GAMETIME
+    --end
+end
+
+function Tomb:onUse(player)
+    if self.stage == TombStage.Closed and player:hasItem('coffee') then
+        player:takeItem('coffee')
         self.stage = TombStage.Opening
         self.stageChangeTime = GAMETIME
+    end
+end
+
+function Tomb:getUsePrompt()
+    if self.stage == TombStage.Closed then
+        if GAMESTATE.player.inventory.coffee.count == 0 then
+            return "The lid of the tomb is too heavy to move."
+        else
+            return "Press SPACE to OPEN TOMB"
+        end
     end
 end
 
 function Tomb:update(time, dt)
     if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + 2.5 then
         self.stage = TombStage.Opened
+        self.blocksTraversal = false
         Vampire.new(WORLD, { pos = self:getPos(), })
+        Key.new(WORLD, { pos = self:getPos(), })
     end
 end
 

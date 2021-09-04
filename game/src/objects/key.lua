@@ -1,9 +1,9 @@
 Key = Engine:EntityClass('Key')
 
-local bombSize = 0.15
-
 function Key:setup(data)
     self.image = Engine:getAsset('art/key.png')
+
+    self.kind = data.kind -- 'golden' or 'silver'
 
     BasicEntSetup(self, data)
 end
