@@ -5,7 +5,7 @@ function LightSource:setup(data)
     self.dir = self.dir or Cardinal.Right
     self.initialDir = self.initialDir or Cardinal.Right
     self.illuminatedCellsList = self.illuminatedCellsList or { }
-    self.firstRun = util.default(self.firstRun, false)
+    self.firstRun = false--util.default(self.firstRun, false)
 
     BasicEntSetup(self, data)
 end
@@ -21,7 +21,7 @@ end
 
 function LightSource:update()
     if not self.firstRun then
-        self.initialDir = self.dir
+        self.initialDir = self.initialDir or self.dir
         self.firstRun = true
         self:updateLight()
     end

@@ -6,9 +6,9 @@ function World:setup(data)
     self.level = data.level
     self.logicGroups = self.logicGroups or {
         GREEN = { color = { 0, 1, 0, 1 }, satisfied = false, },
-        RED = { color = { 0, 1, 0, 1 }, satisfied = false, },
-        BLUE = { color = { 0, 1, 0, 1 }, satisfied = false, },
-        PINK = { color = { 0, 1, 0, 1 }, satisfied = false, },
+        RED = { color = { 1, 0, 0, 1 }, satisfied = false, },
+        BLUE = { color = { 0, 0, 1, 1 }, satisfied = false, },
+        PINK = { color = { 1, 0, 1, 1 }, satisfied = false, },
     }
 
     self.grid = self.grid or {}
@@ -50,7 +50,9 @@ function World:initLevel()
         elseif name == 'Coffee' then
             Coffee.new(self, { pos = pos })
         elseif name == 'Tomb' then
-            Tomb.new(self, { pos = pos, hasGoldenKey = (extraData == 'GoldenKey') })
+            Tomb.new(self, { pos = pos, alreadyOpen = (extraData == 'Open'), hasGoldenKey = (extraData == 'GoldenKey') })
+        elseif name == 'Vampire' then
+            Vampire.new(self, { pos = pos, startIdle = true })
         elseif name == 'Spikes' then
             Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
@@ -62,7 +64,7 @@ function World:initLevel()
         elseif name == 'PressurePlate' then
             local ent = PressurePlate.new(self, { pos = pos, logicGroupName = extraData })
             table.insert(self:getLogicGroup(extraData).inputsList, ent)
-        elseif name == 'ToggleSwitch' then
+        elseif name == 'ToggleSwitch' or name == 'Toggle' then
             local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = extraData })
             table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'Gate' then
@@ -280,9 +282,9 @@ function World:canSee(v0, v1, entOrNil)
     return true
 end
 
-function World:getLineMovePath(v0, v1)
+function World:getLineMovePath(v0, v1, entOrNil)
     local traversalPassTest = function(x, y)
-        return self:getCell(Vec(x, y)):traversalPassTest(nil)
+        return self:getCell(Vec(x, y)):traversalPassTest(entOrNil)
     end
 
     local points = {}
@@ -332,7 +334,7 @@ function World:getLineMovePath(v0, v1)
 end
 
 local astar = require "lib.astar"
-function World:pathFind(v0, v1, entOrNil)
+function World:pathFind(v0, v1, entOrNil, extraTraversalPassTest)
     local startCell, goalCell = self:getCell(v0), self:getCell(v1)
 
     local found, path, status = astar.CalculatePath(
@@ -350,6 +352,8 @@ function World:pathFind(v0, v1, entOrNil)
             }
         end,
         function(cell, neighbour)
+            local extraRes = extraTraversalPassTest and extraTraversalPassTest(entOrNil, neighbour)
+            if extraRes ~= nil then return extraRes end
             return neighbour:traversalPassTest(entOrNil)
         end,
         function(cell, target)
@@ -377,14 +381,25 @@ function Cell:getPos()
     return self.pos
 end
 
-function Cell:traversalPassTest(entOrNil, secondEntOrNil)
+function Cell:traversalPassTest(entOrNil, secondEntOrNil, allowMovable)
     if self.isWall then return false end
     if self.isPit then return false end
 
     for other in pairs(self.entsSet) do
         if other ~= entOrNil and other ~= secondEntOrNil then
             local checkFunc = rawget(other, 'blocksTraversal')
-            if checkFunc and checkFunc(other, entOrNil) then return false end
+            if checkFunc and checkFunc(other, entOrNil) then
+                if allowMovable then
+                    local movableFunc = rawget(other, 'isMovable')
+                    if movableFunc and movableFunc(other, entOrNil) then
+                        --
+                    else
+                        return false
+                    end
+                else
+                    return false
+                end
+            end
         end
     end
     return true
@@ -423,6 +438,19 @@ function Cell:isIlluminated(entOrNil)
     return next(self.litBySet) ~= nil
 end
 
+function Cell:getBreakables(breakerOrNil)
+    local out = {}
+    for other in pairs(self.entsSet) do
+        if other ~= breakerOrNil then
+            local checkFunc = rawget(other, 'isBreakable')
+            if checkFunc and checkFunc(other) then
+                table.insert(out, other)
+            end
+        end
+    end
+    return out
+end
+
 function Cell:findEntsOfClass(class)
     local result = { }
     for ent in pairs(self.entsSet) do
@@ -432,4 +460,5 @@ function Cell:findEntsOfClass(class)
     end
     return result
 end
+
 

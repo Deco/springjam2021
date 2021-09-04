@@ -1,34 +1,34 @@
 PressurePlate = Engine:EntityClass('PressurePlate')
 
 function PressurePlate:setup(data)
-    self.image = Engine:getAsset('art/pressure-plate.png')
+    self.renderDepth = RenderingDepth.Devices
+    self.onImage = Engine:getAsset('art/pressure-plate-on.png')
+    self.offImage = Engine:getAsset('art/pressure-plate-off.png')
     self.logicGroupName = data.logicGroupName
-    --self.color = util.hex2rgb(logicGroupName)
-
-    self.hasBeenTriggered = false
+    self.touchersSet = self.touchersSet or {}
 
     BasicEntSetup(self, data)
 end
 
 function PressurePlate:onTouch(other)
-    if other.class == Player or other.class == Vampire then
-        if not self.hasBeenTriggered then
-            self.hasBeenTriggered = true
-        end
+    local checkFunc = rawget(other, 'activatesFloorSensors')
+    if checkFunc and checkFunc(other) then
+        self.touchersSet[other] = true
+        WORLD:refreshLogicGroup(self.logicGroupName)
     end
+end
+
+function PressurePlate:onUnTouch(other)
+    self.touchersSet[other] = nil
 end
 
 function PressurePlate:shouldConsiderSatisfied()
-    return self.hasBeenTriggered
+    return next(self.touchersSet) ~= nil
 end
 
 function PressurePlate:render()
-    if self.hasBeenTriggered then
-        love.graphics.setColor(0.2, 0.2, 0.2, 1)
-    else
-        love.graphics.setColor(table.unpack(self.color))
-    end
-    DrawSimpleEntImage(self, self.image)
+    love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupName).color))
+    DrawSimpleEntImage(self, self:shouldConsiderSatisfied() and self.onImage or self.offImage)
 end
 
 
