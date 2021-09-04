@@ -7,12 +7,12 @@ function Player:setup(data)
     self.imageMap = {
         [Cardinal.Up] = { idle = Engine:getAsset('art/player/idle_up.png'), moving = Engine:getAsset('art/player/walking_up-sheet.png'), },
         [Cardinal.Right] = { idle = Engine:getAsset('art/player/idle_right.png'), moving = Engine:getAsset('art/player/walking_right-sheet.png'), },
-        [Cardinal.Down] = { idle = Engine:getAsset('art/player/idle_down.png'), moving = Engine:getAsset('art/player/walking_right-sheet.png'), },
+        [Cardinal.Down] = { idle = Engine:getAsset('art/player/idle_down.png'), moving = Engine:getAsset('art/player/walking_down-sheet.png'), },
         [Cardinal.Left] = { idle = Engine:getAsset('art/player/idle_left.png'), moving = Engine:getAsset('art/player/walking_left-sheet.png'), },
     }
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
-    BasicEntSetup(self, data)
+    BasicEntSetup(self, data)d
 
     self.lastMoveTime = self.lastMoveTime or 0
 
