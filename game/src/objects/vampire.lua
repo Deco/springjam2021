@@ -11,7 +11,7 @@ local vampireIdleDelay = 0.3
 local vampireAlertDelay = 1.0
 
 function Vampire:setup(data)
-    self.renderDepth = 11
+    --self.renderDepth = 11
     self.image = Engine:getAsset('art/vampire.png')
 
     BasicEntSetup(self, data)
@@ -20,6 +20,7 @@ function Vampire:setup(data)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.moveGoal = self.moveGoal or nil
+    self.blocksLight = true
 end
 
 function Vampire:update(time, dt)

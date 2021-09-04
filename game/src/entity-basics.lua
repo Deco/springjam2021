@@ -5,6 +5,7 @@ local entityBasicStuff = {
         return self._pos
     end,
     setPos = function(self, pos)
+        local oldCell = self._cellIn
         if self._cellIn ~= nil then
             self._cellIn.entsSet[self] = nil
         end
@@ -24,26 +25,31 @@ local entityBasicStuff = {
                     if rawget(other, 'onTouch') then other:onTouch(self) end
                 end
             end
+            if newCell:illuminated() or (oldCell and oldCell:illuminated()) then
+                for _, lightSource in pairs(WORLD.lightSources) do
+                    lightSource:updateLight()
+                end
+            end
             self._posChangeTime = GAMETIME
         end
-    end,
-    getRot = function(self)
-        return self._rot
-    end,
-    setRot = function(self, rot)
-        self._lastRot = rot
-        self._rot = rot
     end,
     tryMove = function(self, dir)
         local destPos = self:getPos() + math.cardinalToOffset(dir)
         local destCell = WORLD:getCell(destPos)
+
+        for ent in pairs(destCell.entsSet) do
+            print("trying to move: " .. ent.__name)
+            if rawget(ent, 'isMovable') then
+                local entDestPos = destPos + math.cardinalToOffset(dir)
+                local entDestCell = WORLD:getCell(entDestPos)
+                if entDestCell:traversableTest(ent) then
+                    ent:setPos(entDestPos)
+                end
+            end
+        end
         if not destCell:traversableTest(self) then
             return false
         end
-        --for v in pairs(destCell.entsSet) do
-        --    print("trying to move: " .. v.__name)
-        --    if not  v:tryMove(dir) then return false end
-        --end
         self:setPos(destPos)
         return true
 
@@ -58,8 +64,6 @@ function _G.BasicEntSetup(self, data)
     self:setPos(self._pos or assert(data.pos))
     self._lastPos = self._lastPos or self._pos
     self._posChangeTime = self._posChangeTime or GAMETIME
-    self:setRot(self._rot or data.rot or Cardinal.Up)
-    self._lastRot = self._lastRot or self._rot
 end
 
 

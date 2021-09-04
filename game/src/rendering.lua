@@ -2,14 +2,12 @@ _G.DrawSimpleEntImage = function(ent, imageAsset)
     if imageAsset then
         love.graphics.push()
 
-        local drawBounds = Vec(1, 1)
+        --love.graphics.points(0, 0)
+
+        local drawBounds = Vec(1, 1) * (imageAsset.scale or 1)
         local scale = drawBounds / imageAsset.size
 
-        --love.graphics.translate(ent:getPos():xy())
-
-        --love.graphics.translate((0.5 * drawBounds):xy())
-        --love.graphics.rotate(math.cardinalToAng(ent:getRot()))
-        --love.graphics.translate((-0.5 * drawBounds):xy())
+        love.graphics.translate(0.5 - 0.5 * drawBounds.x, 0.5 - 0.5 * drawBounds.y)
 
         love.graphics.scale(scale:xy())
 
@@ -23,7 +21,7 @@ _G.DrawSimpleEntAnim = function(ent, animAsset, frac)
     if animAsset then
         love.graphics.push()
 
-        local drawBounds = Vec(1, 1)
+        local drawBounds = Vec(1, 1) * (animAsset.scale or 1)
         local scale = drawBounds / animAsset.fullSize
 
         local frameIdx = math.floor(frac * animAsset.frames)
@@ -34,15 +32,11 @@ _G.DrawSimpleEntAnim = function(ent, animAsset, frac)
         end
         local quad = animAsset.quads[frameIdx + 1]
 
-        --love.graphics.translate(ent:getPos():xy())
-
-        --love.graphics.translate((0.5 * drawBounds):xy())
-        --love.graphics.rotate(math.cardinalToAng(ent:getRot()))
-        --love.graphics.translate((-0.5 * drawBounds):xy())
+        love.graphics.translate(0.5 - 0.5 * drawBounds.x, 0.5 - 0.5 * drawBounds.y)
 
         love.graphics.scale(scale:xy())
 
-        love.graphics.draw(animAsset.handle, quad, 0, 0, 0, 4, 1)
+        love.graphics.draw(animAsset.handle, quad, 0, 0, 0, animAsset.frames, 1)
 
         love.graphics.pop()
     end

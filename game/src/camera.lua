@@ -39,8 +39,11 @@ function TheCamera:specialRender(dt)
     )
 
     table.sort(entsToRender, function(a, b)
-        local aDepth, bDepth = rawget(a, 'renderDepth') or 1, rawget(b, 'renderDepth') or 1
-        if aDepth ~= bDepth then return aDepth < bDepth end
+        --local aDepth, bDepth = rawget(a, 'renderDepth') or 1, rawget(b, 'renderDepth') or 1
+        --if aDepth ~= bDepth then return aDepth < bDepth end
+        if a._pos.y ~= b._pos.y then
+            return a._pos.y < b._pos.y
+        end
         return a.id < b.id
     end)
 
@@ -64,15 +67,17 @@ function TheCamera:specialRender(dt)
             local isMoving = shiftFrac < 1.0
             love.graphics.translate(displayPos:xy())
 
-            love.graphics.translate(0.5, 0.5)
-            love.graphics.rotate(math.cardinalToAng(ent:getRot()))
-            love.graphics.translate(-0.5, -0.5)
+            --love.graphics.translate(0.5, 0.5)
+            --love.graphics.rotate(math.cardinalToAng(ent:getRot()))
+            --love.graphics.translate(-0.5, -0.5)
 
             Engine:callEntMethod(ent, 'render', nil, dt, isMoving)
 
             love.graphics.pop()
             Engine.DP:popEvent()
         end
+
+        WORLD:specialRenderAfter()
     end
 
     love.graphics.pop()
