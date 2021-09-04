@@ -5,7 +5,7 @@ function Mirror:setup(data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.isMovingMirror = util.default(data.isMovingMirror, true)
     if self.isMovingMirror then
-        self.image = Engine:getAsset('art/mirror_dynamic.png')
+        self.image = Engine:getAsset( 'art/mirror_dynamic.png')
     else
         self.image = Engine:getAsset('art/mirror_static.png')
     end
@@ -17,6 +17,26 @@ function Mirror:isMovable() return true end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
+    if self.facingDiagDir == Diagonal.UpRight then end
+    if self.facingDiagDir == Diagonal.UpLeft then
+        love.graphics.translate(1, 0)
+        love.graphics.scale(-1, 1)
+    end
+--
+    if self.facingDiagDir == Diagonal.DownRight then
+        love.graphics.translate(0, 1)
+        love.graphics.scale(1, -1)
+    end
+    if self.facingDiagDir == Diagonal.DownLeft then
+        love.graphics.translate(1, 1)
+        love.graphics.scale(-1, -1)
+    end
+
+    if self.facingDiagDir == Diagonal.UpLeft then
+        love.graphics.translate(1, 0)
+        love.graphics.scale(-1, 1)
+    end
+    --
     --love.graphics.setLineWidth(0.1)
     --love.graphics.rectangle('line', 0, 0, 1, 1)
     DrawSimpleEntImage(self, self.image)

@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 55,
+  nextobjectid = 34,
   properties = {},
   tilesets = {
     {
@@ -268,14 +268,6 @@ return {
         {
           id = 73,
           type = "floor"
-        },
-        {
-          id = 78,
-          type = "pit"
-        },
-        {
-          id = 100,
-          type = "pit"
         }
       }
     }
@@ -298,8 +290,8 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        79, 79, 79, 31, 70, 36, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 31, 23, 36, 79, 79, 79, 79,
-        11, 2, 5, 5, 37, 2, 5, 6, 79, 79, 79, 79, 1, 5, 5, 4, 3, 4, 5, 4, 4, 3, 23, 3, 3, 5, 5, 36,
+        79, 79, 79, 31, 70, 36, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 31, 70, 36, 79, 79, 79, 79,
+        11, 2, 5, 5, 37, 2, 5, 6, 79, 79, 79, 79, 1, 5, 5, 4, 3, 4, 5, 4, 4, 3, 38, 3, 3, 5, 5, 36,
         11, 12, 13, 14, 13, 14, 15, 16, 79, 79, 79, 79, 11, 12, 14, 13, 14, 13, 14, 13, 14, 13, 14, 13, 14, 13, 15, 36,
         31, 22, 17, 10, 7, 29, 25, 26, 79, 79, 79, 79, 21, 22, 20, 7, 29, 19, 9, 28, 27, 19, 18, 20, 18, 18, 25, 36,
         21, 22, 30, 30, 29, 18, 25, 36, 79, 79, 79, 79, 31, 22, 29, 8, 8, 19, 20, 7, 8, 27, 18, 17, 28, 9, 25, 36,
@@ -307,13 +299,13 @@ return {
         31, 22, 27, 18, 17, 28, 25, 26, 79, 79, 79, 79, 21, 22, 20, 17, 17, 10, 19, 17, 7, 9, 20, 9, 9, 18, 25, 36,
         21, 22, 8, 17, 29, 29, 25, 2, 3, 4, 5, 2, 3, 22, 19, 17, 27, 19, 17, 20, 10, 29, 30, 10, 7, 9, 25, 36,
         1, 22, 20, 20, 7, 30, 17, 28, 9, 18, 30, 8, 8, 10, 30, 10, 20, 18, 27, 19, 29, 28, 30, 20, 8, 27, 25, 36,
-        11, 22, 7, 8, 20, 18, 17, 7, 8, 9, 10, 7, 8, 7, 10, 10, 51, 56, 22, 2, 101, 101, 101, 101, 101, 101, 101, 36,
-        1, 22, 28, 27, 17, 19, 19, 17, 18, 19, 20, 17, 18, 27, 10, 28, 16, 21, 22, 10, 19, 18, 9, 18, 30, 18, 25, 36,
-        11, 22, 27, 19, 17, 19, 7, 27, 28, 29, 30, 27, 28, 18, 28, 28, 26, 11, 22, 27, 7, 8, 20, 18, 7, 18, 25, 36,
-        1, 22, 9, 30, 10, 19, 18, 7, 8, 9, 10, 7, 8, 30, 27, 8, 36, 31, 22, 19, 10, 9, 20, 27, 20, 18, 25, 36,
-        21, 22, 20, 10, 18, 28, 20, 17, 18, 19, 20, 17, 18, 19, 17, 9, 16, 31, 22, 20, 10, 30, 20, 18, 27, 29, 25, 36,
-        11, 32, 34, 33, 34, 33, 33, 34, 33, 33, 34, 34, 33, 34, 34, 34, 26, 31, 32, 34, 34, 33, 33, 33, 33, 34, 35, 36,
-        41, 42, 45, 44, 42, 42, 43, 42, 45, 42, 44, 43, 45, 43, 42, 43, 46, 41, 45, 44, 43, 43, 43, 43, 42, 45, 44, 46
+        11, 22, 7, 8, 20, 18, 17, 7, 8, 9, 10, 7, 8, 7, 10, 10, 51, 42, 43, 44, 45, 56, 22, 9, 8, 19, 25, 36,
+        1, 22, 28, 27, 17, 19, 19, 17, 18, 19, 20, 17, 18, 27, 10, 28, 16, 79, 79, 79, 79, 21, 22, 18, 30, 18, 25, 36,
+        11, 22, 27, 19, 17, 19, 7, 27, 28, 29, 30, 27, 28, 18, 28, 28, 26, 79, 79, 79, 79, 31, 22, 18, 7, 18, 25, 36,
+        1, 22, 9, 30, 10, 19, 18, 7, 8, 9, 10, 7, 8, 30, 27, 8, 36, 79, 79, 79, 79, 11, 22, 27, 20, 18, 25, 36,
+        21, 22, 20, 10, 18, 28, 20, 17, 18, 19, 20, 17, 18, 19, 17, 9, 16, 79, 79, 79, 79, 21, 22, 18, 27, 29, 25, 36,
+        11, 32, 34, 33, 34, 33, 33, 34, 33, 33, 34, 34, 33, 34, 34, 34, 26, 79, 79, 79, 79, 31, 32, 33, 33, 34, 35, 36,
+        41, 42, 45, 44, 42, 42, 43, 42, 45, 42, 44, 43, 45, 43, 42, 43, 46, 79, 79, 79, 79, 41, 43, 43, 42, 45, 44, 46
       }
     },
     {
@@ -383,8 +375,8 @@ return {
           name = "Crate",
           type = "",
           shape = "rectangle",
-          x = 32,
-          y = 144,
+          x = 64,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
@@ -408,11 +400,11 @@ return {
         },
         {
           id = 18,
-          name = "Gate-RED",
+          name = "Gate",
           type = "",
           shape = "rectangle",
-          x = 192,
-          y = 160,
+          x = 133.333,
+          y = 130.667,
           width = 16,
           height = 16,
           rotation = 0,
@@ -465,25 +457,25 @@ return {
           properties = {}
         },
         {
-          id = 22,
-          name = "Mirror",
+          id = 28,
+          name = "Light",
           type = "",
           shape = "rectangle",
-          x = 64,
-          y = 192,
+          x = 176,
+          y = 128,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 78,
+          gid = 87,
           visible = true,
           properties = {}
         },
         {
-          id = 24,
+          id = 30,
           name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 160,
+          x = 208,
           y = 208,
           width = 16,
           height = 16,
@@ -491,184 +483,56 @@ return {
           gid = 78,
           visible = true,
           properties = {
-            ["initialFacingDir"] = 8
+            ["initialFacingDir"] = "UpLeft"
           }
-        },
-        {
-          id = 26,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 160,
-          y = 160,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 78,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = 4
-          }
-        },
-        {
-          id = 27,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 160,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 78,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = 8
-          }
-        },
-        {
-          id = 28,
-          name = "Light",
-          type = "",
-          shape = "rectangle",
-          x = 128,
-          y = 176,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 29,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 64,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 78,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = 8
-          }
-        },
-        {
-          id = 30,
-          name = "ToggleSwitch-RED",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
         },
         {
           id = 31,
-          name = "Boulder",
+          name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 32,
-          y = 64,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 50,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 32,
-          name = "Gate-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 288,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {
-            ["color"] = "#ffff00ff"
-          }
-        },
-        {
-          id = 33,
-          name = "ToggleSwitch-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 288,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 34,
-          name = "Tomb",
-          type = "",
-          shape = "rectangle",
-          x = 384,
+          x = 128,
           y = 192,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 83,
+          gid = 78,
           visible = true,
-          properties = {}
+          properties = {
+            ["initialFacingDir"] = "DownRight"
+          }
         },
         {
-          id = 35,
-          name = "Coffee",
+          id = 32,
+          name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 416,
-          y = 96,
+          x = 208,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 98,
+          gid = 78,
           visible = true,
-          properties = {}
+          properties = {
+            ["initialFacingDir"] = "DownLeft"
+          }
         },
         {
-          id = 36,
-          name = "Coffee",
+          id = 33,
+          name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 416,
-          y = 80,
+          x = 128,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 98,
+          gid = 78,
           visible = true,
-          properties = {}
-        },
-        {
-          id = 31,
-          name = "ExitDoor",
-          type = "",
-          shape = "rectangle",
-          x = 352,
-          y = 16,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
         }
       }
     }
