@@ -31,11 +31,6 @@ function Mirror:render()
         love.graphics.translate(1, 1)
         love.graphics.scale(-1, -1)
     end
-
-    if self.facingDiagDir == Diagonal.UpLeft then
-        love.graphics.translate(1, 0)
-        love.graphics.scale(-1, 1)
-    end
     --
     --love.graphics.setLineWidth(0.1)
     --love.graphics.rectangle('line', 0, 0, 1, 1)
