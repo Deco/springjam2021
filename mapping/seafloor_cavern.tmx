@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="20">
+ <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
+ <layer id="1" name="map" width="16" height="16">
+  <data encoding="csv">
+1,2,3,4,5,2,3,4,5,2,3,4,5,2,3,6,
+11,12,13,14,13,14,13,14,13,14,13,14,13,14,15,6,
+21,22,7,8,9,10,7,8,9,10,7,8,9,10,25,16,
+31,22,17,18,19,20,17,18,19,20,17,18,19,20,25,26,
+11,22,29,8,101,30,28,17,10,17,101,8,29,30,25,36,
+21,22,27,20,79,7,9,17,7,9,79,8,9,10,25,16,
+31,22,20,20,79,20,20,8,29,19,79,30,19,20,25,26,
+11,22,20,20,79,29,27,20,10,7,79,9,29,30,25,36,
+21,22,18,19,79,7,9,27,8,7,79,29,9,10,25,16,
+31,22,29,19,79,30,20,29,8,27,79,8,19,20,25,26,
+11,22,18,19,17,17,17,8,27,27,18,10,29,30,25,36,
+21,22,7,8,9,10,7,8,9,10,7,8,9,10,25,16,
+31,22,17,18,19,20,17,18,19,20,17,18,19,20,25,26,
+11,22,27,28,29,30,27,28,29,30,2,3,4,5,2,36,
+1,32,33,34,33,34,33,34,33,34,13,14,13,14,13,16,
+41,42,43,44,45,42,43,44,45,42,43,44,45,42,43,46
+</data>
+ </layer>
+ <layer id="3" name="scatter" width="16" height="16">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,40,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="7" template="templates/Light.tx" x="112" y="144"/>
+  <object id="8" template="templates/BoulderRound.tx" x="96" y="112"/>
+  <object id="9" template="templates/BoulderRound.tx" x="112" y="112"/>
+  <object id="10" template="templates/BoulderRound.tx" x="133.35" y="111.651"/>
+  <object id="11" template="templates/BoulderRound.tx" x="96" y="80"/>
+  <object id="12" template="templates/BoulderRound.tx" x="80" y="96"/>
+  <object id="13" template="templates/BoulderRound.tx" x="144" y="96"/>
+  <object id="14" template="templates/BoulderRound.tx" x="112" y="80"/>
+  <object id="15" template="templates/BoulderRound.tx" x="80" y="64"/>
+  <object id="16" template="templates/BoulderRound.tx" x="126.943" y="76.5205"/>
+  <object id="17" template="templates/BoulderRound.tx" x="96" y="64"/>
+  <object id="18" template="templates/BoulderRound.tx" x="128" y="64"/>
+  <object id="19" template="templates/BoulderRound.tx" x="144" y="64"/>
+ </objectgroup>
+</map>
