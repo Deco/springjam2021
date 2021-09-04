@@ -11,9 +11,9 @@ function World:setup(data)
         'S    #####     #',
         '#    #   #     #',
         '# C  @ 1 @   T #',
-        '# c  #   #     #',
-        '# c  #####     #',
-        '# c            #',
+        '#    #   #     #',
+        '#    #####     #',
+        '#              #',
         '#              #',
         '#          #####',
         '#          2   E',
@@ -24,7 +24,7 @@ function World:setup(data)
         [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
     }
     self.levelStuff = self.levelStuff or {
-        [1] = { type = "PressurePlate", group = 1, },
+        [1] = { type = "ToggleSwitch", group = 1, },
         [2] = { type = "Gate", group = 1, }
     }
 
@@ -66,6 +66,9 @@ function World:initLevel()
                     local thing = self.levelStuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
                         local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+                    elseif thing.type == 'ToggleSwitch' then
+                        local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
                         table.insert(self:getLogicGroup(thing.group).inputsList, ent)
                     elseif thing.type == 'Gate' then
                         local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
@@ -223,9 +226,13 @@ end
 function Cell:traversableTest(entOrNil)
     if self.isWall then return false end
     for other in pairs(self.entsSet) do
-        if other ~= entOrNil then
+        if other ~= entOrNil and rawget(other, 'blocksTraversal') then
             if other.class == Gate then
-                if other:isLocked() then return false end
+                return not other:isLocked()
+            elseif other.class == ExitDoor then
+                return not other:isLocked()
+            else
+                return false
             end
         end
     end

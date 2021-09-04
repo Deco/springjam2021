@@ -23,14 +23,21 @@ function Vampire:setup(data)
 end
 
 function Vampire:update(time, dt)
+    local updateMoveGoal = function()
+        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
+            self.moveGoal = GAMESTATE.player:getPos()
+            return true
+        end
+        return false
+    end
+
     if self.stage == VampireStage.Wakeup then
         if GAMETIME > self.stageChangeTime + vampireWakeupDelay then
             self.stage = VampireStage.Idle
         end
     elseif self.stage == VampireStage.Idle then
         if GAMETIME > self.stageChangeTime + vampireIdleDelay then
-            if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
-                self.moveGoal = GAMESTATE.player:getPos()
+            if updateMoveGoal() then
                 self.stage = VampireStage.Alerted
                 self.stageChangeTime = GAMETIME
                 print('-> ALERT')
@@ -58,10 +65,12 @@ function Vampire:update(time, dt)
                 end
             end
             if stop then
-                self.stage = VampireStage.Idle
-                self.stageChangeTime = GAMETIME
-                print('-> IDLE')
-                self.moveGoal = nil
+                if not updateMoveGoal() then
+                    self.stage = VampireStage.Idle
+                    self.stageChangeTime = GAMETIME
+                    print('-> IDLE')
+                    self.moveGoal = nil
+                end
             end
         end
     end

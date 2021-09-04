@@ -2,6 +2,7 @@ local assets = {
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
     ['fonts/HelvetiPixel.ttf:60'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
+    ['PromptFont'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
 
 
     ['art/player/idle_up.png'] = { type = 'image' },
@@ -18,6 +19,7 @@ local assets = {
     ['art/gate_open.png'] = { type = 'image' },
     ['art/key.png'] = { type = 'image' },
     ['art/pressure-plate.png'] = { type = 'image' },
+    ['art/toggle-switch.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
     ['art/vampire.png'] = { type = 'image' },

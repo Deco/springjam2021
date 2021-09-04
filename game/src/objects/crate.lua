@@ -1,8 +1,8 @@
 Crate = Engine:EntityClass('Crate')
 
-
 function Crate:setup(data)
     self.image = Engine:getAsset('art/crate.png')
+    self.blocksTraversal = true
     BasicEntSetup(self, data)
 end
 

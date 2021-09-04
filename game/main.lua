@@ -114,10 +114,12 @@ for idx, path in ipairs({
     'src/objects/bomb.lua',
     'src/objects/coffee.lua',
     'src/objects/crate.lua',
+    'src/objects/exit-door.lua',
     'src/objects/gate.lua',
     'src/objects/key.lua',
     'src/objects/pressure-plate.lua',
     'src/objects/spikes.lua',
+    'src/objects/toggle-switch.lua',
     'src/objects/tomb.lua',
     'src/objects/vampire.lua',
 }) do
