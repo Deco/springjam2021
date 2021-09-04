@@ -91,7 +91,9 @@ function Engine:EntityClass(name)
         }
         self.nextId = self.nextId + 1
         classInfo.instancesSet[instance] = true
-        table.insert(self.entitiesList, instance)
+        if not rawget(class, 'dontPutInEntitiesList') then
+            table.insert(self.entitiesList, instance)
+        end
         if type(owner) ~= 'string' then
             --print(string.format("[%s E%i] -> [%s E%i]", owner.__name, owner.id, name, instance.id))
             owner.ownedSet[instance] = true
@@ -129,7 +131,9 @@ function Engine:Remove(ent)
     ent.valid = false
     self:callEntMethod(ent, 'removed', nil)
     ent.owner.ownedSet[ent] = nil
-    table.remove(self.entitiesList, util.findIndex(self.entitiesList, ent))
+    if not rawget(ent.class, 'dontPutInEntitiesList') then
+        table.remove(self.entitiesList, util.findIndex(self.entitiesList, ent))
+    end
     local entityClassInfo = getEntityClassInfo(ent.class)
     entityClassInfo.instancesSet[ent] = nil
     for owned in pairs(ent.ownedSet) do

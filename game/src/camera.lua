@@ -119,6 +119,16 @@ function TheCamera:getTransform()
     return trans
 end
 
+function TheCamera:getViewBounds()
+    local extra = 5
+    return AABBfromXYWH(
+        math.floor(self:getPos().x - self._worldSize.x / 2) - extra,
+        math.floor(self:getPos().y - self._worldSize.y / 2) - extra,
+        self._worldSize.x + 2 * extra,
+        self._worldSize.y + 2 * extra
+    )
+end
+
 function TheCamera:screenRender()
     --love.graphics.setColor(1, 1, 1, 1)
     --love.graphics.setFont(Engine:getAsset('devfont').handle)

@@ -1,4 +1,5 @@
 local assets = {
+    ['src/maps/entrance.lua'] = { type = 'tiledmap' },
     ['src/maps/back_and_forth.lua'] = { type = 'tiledmap' },
     ['src/maps/pits.lua'] = { type = 'tiledmap' },
     ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },

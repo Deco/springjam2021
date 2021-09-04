@@ -53,6 +53,8 @@ function World:initLevel()
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
             Coffee.new(self, { pos = pos })
+        elseif name == 'GoldenKey' then
+            Key.new(self, { pos = pos })
         elseif name == 'Tomb' then
             Tomb.new(self, { pos = pos, alreadyOpen = (extraData == 'Open'), hasGoldenKey = (extraData == 'GoldenKey') })
         elseif name == 'Vampire' then
@@ -120,8 +122,9 @@ function World:specialRenderAfter()
     local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
     love.graphics.setBlendMode('add')
     local sixteenToOne = 1 / 16
-    for x = self.bounds.x0, self.bounds.x1 do
-        for y = self.bounds.y0, self.bounds.y1 do
+    local viewBounds = Engine.camera:getViewBounds()
+    for x = viewBounds.x0, viewBounds.x1 do
+        for y = viewBounds.y0, viewBounds.y1 do
             local cell = self:getCell(Vec(x, y))
             if cell:isIlluminated() and cell:lightPassTest() and #cell:findEntsOfClass(LightSource) == 0 then
                 local horizFrac, vertFrac = 0, 0
@@ -344,6 +347,7 @@ function World:pathFind(v0, v1, entOrNil, extraTraversalPassTest)
 end
 
 Cell = Engine:EntityClass('Cell')
+Cell.dontPutInEntitiesList = true
 
 function Cell:setup(data)
     self.pos = self.pos or data.pos
