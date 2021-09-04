@@ -352,6 +352,7 @@ local AssetTypes = {
             info.handle = sti(info.path)
         end,
         destroy = function(info)
+            sti:flush()
             info.handle = nil
         end,
         fallback = { handle = {} },

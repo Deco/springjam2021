@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 12,
+  nextobjectid = 15,
   properties = {},
   tilesets = {
     {
@@ -23,7 +23,7 @@ return {
       image = "../../art/tilesets/dungeon.png",
       imagewidth = 160,
       imageheight = 160,
-      objectalignment = "unspecified",
+      objectalignment = "topleft",
       tileoffset = {
         x = 0,
         y = 0
@@ -36,7 +36,232 @@ return {
       properties = {},
       wangsets = {},
       tilecount = 100,
-      tiles = {}
+      tiles = {
+        {
+          id = 0,
+          type = "wall"
+        },
+        {
+          id = 1,
+          type = "wall"
+        },
+        {
+          id = 2,
+          type = "wall"
+        },
+        {
+          id = 3,
+          type = "wall"
+        },
+        {
+          id = 4,
+          type = "wall"
+        },
+        {
+          id = 5,
+          type = "wall"
+        },
+        {
+          id = 6,
+          type = "floor"
+        },
+        {
+          id = 7,
+          type = "floor"
+        },
+        {
+          id = 8,
+          type = "floor"
+        },
+        {
+          id = 9,
+          type = "floor"
+        },
+        {
+          id = 10,
+          type = "wall"
+        },
+        {
+          id = 11,
+          type = "floor"
+        },
+        {
+          id = 12,
+          type = "floor"
+        },
+        {
+          id = 13,
+          type = "floor"
+        },
+        {
+          id = 14,
+          type = "floor"
+        },
+        {
+          id = 15,
+          type = "wall"
+        },
+        {
+          id = 16,
+          type = "floor"
+        },
+        {
+          id = 17,
+          type = "floor"
+        },
+        {
+          id = 18,
+          type = "floor"
+        },
+        {
+          id = 19,
+          type = "floor"
+        },
+        {
+          id = 20,
+          type = "wall"
+        },
+        {
+          id = 21,
+          type = "floor"
+        },
+        {
+          id = 22,
+          type = "floor"
+        },
+        {
+          id = 23,
+          type = "floor"
+        },
+        {
+          id = 24,
+          type = "floor"
+        },
+        {
+          id = 25,
+          type = "wall"
+        },
+        {
+          id = 26,
+          type = "floor"
+        },
+        {
+          id = 27,
+          type = "floor"
+        },
+        {
+          id = 28,
+          type = "floor"
+        },
+        {
+          id = 29,
+          type = "floor"
+        },
+        {
+          id = 30,
+          type = "wall"
+        },
+        {
+          id = 31,
+          type = "floor"
+        },
+        {
+          id = 32,
+          type = "floor"
+        },
+        {
+          id = 33,
+          type = "floor"
+        },
+        {
+          id = 34,
+          type = "floor"
+        },
+        {
+          id = 35,
+          type = "wall"
+        },
+        {
+          id = 40,
+          type = "wall"
+        },
+        {
+          id = 41,
+          type = "wall"
+        },
+        {
+          id = 42,
+          type = "wall"
+        },
+        {
+          id = 43,
+          type = "wall"
+        },
+        {
+          id = 44,
+          type = "wall"
+        },
+        {
+          id = 45,
+          type = "wall"
+        },
+        {
+          id = 50,
+          type = "wall"
+        },
+        {
+          id = 51,
+          type = "wall"
+        },
+        {
+          id = 52,
+          type = "wall"
+        },
+        {
+          id = 53,
+          type = "wall"
+        },
+        {
+          id = 54,
+          type = "wall"
+        },
+        {
+          id = 55,
+          type = "wall"
+        },
+        {
+          id = 60,
+          type = "floor"
+        },
+        {
+          id = 61,
+          type = "floor"
+        },
+        {
+          id = 62,
+          type = "floor"
+        },
+        {
+          id = 63,
+          type = "floor"
+        },
+        {
+          id = 70,
+          type = "floor"
+        },
+        {
+          id = 71,
+          type = "floor"
+        },
+        {
+          id = 72,
+          type = "floor"
+        },
+        {
+          id = 73,
+          type = "floor"
+        }
+      }
     }
   },
   layers = {

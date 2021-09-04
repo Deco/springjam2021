@@ -37,6 +37,16 @@ function World:setup(data)
 
     self.level = Engine:getAsset('src/maps/hand_fucking_coded.lua')
     self.wallImage = Engine:getAsset('art/wall.png')
+
+    for _,layer in ipairs(self.level.handle.layers) do
+        if layer.name == "map" then
+            for y, row in ipairs(layer.data) do
+                for x, cell in ipairs(row) do
+
+                end
+            end
+        end
+    end
 end
 
 function World:initLevel()
@@ -104,7 +114,12 @@ function World:specialRender()
         end
     end
 
-    self.level.handle:draw()
+    love.graphics.scale(sixteenToOne)
+    for _,layer in ipairs(self.level.handle.layers) do
+        if layer.name == "map" or layer.name == "scatter" then
+            layer:draw()
+        end
+    end
 end
 
 function World:getCell(pos)

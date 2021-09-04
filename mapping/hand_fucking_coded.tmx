@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="15">
  <editorsettings>
-  <export target="built/hand_fucking_coded.lua" format="lua"/>
+  <export target="../game/src/maps/hand_fucking_coded.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
  <layer id="1" name="map" width="28" height="16">
