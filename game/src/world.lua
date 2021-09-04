@@ -50,13 +50,13 @@ function World:initLevel()
         elseif name == 'Spikes' then
             Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
-            local ent = LightSource.new(self, { pos = cell.pos })
+            local ent = LightSource.new(self, { pos = pos })
             table.insert(self.lightSources, ent)
         elseif name == 'PressurePlate' then
             local ent = PressurePlate.new(self, { pos = pos })
             --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
         elseif name == 'ToggleSwitch' then
-            local ent = ToggleSwitch.new(self, { pos = cell.pos })
+            local ent = ToggleSwitch.new(self, { pos = pos })
             --table.insert(self:getLogicGroup(thing.group).inputsList, ent)
         elseif name == 'Gate' then
             local ent = Gate.new(self, { pos = pos })

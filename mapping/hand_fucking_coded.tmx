@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="21">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="22">
  <editorsettings>
   <export target="../game/src/maps/hand_fucking_coded.lua" format="lua"/>
  </editorsettings>
@@ -55,5 +55,6 @@
   </object>
   <object id="19" name="Tomb" gid="83" x="352" y="80" width="16" height="16"/>
   <object id="20" name="Coffee" gid="98" x="256" y="80" width="16" height="16"/>
+  <object id="21" name="Light" gid="87" x="144" y="176" width="16" height="16"/>
  </objectgroup>
 </map>
