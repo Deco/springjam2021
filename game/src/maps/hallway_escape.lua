@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 14,
+  nextobjectid = 15,
   properties = {},
   tilesets = {
     {
@@ -459,22 +459,6 @@ return {
           properties = {}
         },
         {
-          id = 12,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 176,
-          y = 528,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 78,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
           id = 13,
           name = "ExitDoor",
           type = "",
@@ -487,6 +471,22 @@ return {
           gid = 37,
           visible = true,
           properties = {}
+        },
+        {
+          id = 14,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 528,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483750,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
         }
       }
     }
