@@ -17,8 +17,9 @@ function TheMenu:setup()
     self.gameTitle = "Untitled!"
 
     self.stage = self.stage or MenuStage.Loading
-    self.isPaused = self.isPaused or false
-    self.wasPaused = self.wasPaused or false
+    self.isPaused = util.default(self.isPaused, false)
+    self.wasPaused = util.default(self.wasPaused, false)
+    self.wasRestart = util.default(self.wasRestart, false)
 
     self.targetLevel = self.targetLevel or nil
     self.targetLevelIdx = self.targetLevelIdx or nil
@@ -135,7 +136,8 @@ function TheMenu:gotoStage(newStage)
     self.stage = newStage
 end
 
-function TheMenu:loadLevel(targetIdx)
+function TheMenu:loadLevel(targetIdx, isRestart)
+    self.wasRestart = isRestart
     if targetIdx == 'curr' then
         targetIdx = self.targetLevelIdx
     elseif targetIdx == 'next' then
@@ -179,7 +181,7 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
     end
 
     if key == 'r' and self.stage == MenuStage.Playing then
-        self:loadLevel('curr')
+        self:loadLevel('curr', true)
         return
     end
 

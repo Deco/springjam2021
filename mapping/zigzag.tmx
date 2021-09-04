@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="33">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="37">
  <editorsettings>
   <export target="../game/src/maps/zigzag.lua" format="lua"/>
  </editorsettings>
@@ -39,13 +39,15 @@
   <object id="21" template="templates/Vampire.tx" x="192" y="64"/>
   <object id="22" template="templates/Vampire.tx" x="320" y="96"/>
   <object id="23" template="templates/BLUE/Gate-BLUE.tx" x="192" y="176"/>
-  <object id="24" template="templates/RED/Gate-RED.tx" x="224" y="144"/>
+  <object id="24" template="templates/RED/Gate-RED.tx" x="224" y="160"/>
   <object id="25" name="Gate-PINK" gid="37" x="224" y="192" width="16" height="16"/>
   <object id="26" template="templates/GREEN/Gate-GREEN.tx" x="256" y="176"/>
-  <object id="28" template="templates/BLUE/Toggle-BLUE.tx" x="224" y="160"/>
   <object id="29" template="templates/RED/Toggle-RED.tx" x="240" y="176"/>
   <object id="30" template="templates/PINK/Toggle-PINK.tx" x="208" y="176"/>
   <object id="31" template="templates/GREEN/Toggle-GREEN.tx" x="240" y="48"/>
-  <object id="32" name="PressurePlate-BLUE" gid="104" x="112" y="176" width="16" height="16"/>
+  <object id="32" template="templates/BLUE/PressurePlate-BLUE.tx" x="224" y="176"/>
+  <object id="33" template="templates/Crate.tx" x="224" y="176"/>
+  <object id="34" template="templates/BLUE/PressurePlate-BLUE.tx" x="176" y="176"/>
+  <object id="36" template="templates/PINK/Toggle-PINK.tx" x="160" y="128"/>
  </objectgroup>
 </map>
