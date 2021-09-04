@@ -83,39 +83,18 @@ end
 local levels = {
     {
         label = "Bloody Blood Blood",
-        data = {
-            '################',
-            '#              #',
-            '#              #',
-            'S    #####     #',
-            '#    #   #     #',
-            '# C  @ 1 @   T #',
-            '#    #   #     #',
-            '#    #####     #',
-            '#              #',
-            '#              #',
-            '#          #####',
-            '#          2   E',
-            '#          #####',
-            '################',
-        },
         tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
         logicGroups = {
-            [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
+        --    [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
         },
         stuff = {
-            [1] = { type = "ToggleSwitch", group = 1, },
-            [2] = { type = "Gate", group = 1, }
+        --    [1] = { type = "ToggleSwitch", group = 1, },
+        --    [2] = { type = "Gate", group = 1, }
         },
     },
     {
         label = "Nothing",
-        data = {
-            '####',
-            '#S #',
-            '#  #',
-            '####',
-        },
+        tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
         logicGroups = {},
         stuff = {},
     },

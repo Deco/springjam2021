@@ -281,3 +281,6 @@ function util.findPathTo(container, target)
 end
 
 
+function util.hex2rgb(hex)
+	return {tonumber(string.sub(hex, 2, 3), 16)/256, tonumber(string.sub(hex, 4, 5), 16)/256, tonumber(string.sub(hex, 6, 7), 16)/256, 1}
+end

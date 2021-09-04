@@ -35,18 +35,31 @@ function World:initLevel()
 
     for _,object in pairs(self.level.tiledmap.handle.objects) do
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
+        local name = object.name
 
-        if object.name == 'start' then
+        if name == 'PlayerStart' then
             self.startDoorPos = pos
-        elseif object.name == 'crate' then
+        elseif name == 'Crate' then
             Crate.new(self, { pos = pos })
-        elseif object.name == 'tomb' then
+        elseif name == 'Coffee' then
+            Coffee.new(self, { pos = pos })
+        elseif name == 'Tomb' then
             Tomb.new(self, { pos = pos })
-        elseif object.name == 'spikes' then
+        elseif name == 'Spikes' then
             Spikes.new(self, { pos = pos })
+        elseif name == 'PressurePlate' then
+            local ent = PressurePlate.new(self, { pos = pos })
+            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
+        elseif name == 'ToggleSwitch' then
+            local ent = ToggleSwitch.new(self, { pos = cell.pos })
+            --table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+        elseif name == 'Gate' then
+            local ent = Gate.new(self, { pos = pos })
+            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
         end
     end
 
+    -- TODO: strip this
     --for rowIdx, rowStr in ipairs({}) do
     --    for colIdx = 1, #rowStr do
     --        local cellChar = rowStr:sub(colIdx, colIdx)
@@ -103,14 +116,14 @@ function World:specialRender()
     love.graphics.pop()
 
     -- temp
-    for x = self.bounds.x0, self.bounds.x1 do
-        for y = self.bounds.y0, self.bounds.y1 do
-            local cell = self:getCell(Vec(x, y))
-            if cell.isWall then
-                love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
-            end
-        end
-    end
+    --for x = self.bounds.x0, self.bounds.x1 do
+    --    for y = self.bounds.y0, self.bounds.y1 do
+    --        local cell = self:getCell(Vec(x, y))
+    --        if cell.isWall then
+    --            love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
+    --        end
+    --    end
+    --end
 end
 
 function World:getCell(pos)

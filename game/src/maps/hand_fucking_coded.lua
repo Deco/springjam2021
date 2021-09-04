@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 18,
+  nextobjectid = 21,
   properties = {},
   tilesets = {
     {
@@ -358,7 +358,7 @@ return {
       objects = {
         {
           id = 6,
-          name = "start",
+          name = "PlayerStart",
           type = "",
           shape = "rectangle",
           x = 64,
@@ -372,7 +372,7 @@ return {
         },
         {
           id = 11,
-          name = "crate",
+          name = "Crate",
           type = "",
           shape = "rectangle",
           x = 64,
@@ -385,44 +385,60 @@ return {
           properties = {}
         },
         {
-          id = 15,
-          name = "spikes",
+          id = 16,
+          name = "Spikes",
           type = "",
           shape = "rectangle",
           x = 96,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 93,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 18,
+          name = "Gate",
+          type = "",
+          shape = "rectangle",
+          x = 192,
           y = 160,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 93,
+          gid = 37,
+          visible = true,
+          properties = {
+            ["color"] = "#ffff00ff"
+          }
+        },
+        {
+          id = 19,
+          name = "Tomb",
+          type = "",
+          shape = "rectangle",
+          x = 352,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 83,
           visible = true,
           properties = {}
         },
         {
-          id = 16,
-          name = "spikes",
+          id = 20,
+          name = "Coffee",
           type = "",
           shape = "rectangle",
-          x = 96,
-          y = 144,
+          x = 256,
+          y = 80,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 93,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 17,
-          name = "spikes",
-          type = "",
-          shape = "rectangle",
-          x = 112,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 93,
+          gid = 98,
           visible = true,
           properties = {}
         }
