@@ -5,7 +5,10 @@ World = Engine:EntityClass('World')
 function World:setup(data)
     self.level = data.level
     self.logicGroups = self.logicGroups or {
-        GREEN = { color = { 0, 1, 0, 1 } },
+        GREEN = { color = { 0, 1, 0, 1 }, satisfied = false, },
+        RED = { color = { 0, 1, 0, 1 }, satisfied = false, },
+        BLUE = { color = { 0, 1, 0, 1 }, satisfied = false, },
+        PINK = { color = { 0, 1, 0, 1 }, satisfied = false, },
     }
 
     self.grid = self.grid or {}
@@ -16,7 +19,6 @@ function World:setup(data)
     self.wallImage = Engine:getAsset('art/wall.png')
     self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
     self.lightVertImage = Engine:getAsset('art/light_beam-vert.png')
-    self.lightSources = self.lightSources or { }
 
     self.debugPath = nil
 end
@@ -37,10 +39,12 @@ function World:initLevel()
 
     for _, object in pairs(self.level.tiledmap.handle.objects) do
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
-        local name = object.name
+        local name, logicGroupName = unpack(util.splitString(object.name, '-'))
 
         if name == 'PlayerStart' then
             self.playerStartPos = pos
+        elseif name == 'Boulder' then
+            Boulder.new(self, { pos = pos })
         elseif name == 'Crate' then
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
@@ -51,20 +55,19 @@ function World:initLevel()
             Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
             local ent = LightSource.new(self, { pos = pos })
-            table.insert(self.lightSources, ent)
         elseif name == 'Mirror' then
             local ent = Mirror.new(self, { pos = pos, facingDiagDir = object.properties["initialFacingDir"] })
         elseif name == 'ExitDoor' then
             ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then
-            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = 'GREEN' })
-            table.insert(self:getLogicGroup('GREEN').inputsList, ent)
+            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = logicGroupName })
+            table.insert(self:getLogicGroup(logicGroupName).inputsList, ent)
         elseif name == 'ToggleSwitch' then
-            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = 'GREEN' })
-            table.insert(self:getLogicGroup('GREEN').inputsList, ent)
+            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = logicGroupName })
+            table.insert(self:getLogicGroup(logicGroupName).inputsList, ent)
         elseif name == 'Gate' then
-            local ent = Gate.new(self, { pos = pos, logicGroupName = 'GREEN' })
-            table.insert(self:getLogicGroup('GREEN').outputsList, ent)
+            local ent = Gate.new(self, { pos = pos, logicGroupName = logicGroupName })
+            table.insert(self:getLogicGroup(logicGroupName).outputsList, ent)
         end
     end
 
@@ -116,6 +119,7 @@ end
 function World:specialRender()
     local sixteenToOne = 1 / 16
 
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.push()
     love.graphics.scale(sixteenToOne)
     for _, layer in ipairs(self.level.tiledmap.handle.layers) do
@@ -203,6 +207,32 @@ end
 
 function World:getLogicGroup(name)
     return self.logicGroups[name]
+end
+
+function World:refreshLogicGroup(name)
+    local logicGroup = WORLD:getLogicGroup(name)
+    local anyUnsatisfied = false
+    for _, inputEnt in ipairs(logicGroup.inputsList) do
+        if not inputEnt:shouldConsiderSatisfied() then
+            anyUnsatisfied = true
+        end
+    end
+    local considerSatisfied = not anyUnsatisfied
+    if considerSatisfied ~= logicGroup.satisfied then
+        for _, outputEnt in ipairs(logicGroup.outputsList) do
+            local cb = rawget(outputEnt, 'onLogicGroupUpdate')
+            if cb then cb(outputEnt, considerSatisfied) end
+        end
+        logicGroup.satisfied = considerSatisfied
+    end
+end
+
+function World:refreshLight()
+    for _, ent in ipairs(Engine.entitiesList) do
+        if ent.class == LightSource then
+            ent:updateLight()
+        end
+    end
 end
 
 function World:canSee(v0, v1, entOrNil)

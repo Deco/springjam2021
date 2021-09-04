@@ -180,6 +180,10 @@ function Engine:draw()
     self.DP:startCycle()
     self.currDebugScreenText = self.drawDebugScreenText
 
+    local pixelSize = Vec(love.graphics.getDimensions())
+    love.graphics.setColor(36 / 255, 19 / 255, 26 / 255, 1)
+    love.graphics.rectangle('fill', 0, 0, pixelSize:xy())
+
     local dt = love.timer.getTime() - self.lastDrawTime
 
     if self.camera then
@@ -188,7 +192,6 @@ function Engine:draw()
 
     love.graphics.push()
 
-    local pixelSize = Vec(love.graphics.getDimensions())
     love.graphics.translate(0.5 * pixelSize.x, 0.5 * pixelSize.y)
     local referenceSize = Vec(500, 250)
     local scale

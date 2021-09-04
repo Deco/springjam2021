@@ -18,7 +18,7 @@ function PressurePlate:onTouch(other)
     end
 end
 
-function PressurePlate:considerSatisfied()
+function PressurePlate:shouldConsiderSatisfied()
     return self.hasBeenTriggered
 end
 

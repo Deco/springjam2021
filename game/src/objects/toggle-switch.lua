@@ -5,18 +5,21 @@ function ToggleSwitch:setup(data)
     self.offImage = Engine:getAsset('art/toggle-switch-off.png')
     self.logicGroupName = data.logicGroupName
 
+    self.renderDepth = RenderingDepth.Devices
     self.isActivated = util.default(self.isActivated, false)
 
     BasicEntSetup(self, data)
 end
 
 function ToggleSwitch:onTouch(other)
-    if other.class == Player or other.class == Vampire then
+    local checkFunc = rawget(other, 'activatesPlates')
+    if checkFunc and checkFunc(other) then
         self.isActivated = not self.isActivated
+        WORLD:refreshLogicGroup(self.logicGroupName)
     end
 end
 
-function ToggleSwitch:considerSatisfied()
+function ToggleSwitch:shouldConsiderSatisfied()
     return self.isActivated
 end
 

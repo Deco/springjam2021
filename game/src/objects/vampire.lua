@@ -26,6 +26,7 @@ function Vampire:setup(data)
 end
 
 function Vampire:blocksLight() return true end
+function Vampire:activatesPlates() return true end
 
 function Vampire:update(time, dt)
     if self.stage ~= VampireStage.Dying and WORLD:getCell(self:getPos()):isIlluminated() then
@@ -42,6 +43,7 @@ function Vampire:update(time, dt)
                 table.remove(path, 1)
             else
                 path = WORLD:getLineMovePath(self:getPos(), moveGoal)
+                table.remove(path, 1)
             end
             self.movePath = path
             return true
