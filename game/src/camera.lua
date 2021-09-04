@@ -8,14 +8,25 @@ function TheCamera:setup(data)
     self._zoomScale = self._zoomScale or 1.0
     self._worldSize = self._worldSize or nil
     self:setZoomScale(self._zoomScale)
+
+    self.viewPos = self.viewPos or Vec(0, 0) -- not aligned to grid
+    self.viewSpeed = 10
 end
 
-function TheCamera:specialRender()
+function TheCamera:specialRender(dt)
     Engine.DP:pushEvent('camera render')
 
     if self.owner.player then
         self:setPos(self.owner.player:getPos())
     end
+
+    local dist = self:getPos():dist(self.viewPos)
+    if dist > 7.0 then
+        self.viewPos = self:getPos()
+    end
+
+    local viewDiff = self:getPos() - self.viewPos
+    self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * self.viewSpeed, 0, viewDiff:mag())
 
     love.graphics.push()
 
@@ -44,14 +55,18 @@ function TheCamera:specialRender()
             love.graphics.push()
 
             local pos = ent:getPos()
-
-            love.graphics.translate(pos:xy())
+            local lastPos = ent._lastPos
+            local shiftDuration = pos:dist(lastPos) / 12.0
+            local shiftFrac = math.remapClamp(GAMETIME - ent._posChangeTime, 0, shiftDuration, 0, 1)
+            local displayPos = math.remapClamp(shiftFrac, 0, 1, lastPos, pos)
+            local isMoving = shiftFrac < 1.0
+            love.graphics.translate(displayPos:xy())
 
             love.graphics.translate(0.5, 0.5)
             love.graphics.rotate(math.cardinalToAng(ent:getRot()))
             love.graphics.translate(-0.5, -0.5)
 
-            Engine:callEntMethod(ent, 'render', nil)
+            Engine:callEntMethod(ent, 'render', nil, dt, isMoving)
 
             love.graphics.pop()
             Engine.DP:popEvent()
@@ -91,7 +106,8 @@ function TheCamera:getTransform()
     --love.graphics.rectangle('line', -0.5 * self._worldSize.x, -0.5 * self._worldSize.y, self._worldSize.x, self._worldSize.y)
 
     -- translate by camera's offset in world
-    trans:translate((-self:getPos()):xy())
+    --trans:translate((-self:getPos()):xy())
+    trans:translate((-self.viewPos):xy())
 
     return trans
 end

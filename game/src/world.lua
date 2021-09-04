@@ -42,7 +42,7 @@ function World:initLevel()
                     Tomb.new(self, { pos = cell.pos })
                     --Vampire.new(self, { pos = cell.pos })
                 elseif cellChar == 'E' then
-                    --ExitDoor.new(self, { pos = cell.pos })
+                    ExitDoor.new(self, { pos = cell.pos })
                 elseif cellChar == 'c' then
                     Crate.new(self, { pos = cell.pos })
                 elseif tonumber(cellChar, 10) ~= nil then

@@ -44,12 +44,16 @@ function Vampire:update(time, dt)
             end
         end
     elseif self.stage == VampireStage.Alerted then
+        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
+            self.moveGoal = GAMESTATE.player:getPos()
+        end
+
         if GAMETIME < self.stageChangeTime + vampireAlertDelay then
             --
         elseif GAMETIME > self.lastMoveTime + 5 * ONETICK then
             self.lastMoveTime = GAMETIME
             local stop = false
-            if self:getPos():distSq(self.moveGoal) < 1 then
+            if self:getPos():dist(self.moveGoal) < 1 then
                 stop = true
             else
                 local movePoints = WORLD:getLineMovePath(self:getPos(), self.moveGoal)

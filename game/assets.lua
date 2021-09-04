@@ -9,6 +9,10 @@ local assets = {
     ['art/player/idle_right.png'] = { type = 'image' },
     ['art/player/idle_down.png'] = { type = 'image' },
     ['art/player/idle_left.png'] = { type = 'image' },
+    ['art/player/walking_up-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
+    ['art/player/walking_right-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
+    --['art/player/walking_down-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
+    ['art/player/walking_left-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
 
     ['art/wall.png'] = { type = 'image' },
 
@@ -43,6 +47,8 @@ for assetKey, assetDescription in pairs(assets) do
 end
 
 Engine:_theseAreTheAssets(assets)
+
+
 
 
 
