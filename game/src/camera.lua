@@ -19,8 +19,13 @@ function TheCamera:specialRender(dt)
         self:setPos(self.owner.player:getPos())
     end
 
+    local dist = self:getPos():dist(self.viewPos)
+    if dist > 10.0 then
+        self.viewPos = self:getPos()
+    end
+
     local viewDiff = self:getPos() - self.viewPos
-    local viewSpeed = math.remapClamp(viewDiff:mag(), 5, 15, 10, 15)
+    local viewSpeed = math.remapClamp(viewDiff:mag(), 3, 7, 10, 25)
     self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * viewSpeed, 0, viewDiff:mag())
 
     love.graphics.push()

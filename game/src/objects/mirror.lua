@@ -4,11 +4,8 @@ function Mirror:setup(data)
     BasicEntSetup(self, data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.isMovingMirror = util.default(data.isMovingMirror, true)
-    if self.isMovingMirror then
-        self.image = Engine:getAsset( 'art/Mirror.png')
-    else
-        self.image = Engine:getAsset('art/Mirror.png')
-    end
+    self.isReflecting = util.default(self.isReflecting, false)
+
 end
 
 function Mirror:blocksTraversal() return true end
@@ -22,7 +19,7 @@ function Mirror:render()
         love.graphics.translate(1, 0)
         love.graphics.scale(-1, 1)
     end
---
+    --
     if self.facingDiagDir == Diagonal.DownRight then
         love.graphics.translate(0, 1)
         love.graphics.scale(1, -1)
@@ -31,10 +28,25 @@ function Mirror:render()
         love.graphics.translate(1, 1)
         love.graphics.scale(-1, -1)
     end
+    local image
+    if self.isMovingMirror then
+        if self.isReflecting then
+            image = Engine:getAsset('art/Mirror_active.png')
+        else
+            image = Engine:getAsset('art/Mirror.png')
+        end
+
+    else
+        if self.isReflecting then
+            image = Engine:getAsset('art/Mirror_active.png')
+        else
+            image = Engine:getAsset('art/Mirror.png')
+        end
+    end
     --
     --love.graphics.setLineWidth(0.1)
     --love.graphics.rectangle('line', 0, 0, 1, 1)
-    DrawSimpleEntImage(self, self.image)
+    DrawSimpleEntImage(self, image)
 end
 
 function Mirror:redirectLight(lightFromDir)
