@@ -99,6 +99,12 @@ local levels = {
         label = "Bloody Blood Blood",
         tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
     },
+    {
+        label = "Hallway Escape",
+        tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'),
+        logicGroups = {},
+        stuff = {},
+    },
 }
 
 function TheMenu:gotoStage(newStage)
