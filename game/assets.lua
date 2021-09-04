@@ -13,6 +13,7 @@ local assets = {
     ['art/wall.png'] = { type = 'image' },
 
     ['art/bomb.png'] = { type = 'image' },
+    ['art/flashlight.png'] = { type = 'image' },
     ['art/coffee.png'] = { type = 'image' },
     ['art/crate.png'] = { type = 'image' },
     ['art/gate.png'] = { type = 'image' },
