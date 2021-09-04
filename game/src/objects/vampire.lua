@@ -36,6 +36,7 @@ function Vampire:update(time, dt)
         self.stage = VampireStage.Dying
         self.stageChangeTime = GAMETIME
         WORLD:refreshLight()
+        self:retouchy(WORLD:getCell(self:getPos()), WORLD:getCell(self:getPos()))
     end
 
     local updateMoveGoal = function()
