@@ -29,8 +29,8 @@ function World:initLevel()
         logicGroup.outputsList = {}
     end
 
-    for rowIdx, row in ipairs(self.level.tiledmap.handle.layers.map.data) do
-        for colIdx, tile in ipairs(row) do
+    for rowIdx, row in pairs(self.level.tiledmap.handle.layers.map.data) do
+        for colIdx, tile in pairs(row) do
             local cell = self:getCell(Vec(colIdx - 1, rowIdx - 1))
             cell.isWall = (tile.type == "wall")
             cell.isPit = (tile.type == "pit")
@@ -70,47 +70,6 @@ function World:initLevel()
             table.insert(self:getLogicGroup(logicGroupName).outputsList, ent)
         end
     end
-
-    -- TODO: strip this
-    --for rowIdx, rowStr in ipairs({}) do
-    --    for colIdx = 1, #rowStr do
-    --        local cellChar = rowStr:sub(colIdx, colIdx)
-    --        local cell = self:getCell(Vec(colIdx, rowIdx))
-    --
-    --        if cellChar == '#' then
-    --            cell.isWall = false
-    --        else
-    --            cell.isWall = false
-    --
-    --
-    --            if cellChar == 'S' then
-    --                self.playerStartPos = cell.pos
-    --            elseif cellChar == 'C' then
-    --                Coffee.new(self, { pos = cell.pos })
-    --            elseif cellChar == '@' then
-    --                Spikes.new(self, { pos = cell.pos })
-    --            elseif cellChar == 'T' then
-    --                Tomb.new(self, { pos = cell.pos })
-    --                --Vampire.new(self, { pos = cell.pos })
-    --            elseif cellChar == 'E' then
-    --                ExitDoor.new(self, { pos = cell.pos })
-    --            elseif cellChar == 'c' then
-    --                Crate.new(self, { pos = cell.pos })
-    --            elseif tonumber(cellChar, 10) ~= nil then
-    --                local thing = self.level.stuff[tonumber(cellChar, 10)]
-    --                if thing.type == 'PressurePlate' then
-    --                    local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-    --                elseif thing.type == 'ToggleSwitch' then
-    --                    local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-    --                elseif thing.type == 'Gate' then
-    --                    local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-    --                    table.insert(self:getLogicGroup(thing.group).outputsList, ent)
-    --                end
-    --            end
-    --    end
-    --end
 
     GAMESTATE.player:setPos(WORLD.playerStartPos)
     GAMESTATE.player._lastPos = WORLD.playerStartPos
