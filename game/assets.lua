@@ -8,7 +8,6 @@ local assets = {
     ['art/player/idle_right.png'] = { type = 'image' },
     ['art/player/idle_down.png'] = { type = 'image' },
     ['art/player/idle_left.png'] = { type = 'image' },
-    ['art/player/walking_u.png'] = { type = 'image' },
 
     ['art/wall.png'] = { type = 'image' },
 
@@ -24,6 +23,8 @@ local assets = {
     ['art/vampire.png'] = { type = 'image' },
 
     ['art/tree.png'] = { type = 'image' },
+
+    ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 

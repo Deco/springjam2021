@@ -35,12 +35,22 @@ function World:setup(data)
 
     self.startDoorPos = self.startDoorPos or nil
 
+    self.level = Engine:getAsset('src/maps/hand_fucking_coded.lua')
     self.wallImage = Engine:getAsset('art/wall.png')
 end
 
 function World:initLevel()
-    for rowIdx, rowStr in ipairs(self.levelData) do
-        for colIdx = 1, #rowStr do
+    local levelMap = {}
+    for _, layer in ipairs(self.level.handle.layers) do
+        if layer.name == 'map' then
+            levelMap = layer.data
+            break
+        end
+    end
+
+    for rowIdx = 1, #self.levelData do
+        for colIdx = 1, #self.levelData[1] do
+            local rowStr = self.levelData[rowIdx]
             local cellChar = rowStr:sub(colIdx, colIdx)
             local cell = self:getCell(Vec(colIdx, rowIdx))
 
@@ -89,6 +99,8 @@ function World:specialRender()
             end
         end
     end
+
+    self.level.handle:draw()
 end
 
 function World:getCell(pos)
