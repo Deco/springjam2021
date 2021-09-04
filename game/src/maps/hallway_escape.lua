@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 9,
+  nextobjectid = 12,
   properties = {},
   tilesets = {
     {
@@ -393,6 +393,48 @@ return {
           height = 16,
           rotation = 0,
           gid = 76,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 9,
+          name = "Light",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 256,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 87,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 10,
+          name = "Tomb",
+          type = "",
+          shape = "rectangle",
+          x = 144,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 85,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 11,
+          name = "Coffee",
+          type = "",
+          shape = "rectangle",
+          x = 96,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 90,
           visible = true,
           properties = {}
         }
