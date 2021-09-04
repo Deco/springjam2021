@@ -32,24 +32,31 @@ local entityBasicStuff = {
             self._posChangeTime = GAMETIME
         end
     end,
-    tryMove = function(self, dir)
+    tryMove = function(self, dir, dontActuallyMove)
         local destPos = self:getPos() + math.cardinalToOffset(dir)
         local destCell = WORLD:getCell(destPos)
 
+        local ignoreEnt = nil
         for ent in pairs(destCell.entsSet) do
             local checkFunc = rawget(ent, 'isMovable')
             if checkFunc and checkFunc(ent, self) then
                 local entDestPos = destPos + math.cardinalToOffset(dir)
                 local entDestCell = WORLD:getCell(entDestPos)
                 if entDestCell:traversalPassTest(ent) then
-                    ent:setPos(entDestPos)
+                    if dontActuallyMove then
+                        ignoreEnt = ent
+                    else
+                        ent:setPos(entDestPos)
+                    end
                 end
             end
         end
-        if not destCell:traversalPassTest(self) then
+        if not destCell:traversalPassTest(self, ignoreEnt) then
             return false
         end
-        self:setPos(destPos)
+        if not dontActuallyMove then
+            self:setPos(destPos)
+        end
         return true
     end,
 }

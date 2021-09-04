@@ -6,21 +6,25 @@ function Player:setup(data)
     self.renderDepth = RenderingDepth.Player
     self.directionInfo = {
         [Cardinal.Up] = {
+            keys = { 'up', 'w' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_up.png'),
             moving = Engine:getAsset('art/player/walking_up-sheet.png'),
         },
         [Cardinal.Right] = {
+            keys = { 'right', 'd' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_right.png'),
             moving = Engine:getAsset('art/player/walking_right-sheet.png'),
         },
         [Cardinal.Down] = {
+            keys = { 'down', 's' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_down.png'),
             moving = Engine:getAsset('art/player/walking_down-sheet.png'),
         },
         [Cardinal.Left] = {
+            keys = { 'left', 'a' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_left.png'),
             moving = Engine:getAsset('art/player/walking_left-sheet.png'),
@@ -67,17 +71,59 @@ end
 
 function Player:processInput(time, dt)
     if not self.alive then return end
-    local moveDir = nil
-    if love.keyboard.isDown('up') or love.keyboard.isDown('w') then moveDir = Cardinal.Up end
-    if love.keyboard.isDown('left') or love.keyboard.isDown('a') then moveDir = Cardinal.Left end
-    if love.keyboard.isDown('down') or love.keyboard.isDown('s') then moveDir = Cardinal.Down end
-    if love.keyboard.isDown('right') or love.keyboard.isDown('d') then moveDir = Cardinal.Right end
 
-    if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 10 * ONETICK then
-        self.lastMoveTime = GAMETIME
-        self:tryMove(moveDir)
-        self.lastMoveDir = moveDir
+    if GAMETIME >= self.lastMoveTime + 10 * ONETICK then
+        local someMoveDir = nil
+        local possibleDirs = {}
+        for dir, dirInfo in pairs(self.directionInfo) do
+            local isDown = dirInfo.desired or util.some(dirInfo.keys, function(key) return love.keyboard.isDown(key) end)
+            if isDown then
+                someMoveDir = dir
+                local canMove = self:tryMove(dir, true)
+                if canMove then
+                    table.insert(possibleDirs, dir)
+                end
+            end
+        end
+        if #possibleDirs >= 2 then
+            possibleDirs = util.filterList(possibleDirs, function(dir) return dir ~= self.lastMoveDir end)
+        end
+        if #possibleDirs >= 1 then
+            local moveDir = possibleDirs[1]
+            self.lastMoveTime = GAMETIME
+            self:tryMove(moveDir)
+            self.lastMoveDir = moveDir
+        elseif someMoveDir then
+            self.lastMoveDir = someMoveDir
+        end
+
+        for dir, dirInfo in pairs(self.directionInfo) do
+            dirInfo.desired = false
+        end
     end
+end
+
+function Player:onKeyPressed(key, scancode)
+    for dir, dirInfo in pairs(self.directionInfo) do
+        if util.some(dirInfo.keys, function(dirKey) return dirKey == key end) then
+            dirInfo.desired = true
+        end
+    end
+
+    --if key == 'p' then
+    --    local source = love.audio.newSource('sfx/explosion1.wav', 'static')
+    --    source:play()
+    --end
+    if key == 'space' or key == 'e' then
+        for _, candidate in ipairs(self:getUseCandidates()) do
+            candidate:onUse(self)
+        end
+    end
+    --if key == 'l' then
+    --    --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+    --    --SpawnVFX('art/fx/explosion.png', self:getPos())
+    --    WORLD:pathFind(self:getPos(), Vec(3, 3))
+    --end
 end
 
 function Player:onTouch(other)
@@ -181,28 +227,6 @@ function Player:screenRender()
         love.graphics.draw(info.image.handle, 30 + 20 * (entryIdx - 1), 230, 0, 16 / info.image.size.x, 16 / info.image.size.y)
         love.graphics.print('x' .. info.count, 40 + 20 * (entryIdx - 1), 240, 0, 0.2, 0.2)
     end
-end
-
-function Player:onKeyPressed(key, scancode)
-
-    if key == 'up' or key == 'w' then self.directionInfo[Cardinal.Up].desired = true end
-    if key == 'left' or key == 'a' then self.directionInfo[Cardinal.Left].desired = true end
-    if key == 'down' or key == 's' then self.directionInfo[Cardinal.Down].desired = true end
-    if key == 'right' or key == 'd' then self.directionInfo[Cardinal.Right].desired = true end
-    --if key == 'p' then
-    --    local source = love.audio.newSource('sfx/explosion1.wav', 'static')
-    --    source:play()
-    --end
-    if key == 'space' or key == 'e' then
-        for _, candidate in ipairs(self:getUseCandidates()) do
-            candidate:onUse(self)
-        end
-    end
-    --if key == 'l' then
-    --    --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
-    --    --SpawnVFX('art/fx/explosion.png', self:getPos())
-    --    WORLD:pathFind(self:getPos(), Vec(3, 3))
-    --end
 end
 
 function Player:onKeyReleased(key, scancode)

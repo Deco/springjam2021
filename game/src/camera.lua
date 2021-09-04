@@ -10,7 +10,6 @@ function TheCamera:setup(data)
     self:setZoomScale(self._zoomScale)
 
     self.viewPos = self.viewPos or Vec(0, 0) -- not aligned to grid
-    self.viewSpeed = 10
 end
 
 function TheCamera:specialRender(dt)
@@ -26,7 +25,8 @@ function TheCamera:specialRender(dt)
     end
 
     local viewDiff = self:getPos() - self.viewPos
-    self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * self.viewSpeed, 0, viewDiff:mag())
+    local viewSpeed = math.remapClamp(viewDiff:mag(), 5, 15, 10, 15)
+    self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * viewSpeed, 0, viewDiff:mag())
 
     love.graphics.push()
 

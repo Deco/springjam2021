@@ -13,6 +13,8 @@ function Tomb:setup(data)
     self.closedImage = Engine:getAsset('art/koffeen.png')
     self.openingAnim = Engine:getAsset('art/Koffeen_open-Sheet.png')
 
+    self.hasGoldenKey = data.hasGoldenKey
+
     BasicEntSetup(self, data)
 
     self.stage = self.stage or TombStage.Closed
@@ -50,7 +52,7 @@ end
 function Tomb:update(time, dt)
     if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + tombOpeningDuration then
         self.stage = TombStage.Opened
-        Key.new(WORLD, { pos = self:getPos(), })
+        if self.hasGoldenKey then Key.new(WORLD, { pos = self:getPos(), }) end
         SpawnVFX('art/fx/explosion.png', self:getPos())
         Vampire.new(WORLD, { pos = self:getPos(), })
     end

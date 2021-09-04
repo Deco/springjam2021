@@ -52,8 +52,10 @@ function LightSource:updateLight()
                 break
             end
             print("Im in a mirror" .. mirrors[1].facingDiagDir)
+
             print("Light From: " .. self.dir .. " -> " .. newDir)
             self.dir = newDir
+            mirrors[1].isReflecting = true
             currDirectLighter = mirrors[1]
         end
         currCell.litBySet[self] = true

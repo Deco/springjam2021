@@ -4,10 +4,20 @@ function Mirror:setup(data)
     BasicEntSetup(self, data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.isMovingMirror = util.default(data.isMovingMirror, true)
+    self.isReflecting = util.default(self.isReflecting, false)
     if self.isMovingMirror then
-        self.image = Engine:getAsset( 'art/mirror_dynamic.png')
+        if self.isReflecting then
+            self.image = Engine:getAsset('art/Mirror_active.png')
+        else
+            self.image = Engine:getAsset('art/Mirror.png')
+        end
+
     else
-        self.image = Engine:getAsset('art/mirror_static.png')
+        if self.isReflecting then
+            self.image = Engine:getAsset('art/Mirror_active.png')
+        else
+            self.image = Engine:getAsset('art/Mirror.png')
+        end
     end
 end
 
@@ -22,7 +32,7 @@ function Mirror:render()
         love.graphics.translate(1, 0)
         love.graphics.scale(-1, 1)
     end
---
+    --
     if self.facingDiagDir == Diagonal.DownRight then
         love.graphics.translate(0, 1)
         love.graphics.scale(1, -1)
