@@ -23,6 +23,7 @@ function Vampire:setup(data)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.movePath = self.movePath or nil
+    self.lastPathingTime = self.lastPathingTime or GAMETIME
 end
 
 function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dying end
@@ -37,6 +38,9 @@ function Vampire:update(time, dt)
     end
 
     local updateMoveGoal = function()
+        if GAMETIME < self.lastPathingTime + 0.5 then return end
+        self.lastPathingTime = GAMETIME
+
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
             local moveGoal = GAMESTATE.player:getPos()
             local path = WORLD:pathFind(self:getPos(), moveGoal, self, function(me, targetCell)

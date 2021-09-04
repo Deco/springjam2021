@@ -20,7 +20,7 @@ function TheCamera:specialRender(dt)
     end
 
     local dist = self:getPos():dist(self.viewPos)
-    if dist > 10.0 or GAMETIME < 5.0 then
+    if dist > 10.0 or GAMETIME < 0.1 then
         self.viewPos = self:getPos()
     end
 

@@ -43,8 +43,10 @@ local assets = {
     ['art/boulder_round.png'] = { type = 'image' },
     ['art/Mirror.png'] = { type = 'image' },
     ['art/Mirror_active.png'] = { type = 'image' },
+    ['art/Mirror_god.png'] = { type = 'image' },
     ['art/RotatingMirror.png'] = { type = 'image' },
     ['art/RotatingMirror_active.png'] = { type = 'image' },
+    ['art/RotatingMirror_god.png'] = { type = 'image' },
 
     ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
     ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
@@ -55,6 +57,7 @@ local assets = {
     ['art/dust.png'] = { type = 'image' },
     ['art/light_beam-hori.png'] = { type = 'image' },
     ['art/light_beam-vert.png'] = { type = 'image' },
+    ['art/godbeam.png'] = { type = 'image', scale = 25, },
 
     ['art/tree.png'] = { type = 'image' },
     ['art/lit.png'] = { type = 'image' },

@@ -1,7 +1,7 @@
 LightSource = Engine:EntityClass('LightSource')
 
 function LightSource:setup(data)
-    self.image = Engine:getAsset('art/flashlight.png')
+    self.image = Engine:getAsset('art/godbeam.png')
     self.illuminatedCellsList = self.illuminatedCellsList or { }
     self.firstRun = false--util.default(self.firstRun, false)
     self.illuminatedMirrors = self.illuminatedMirrors or {}
@@ -14,8 +14,11 @@ function LightSource:spawned()
 end
 
 function LightSource:render()
-    love.graphics.setColor(1, 1, 1, 1)
+    local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
+    love.graphics.setBlendMode('add')
+    love.graphics.setColor(1, 1, 1, 0.5)
     DrawSimpleEntImage(self, self.image)
+    love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
 end
 
 function LightSource:update()
@@ -38,6 +41,7 @@ function LightSource:updateLight()
     end
     for _, mirror in ipairs(self.illuminatedMirrors) do
         mirror.isReflecting = false
+        mirror.isReflectingGod = false
     end
 
     self.illuminatedCellsList = {}
@@ -55,14 +59,15 @@ function LightSource:updateLight()
         currCell.directlyLitBySet[currDirectLighter] = self
         local mirrors = currCell:findEntsOfClass(Mirror)
         if #mirrors > 0 then
-            local lightFromDir = type(currDir) == number and math.indexWrap(currDir + 2, 4) or currDir
+            local lightFromDir = type(currDir) == "number" and math.indexWrap(currDir + 2, 4) or currDir
             local newDir = mirrors[1]:redirectLight(lightFromDir)
             if newDir == nil then
                 break
             end
 
-            self.dir = newDir
+            currDir = newDir
             mirrors[1].isReflecting = true
+            mirrors[1].isReflectingGod = true
             table.insert(self.illuminatedMirrors, mirrors[1])
             currDirectLighter = mirrors[1]
         end

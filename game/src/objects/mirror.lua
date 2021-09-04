@@ -10,9 +10,12 @@ function Mirror:setup(data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.kind = self.kind or data.kind or MirrorKind.Moving
     self.isReflecting = util.default(self.isReflecting, false)
+    self.isReflecting = util.default(self.isReflectingGod, false)
 
+    self.movingGodImage = Engine:getAsset('art/Mirror_god.png')
     self.movingActiveImage = Engine:getAsset('art/Mirror_active.png')
     self.movingIdleImage = Engine:getAsset('art/Mirror.png')
+    self.rotatingGodImage = Engine:getAsset('art/RotatingMirror_god.png')
     self.rotatingActiveImage = Engine:getAsset('art/RotatingMirror_active.png')
     self.rotatingIdleImage = Engine:getAsset('art/RotatingMirror.png')
 end
@@ -35,25 +38,23 @@ end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.translate(0.5, 0.5)
     if self.facingDiagDir == Diagonal.UpRight then end
-    if self.facingDiagDir == Diagonal.UpLeft then
-        love.graphics.translate(1, 0)
-        love.graphics.scale(-1, 1)
-    end
-    --
     if self.facingDiagDir == Diagonal.DownRight then
-        love.graphics.translate(0, 1)
-        love.graphics.scale(1, -1)
+        love.graphics.rotate(math.pi / 2)
     end
     if self.facingDiagDir == Diagonal.DownLeft then
-        love.graphics.translate(1, 1)
-        love.graphics.scale(-1, -1)
+        love.graphics.rotate(math.pi / 2 * 2)
     end
+    if self.facingDiagDir == Diagonal.UpLeft then
+        love.graphics.rotate(math.pi / 2 * 3)
+    end
+    love.graphics.translate(-0.5, -0.5)
     local image
     if self.kind == MirrorKind.Moving then
-        image = self.isReflecting and self.movingActiveImage or self.movingIdleImage
+        image = self.isReflectingGod and self.movingGodImage or self.isReflecting and self.movingActiveImage or self.movingIdleImage
     else
-        image = self.isReflecting and self.rotatingActiveImage or self.rotatingIdleImage
+        image = self.isReflectingGod and self.rotatingGodImage or self.isReflecting and self.rotatingActiveImage or self.rotatingIdleImage
     end
     DrawSimpleEntImage(self, image)
 end
