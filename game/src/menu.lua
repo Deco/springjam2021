@@ -93,6 +93,10 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/entrance.lua'),
     },
     {
+        label = "Spikes",
+        tiledmap = Engine:getAsset('src/maps/spikes.lua'),
+    },
+    {
         label = "Zig Zag",
         tiledmap = Engine:getAsset('src/maps/zigzag.lua'),
     },

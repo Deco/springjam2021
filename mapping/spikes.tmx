@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="14" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="39">
+ <editorsettings>
+  <export target="../game/src/maps/spikes.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
+ <layer id="1" name="map" width="14" height="16">
+  <data encoding="csv">
+1,3,2,5,4,5,4,2,3,3,4,5,3,6,
+11,12,13,14,13,13,13,14,14,14,13,13,15,16,
+11,22,7,19,9,10,8,17,19,17,8,9,25,16,
+21,22,17,30,29,19,17,17,29,18,17,20,25,36,
+11,22,27,28,7,10,10,2,2,4,4,7,5,36,
+21,22,28,27,18,19,18,7,14,14,13,14,14,36,
+11,22,8,28,7,10,29,27,7,10,20,30,25,16,
+11,22,30,27,27,7,9,17,7,17,19,17,25,26,
+21,22,17,27,18,9,10,10,20,8,20,10,25,26,
+11,22,7,18,18,8,20,17,30,10,30,8,25,26,
+31,22,8,19,9,27,20,9,10,7,18,9,25,26,
+31,4,5,10,5,3,2,2,3,5,17,5,2,26,
+44,22,29,27,30,27,29,7,27,28,29,27,25,43,
+37,22,29,9,8,17,29,7,29,7,28,29,25,8,
+54,32,33,33,33,34,34,33,33,34,34,34,35,51,
+41,43,42,44,44,44,43,43,45,45,43,44,45,46
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="23" template="templates/PlayerStart.tx" x="16" y="208"/>
+  <object id="24" template="templates/Spikes.tx" x="80" y="224"/>
+  <object id="25" template="templates/Spikes.tx" x="80" y="208"/>
+  <object id="26" template="templates/Spikes.tx" x="80" y="192"/>
+  <object id="27" template="templates/Boulder.tx" x="48" y="176"/>
+  <object id="28" template="templates/Tomb-GoldenKey.tx" x="176" y="32"/>
+  <object id="29" template="templates/Spikes.tx" x="128" y="48"/>
+  <object id="30" template="templates/Spikes.tx" x="128" y="32"/>
+  <object id="31" template="templates/Spikes.tx" x="128" y="16"/>
+  <object id="33" template="templates/RED/Gate-RED.tx" x="176" y="64"/>
+  <object id="34" template="templates/RED/PressurePlate-RED.tx" x="96" y="112"/>
+  <object id="35" template="templates/BLUE/Gate-BLUE.tx" x="160" y="176"/>
+  <object id="36" template="templates/BLUE/PressurePlate-BLUE.tx" x="48" y="32"/>
+  <object id="37" template="templates/ExitDoor.tx" x="208" y="208"/>
+  <object id="38" template="templates/Coffee.tx" x="160" y="208"/>
+ </objectgroup>
+</map>

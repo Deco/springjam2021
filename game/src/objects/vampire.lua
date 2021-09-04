@@ -39,24 +39,28 @@ function Vampire:update(time, dt)
         self:retouchy(WORLD:getCell(self:getPos()), WORLD:getCell(self:getPos()))
     end
 
-    local updateMoveGoal = function()
-        if GAMETIME < self.lastPathingTime + 0.5 then return nil end
+    local updateMoveGoal = function(force)
+        if not force and GAMETIME < self.lastPathingTime + 0.22 then return nil end
         self.lastPathingTime = GAMETIME
 
-        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
-            local moveGoal = GAMESTATE.player:getPos()
-            local path = WORLD:pathFind(self:getPos(), moveGoal, self, function(me, targetCell)
-                if #targetCell:getBreakables(me) > 0 then return true end
-            end)
-            if path then
-                path = util.map(path, function(cell) return cell.pos end)
-                table.remove(path, 1)
-            else
-                path = WORLD:getLineMovePath(self:getPos(), moveGoal, self)
-                table.remove(path, 1)
+        if GAMESTATE.player.alive then
+            if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
+                local moveGoal = GAMESTATE.player:getPos()
+                local path = WORLD:pathFind(self:getPos(), moveGoal, self, function(me, targetCell)
+                    if #targetCell:getBreakables(me) > 0 then return true end
+                end)
+                if path then
+                    path = util.map(path, function(cell) return cell.pos end)
+                    table.remove(path, 1)
+                else
+                    path = WORLD:getLineMovePath(self:getPos(), moveGoal, self)
+                    table.remove(path, 1)
+                end
+                self.movePath = path
+                return true
             end
-            self.movePath = path
-            return true
+        else
+
         end
         return false
     end
@@ -71,7 +75,7 @@ function Vampire:update(time, dt)
             if updateMoveGoal() == true then
                 self.stage = VampireStage.Alerted
                 self.stageChangeTime = GAMETIME
-                --print('-> ALERT')
+                print('-> ALERT')
             end
         end
     end
@@ -98,10 +102,10 @@ function Vampire:update(time, dt)
                 end
             end
             if stop then
-                if updateMoveGoal() == false then
+                if updateMoveGoal(true) == false then
                     self.stage = VampireStage.Idle
                     self.stageChangeTime = GAMETIME
-                    --print('-> IDLE')
+                    print('-> IDLE')
                     self.movePath = nil
                 end
             end
