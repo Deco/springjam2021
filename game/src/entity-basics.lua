@@ -26,7 +26,7 @@ local entityBasicStuff = {
                     if rawget(other, 'onTouch') then other:onTouch(self) end
                 end
             end
-            if rawget(self, 'blocksLight') and self:blocksLight() and newCell:isIlluminated() or (oldCell and oldCell:isIlluminated()) then
+            if rawget(self, 'blocksLight') and self:blocksLight() and (newCell:isIlluminated() or (oldCell and oldCell:isIlluminated())) then
                 WORLD:refreshLight()
             end
             self._posChangeTime = GAMETIME
