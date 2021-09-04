@@ -122,6 +122,11 @@ local levels = {
         label = "Sea Floor Cavern",
         tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
     },
+    {
+        label = "Lighty McLightface",
+        tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
+    },
+
 }
 
 function TheMenu:gotoStage(newStage)
