@@ -25,7 +25,7 @@ function World:initLevel()
 
     for rowIdx, row in ipairs(self.level.tiledmap.handle.layers.map.data) do
         for colIdx, tile in ipairs(row) do
-            local cell = self:getCell(Vec(colIdx-1, rowIdx-1))
+            local cell = self:getCell(Vec(colIdx - 1, rowIdx - 1))
 
             if tile.type == "wall" then
                 cell.isWall = true
@@ -35,7 +35,7 @@ function World:initLevel()
         end
     end
 
-    for _,object in pairs(self.level.tiledmap.handle.objects) do
+    for _, object in pairs(self.level.tiledmap.handle.objects) do
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
         local name = object.name
 
@@ -52,6 +52,8 @@ function World:initLevel()
         elseif name == 'Light' then
             local ent = LightSource.new(self, { pos = pos })
             table.insert(self.lightSources, ent)
+        elseif name == 'Mirror' then
+            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal.DownLeft })
         elseif name == 'PressurePlate' then
             local ent = PressurePlate.new(self, { pos = pos })
             --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
@@ -113,7 +115,7 @@ function World:specialRender()
 
     love.graphics.push()
     love.graphics.scale(sixteenToOne)
-    for _,layer in ipairs(self.level.tiledmap.handle.layers) do
+    for _, layer in ipairs(self.level.tiledmap.handle.layers) do
         if layer.name == "map" or layer.name == "scatter" then
             layer:draw()
         end
@@ -141,7 +143,7 @@ function World:specialRenderAfter()
             local cell = self:getCell(Vec(x, y))
             blocksLight = cell:blocksLight()
             illuminated = cell:illuminated()
-            if  illuminated and (not blocksLight) then
+            if illuminated and (not blocksLight) then
                 love.graphics.draw(self.litBlitImage.handle, x, y, 0, 1 / 32, 1 / 32)
             end
 
@@ -201,8 +203,7 @@ function World:canSee(v0, v1)
 
     local err, e2 = dx - dy, nil
 
-    if not visionTest(x0, y0) then
-        return false end
+    if not visionTest(x0, y0) then return false end
 
     while not (x0 == x1 and y0 == y1) do
         e2 = err + err
@@ -214,8 +215,7 @@ function World:canSee(v0, v1)
             err = err + dx
             y0 = y0 + sy
         end
-        if not visionTest(x0, y0) then return false
-        end
+        if not visionTest(x0, y0) then return false end
     end
 
     return true
@@ -304,17 +304,15 @@ function Cell:traversableTest(entOrNil)
 end
 
 function Cell:visionTest(entOrNil)
-    if self.isWall then
-        return false end
+    if self.isWall then return false end
     for other in pairs(self.entsSet) do
         if other ~= entOrNil then
             if other.class == Crate then
                 return false
             end
         end
-        return true
     end
-
+    return true
 end
 
 function Cell:blocksLight(entOrNil)

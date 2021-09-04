@@ -457,6 +457,20 @@ return {
           properties = {}
         },
         {
+          id = 22,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 64,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 78,
+          visible = true,
+          properties = {}
+        },
+        {
           id = 24,
           name = "Light",
           type = "",

@@ -39,11 +39,11 @@ function TheCamera:specialRender(dt)
     )
 
     table.sort(entsToRender, function(a, b)
-        --local aDepth, bDepth = rawget(a, 'renderDepth') or 1, rawget(b, 'renderDepth') or 1
-        --if aDepth ~= bDepth then return aDepth < bDepth end
         if a._pos.y ~= b._pos.y then
             return a._pos.y < b._pos.y
         end
+        local aDepth, bDepth = rawget(a, 'renderDepth') or 1, rawget(b, 'renderDepth') or 1
+        if aDepth ~= bDepth then return aDepth < bDepth end
         return a.id < b.id
     end)
 

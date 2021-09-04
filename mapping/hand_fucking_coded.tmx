@@ -55,7 +55,7 @@
   </object>
   <object id="19" name="Tomb" gid="83" x="352" y="80" width="16" height="16"/>
   <object id="20" name="Coffee" gid="98" x="256" y="80" width="16" height="16"/>
-  <object id="21" template="templates/Light.tx" x="144" y="176"/>
-  <object id="24" template="templates/Light.tx" x="64" y="64"/>
+  <object id="21" name="Light" gid="87" x="144" y="176" width="16" height="16"/>
+  <object id="22" name="Mirror" gid="78" x="64" y="192" width="16" height="16"/>
  </objectgroup>
 </map>

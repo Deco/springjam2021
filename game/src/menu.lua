@@ -62,6 +62,12 @@ function TheMenu:specialUpdate(time, dt)
                 Engine:onResume()
             end
             Engine:accumulateUpdateTime(dt)
+
+            if not GAMESTATE.player.alive then
+                suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
+
+                suit.Label("Press R to restart", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
+            end
         end
         self.wasPaused = self.isPaused
 
@@ -103,6 +109,7 @@ local levels = {
 function TheMenu:gotoStage(newStage)
     if self.stage == MenuStage.Playing then
         self.gameState = Engine:Remove(self.gameState)
+        self.isPaused = false
     end
     if newStage == MenuStage.Playing then
         if self.targetLevel == nil then
@@ -115,7 +122,9 @@ function TheMenu:gotoStage(newStage)
 end
 
 function TheMenu:loadLevel(targetIdx)
-    if targetIdx == 'next' then
+    if targetIdx == 'curr' then
+        targetIdx = self.targetLevelIdx
+    elseif targetIdx == 'next' then
         targetIdx = math.indexWrap(self.targetLevelIdx + 1, #levels)
     end
     if levels[targetIdx] then
@@ -132,6 +141,10 @@ function TheMenu:specialRender()
         love.graphics.setColor(0, 0, 0, 0.7)
         love.graphics.rectangle('fill', 0, 0, winW, winH)
     end
+    if self.stage == MenuStage.Playing and not GAMESTATE.player.alive then
+        love.graphics.setColor(1, 0, 0, 0.1)
+        love.graphics.rectangle('fill', 0, 0, winW, winH)
+    end
     love.graphics.reset()
     love.graphics.push()
     suit.draw()
@@ -146,11 +159,14 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
 
     if isrepeat then return end
 
-    if key == 'escape' then
-        if self.stage == MenuStage.Playing then
-            self.isPaused = not self.isPaused
-            return
-        end
+    if key == 'escape' and self.stage == MenuStage.Playing then
+        self.isPaused = not self.isPaused
+        return
+    end
+
+    if key == 'r' and self.stage == MenuStage.Playing then
+        self:loadLevel('curr')
+        return
     end
 
     if IS_DEBUG and key == 'f1' then

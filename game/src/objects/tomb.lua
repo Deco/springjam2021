@@ -51,6 +51,7 @@ function Tomb:update(time, dt)
         self.stage = TombStage.Opened
         self.blocksTraversal = false
         Key.new(WORLD, { pos = self:getPos(), })
+        SpawnVFX('art/fx/explosion.png', self:getPos())
         Vampire.new(WORLD, { pos = self:getPos(), })
     end
 end
