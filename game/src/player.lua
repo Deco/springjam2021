@@ -12,7 +12,7 @@ function Player:setup(data)
     }
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
-    BasicEntSetup(self, data)d
+    BasicEntSetup(self, data)
 
     self.lastMoveTime = self.lastMoveTime or 0
 
