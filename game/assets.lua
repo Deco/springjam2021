@@ -35,8 +35,13 @@ local assets = {
 
     ['art/vampire.png'] = { type = 'image' },
     ['art/vampire_left.png'] = { type = 'image' },
+    ['art/light_beam-hori.png'] = { type = 'image' },
+    ['art/light_beam-vert.png'] = { type = 'image' },
 
     ['art/tree.png'] = { type = 'image' },
+    ['art/lit.png'] = { type = 'image' },
+
+    ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 

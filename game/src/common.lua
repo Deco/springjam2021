@@ -1,6 +1,8 @@
 --
 
 do
+
+
     _G.VFX = Engine:EntityClass('VFX')
     function VFX:setup(data)
         BasicEntSetup(self, data)
@@ -18,6 +20,7 @@ do
         local age = GAMETIME - self.birth
         local ageFrac = age / lifetime
         love.graphics.push()
+
         love.graphics.setColor(1, 1, 1,
             self.asset.opacity * math.remapClamp(ageFrac, 0.0, 0.05, 0.0,
                 math.remapClamp(ageFrac, 0.6, 1.0, 1.0, 0.0)

@@ -10,18 +10,20 @@ function Gate:setup(data)
 end
 
 function Gate:isLocked()
-    local logicGroup = WORLD:getLogicGroup(self.logicGroupIdx)
-    local anyUnsatisfied = false
-    for _, input in ipairs(logicGroup.inputsList) do
-        if not input:considerSatisfied() then
-            anyUnsatisfied = true
-        end
-    end
-    return anyUnsatisfied
+    --local logicGroup = WORLD:getLogicGroup(self.logicGroupIdx)
+    --local anyUnsatisfied = false
+    --for _, input in ipairs(logicGroup.inputsList) do
+    --    if not input:considerSatisfied() then
+    --        anyUnsatisfied = true
+    --    end
+    --end
+    --return anyUnsatisfied
+
+    return false
 end
 
 function Gate:render()
-    love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
+    --love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
     DrawSimpleEntImage(self, self:isLocked() and self.imageClosed or self.imageOpen)
 end
 

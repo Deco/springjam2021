@@ -20,6 +20,7 @@ function Vampire:setup(data)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.moveGoal = self.moveGoal or nil
+    self.blocksLight = true
 end
 
 function Vampire:update(time, dt)
@@ -61,6 +62,7 @@ function Vampire:update(time, dt)
                     local nextCell = WORLD:getCell(movePoints[2])
                     if nextCell:traversableTest(self) then
                         self:setPos(movePoints[2])
+                        if nextCell:illuminated() then print("This kills the vampire") end
                     else
                         stop = true
                     end

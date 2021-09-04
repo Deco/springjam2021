@@ -51,7 +51,9 @@ function TheCamera:specialRender(dt)
     if Engine.debugDraw then
         --
     else
+        love.graphics.push()
         WORLD:specialRender()
+        love.graphics.pop()
 
         for _, ent in ipairs(entsToRender) do
             Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
@@ -74,6 +76,8 @@ function TheCamera:specialRender(dt)
             love.graphics.pop()
             Engine.DP:popEvent()
         end
+
+        WORLD:specialRenderAfter()
     end
 
     love.graphics.pop()
