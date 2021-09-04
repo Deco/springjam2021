@@ -27,6 +27,8 @@ local assets = {
     ['art/toggle-switch-off.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
+    ['art/mirror_static.png'] = { type = 'image' },
+    ['art/mirror_dynamic.png'] = { type = 'image' },
     ['art/Boulder.png'] = { type = 'image' },
     ['art/Mirror.png'] = { type = 'image' },
 

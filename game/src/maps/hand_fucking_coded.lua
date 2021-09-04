@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 22,
+  nextobjectid = 23,
   properties = {},
   tilesets = {
     {
@@ -453,6 +453,20 @@ return {
           height = 16,
           rotation = 0,
           gid = 87,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 22,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 64,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 78,
           visible = true,
           properties = {}
         }

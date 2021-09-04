@@ -52,6 +52,8 @@ function World:initLevel()
         elseif name == 'Light' then
             local ent = LightSource.new(self, { pos = pos })
             table.insert(self.lightSources, ent)
+        elseif name == 'Mirror' then
+            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal.DownLeft })
         elseif name == 'PressurePlate' then
             local ent = PressurePlate.new(self, { pos = pos })
             --table.insert(self:getLogicGroup(thing.color).inputsList, ent)

@@ -35,7 +35,7 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 108.25,
+                "x": 108.5,
                 "y": 206.5
             }
         },
@@ -47,8 +47,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 163.16666666666666,
-                "y": 41
+                "x": 198.83333333333334,
+                "y": 169
             }
         },
         "tileset/dungeon-tileset.tsx": {
@@ -71,6 +71,7 @@
     "project": "dungeons.tiled-project",
     "property.type": "color",
     "recentFiles": [
+        "hand_fucking_coded.tmx",
         "tileset/dungeon-tileset.tsx",
         "basic_map.tmx",
         "C:/Users/Luke/Documents/sample.tmx",
