@@ -3,12 +3,15 @@ ExitDoor = Engine:EntityClass('ExitDoor')
 function ExitDoor:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')
-    self.blocksTraversal = true
 
     self._isLocked = true
 
     BasicEntSetup(self, data)
 end
+
+function ExitDoor:blocksTraversal() return self:isLocked() end
+function ExitDoor:blocksVision() return self:isLocked() end
+function ExitDoor:blocksLight() return self:isLocked() end
 
 function ExitDoor:isLocked()
     return self._isLocked

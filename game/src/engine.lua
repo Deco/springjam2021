@@ -212,8 +212,10 @@ function Engine:draw()
         self.DP:popEvent()
     end
 
-    self.menu:specialRender()
+    love.graphics.pop()
 
+    love.graphics.push()
+    self.menu:specialRender()
     love.graphics.pop()
 
     love.graphics.push()

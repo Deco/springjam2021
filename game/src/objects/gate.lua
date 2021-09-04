@@ -3,27 +3,28 @@ Gate = Engine:EntityClass('Gate')
 function Gate:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')
-    self.logicGroupIdx = data.logicGroupIdx
-    self.blocksTraversal = true
+    self.logicGroupName = data.logicGroupName
 
     BasicEntSetup(self, data)
 end
 
-function Gate:isLocked()
-    --local logicGroup = WORLD:getLogicGroup(self.logicGroupIdx)
-    --local anyUnsatisfied = false
-    --for _, input in ipairs(logicGroup.inputsList) do
-    --    if not input:considerSatisfied() then
-    --        anyUnsatisfied = true
-    --    end
-    --end
-    --return anyUnsatisfied
+function Gate:blocksTraversal() return self:isLocked() end
+function Gate:blocksVision() return self:isLocked() end
+function Gate:blocksLight() return self:isLocked() end
 
-    return false
+function Gate:isLocked()
+    local logicGroup = WORLD:getLogicGroup(self.logicGroupName)
+    local anyUnsatisfied = false
+    for _, input in ipairs(logicGroup.inputsList) do
+        if not input:considerSatisfied() then
+            anyUnsatisfied = true
+        end
+    end
+    return anyUnsatisfied
 end
 
 function Gate:render()
-    --love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
+    love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupName).color))
     DrawSimpleEntImage(self, self:isLocked() and self.imageClosed or self.imageOpen)
 end
 

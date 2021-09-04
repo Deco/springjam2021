@@ -2,8 +2,8 @@ PressurePlate = Engine:EntityClass('PressurePlate')
 
 function PressurePlate:setup(data)
     self.image = Engine:getAsset('art/pressure-plate.png')
-    self.logicGroupIdx = data.logicGroupIdx
-    self.color = util.hex2rgb(logicGroupIdx)
+    self.logicGroupName = data.logicGroupName
+    --self.color = util.hex2rgb(logicGroupName)
 
     self.hasBeenTriggered = false
 

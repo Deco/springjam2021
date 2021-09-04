@@ -88,22 +88,16 @@ end
 
 local levels = {
     {
-        label = "Bloody Blood Blood",
-        --tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
-        tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'),
-        logicGroups = {
-        --    [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
-        },
-        stuff = {
-        --    [1] = { type = "ToggleSwitch", group = 1, },
-        --    [2] = { type = "Gate", group = 1, }
-        },
+        label = "Pits",
+        tiledmap = Engine:getAsset('src/maps/pits.lua'),
     },
     {
-        label = "Nothing",
+        label = "Back and Forth",
+        tiledmap = Engine:getAsset('src/maps/back_and_forth.lua'),
+    },
+    {
+        label = "Bloody Blood Blood",
         tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
-        logicGroups = {},
-        stuff = {},
     },
     {
         label = "Hallway Escape",

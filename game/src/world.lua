@@ -3,35 +3,35 @@
 World = Engine:EntityClass('World')
 
 function World:setup(data)
-    self.renderDepth = 0
     self.level = data.level
-    self.logicGroups = self.logicGroups or {}
+    self.logicGroups = self.logicGroups or {
+        GREEN = { color = { 0, 1, 0, 1 } },
+    }
 
     self.grid = self.grid or {}
     self.bounds = self.bounds or AABBfromXYWH(0, 0, 0, 0)
 
-    self.startDoorPos = self.startDoorPos or nil
+    self.playerStartPos = self.playerStartPos or nil
 
     self.wallImage = Engine:getAsset('art/wall.png')
-    self.litBlitImage = Engine:getAsset('art/lit.png')
+    self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
+    self.lightVertImage = Engine:getAsset('art/light_beam-vert.png')
     self.lightSources = self.lightSources or { }
+
+    self.debugPath = nil
 end
 
 function World:initLevel()
-    self.logicGroups = {}
-    for logicGroupIdx, logicGroupInfo in ipairs(self.level.logicGroups) do
-        self.logicGroups[logicGroupIdx] = util.mergeTables(logicGroupInfo, { inputsList = {}, outputsList = {}, })
+    for logicGroupName, logicGroup in pairs(self.logicGroups) do
+        logicGroup.inputsList = {}
+        logicGroup.outputsList = {}
     end
 
     for rowIdx, row in ipairs(self.level.tiledmap.handle.layers.map.data) do
         for colIdx, tile in ipairs(row) do
             local cell = self:getCell(Vec(colIdx - 1, rowIdx - 1))
-
-            if tile.type == "wall" then
-                cell.isWall = true
-            else
-                cell.isWall = false
-            end
+            cell.isWall = (tile.type == "wall")
+            cell.isPit = (tile.type == "pit")
         end
     end
 
@@ -40,7 +40,7 @@ function World:initLevel()
         local name = object.name
 
         if name == 'PlayerStart' then
-            self.startDoorPos = pos
+            self.playerStartPos = pos
         elseif name == 'Crate' then
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
@@ -53,16 +53,18 @@ function World:initLevel()
             local ent = LightSource.new(self, { pos = pos })
             table.insert(self.lightSources, ent)
         elseif name == 'Mirror' then
-            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal.DownLeft })
+            local ent = Mirror.new(self, { pos = pos, facingDiagDir = object.properties["initialFacingDir"] })
+        elseif name == 'ExitDoor' then
+            ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then
-            local ent = PressurePlate.new(self, { pos = pos })
-            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
+            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = 'GREEN' })
+            table.insert(self:getLogicGroup('GREEN').inputsList, ent)
         elseif name == 'ToggleSwitch' then
-            local ent = ToggleSwitch.new(self, { pos = pos })
-            --table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = 'GREEN' })
+            table.insert(self:getLogicGroup('GREEN').inputsList, ent)
         elseif name == 'Gate' then
-            local ent = Gate.new(self, { pos = pos })
-            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
+            local ent = Gate.new(self, { pos = pos, logicGroupName = 'GREEN' })
+            table.insert(self:getLogicGroup('GREEN').outputsList, ent)
         end
     end
 
@@ -79,7 +81,7 @@ function World:initLevel()
     --
     --
     --            if cellChar == 'S' then
-    --                self.startDoorPos = cell.pos
+    --                self.playerStartPos = cell.pos
     --            elseif cellChar == 'C' then
     --                Coffee.new(self, { pos = cell.pos })
     --            elseif cellChar == '@' then
@@ -107,7 +109,8 @@ function World:initLevel()
     --    end
     --end
 
-    GAMESTATE.player:setPos(WORLD.startDoorPos)
+    GAMESTATE.player:setPos(WORLD.playerStartPos)
+    GAMESTATE.player._lastPos = WORLD.playerStartPos
 end
 
 function World:specialRender()
@@ -135,22 +138,47 @@ end
 
 function World:specialRenderAfter()
     -- temp
+    love.graphics.setColor(1, 1, 1, 1.0)
+    local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
+    love.graphics.setBlendMode('add')
     local sixteenToOne = 1 / 16
-    local illuminated = false
-    local blocksLight = false
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
-            blocksLight = cell:blocksLight()
-            illuminated = cell:illuminated()
-            if illuminated and (not blocksLight) then
-                love.graphics.draw(self.litBlitImage.handle, x, y, 0, 1 / 32, 1 / 32)
+            if cell:isIlluminated() and cell:lightPassTest() then
+                local hasHoriz, hasVert = false, false
+                for lighter in pairs(cell.directlyLitBySet) do
+                    local lighterPos = lighter:getPos()
+                    if lighterPos.x == x then hasVert = true end
+                    if lighterPos.y == y then hasHoriz = true end
+                end
+                if hasHoriz and hasVert then
+                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
+                elseif hasHoriz then
+                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
+                elseif hasVert then
+                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                end
             end
 
             --love.graphics.setColor(1,1,0,1)
             --love.graphics.rectangle("fill", x, y, 1, 1)
         end
     end
+    love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
+
+    --if self.debugPath then
+    --    love.graphics.setColor(0.7, 0.7, 1, 1)
+    --    local lastCell = nil
+    --    for cellIdx, cell in ipairs(self.debugPath) do
+    --        if lastCell then
+    --            love.graphics.setLineWidth(1 / 8)
+    --            love.graphics.line(lastCell.pos.x + 0.5, lastCell.pos.y + 0.5, cell.pos.x + 0.5, cell.pos.y + 0.5)
+    --        end
+    --        lastCell = cell
+    --    end
+    --end
 end
 
 function World:getCell(pos)
@@ -173,13 +201,14 @@ function World:getCell(pos)
     return cell
 end
 
-function World:getLogicGroup(idx)
-    return self.logicGroups[idx]
+function World:getLogicGroup(name)
+    return self.logicGroups[name]
 end
 
-function World:canSee(v0, v1)
+function World:canSee(v0, v1, entOrNil)
     local visionTest = function(x, y)
-        return self:getCell(Vec(x, y)):visionTest(nil)
+        local wtf = self:getCell(Vec(x, y)):visionPassTest(entOrNil)
+        return wtf
     end
 
     local x0, y0, x1, y1 = v0.x, v0.y, v1.x, v1.y
@@ -222,8 +251,8 @@ function World:canSee(v0, v1)
 end
 
 function World:getLineMovePath(v0, v1)
-    local traversableTest = function(x, y)
-        return self:getCell(Vec(x, y)):traversableTest(nil)
+    local traversalPassTest = function(x, y)
+        return self:getCell(Vec(x, y)):traversalPassTest(nil)
     end
 
     local points = {}
@@ -248,7 +277,7 @@ function World:getLineMovePath(v0, v1)
 
     local err, e2 = dx - dy, nil
 
-    if not traversableTest(x0, y0) then
+    if not traversalPassTest(x0, y0) then
         return points, false
     end
     table.insert(points, Vec(x0, y0))
@@ -263,7 +292,7 @@ function World:getLineMovePath(v0, v1)
             err = err + dx
             y0 = y0 + sy
         end
-        if not traversableTest(x0, y0) then
+        if not traversalPassTest(x0, y0) then
             return points, false
         end
         table.insert(points, Vec(x0, y0))
@@ -272,42 +301,72 @@ function World:getLineMovePath(v0, v1)
     return points, true
 end
 
+local astar = require "lib.astar"
+function World:pathFind(v0, v1, entOrNil)
+    local startCell, goalCell = self:getCell(v0), self:getCell(v1)
+
+    local found, path, status = astar.CalculatePath(
+        startCell, goalCell,
+        function(cell)
+            return {
+                self:getCell(cell.pos + Vec(0, -1)),
+                self:getCell(cell.pos + Vec(1, -1)),
+                self:getCell(cell.pos + Vec(1, 0)),
+                self:getCell(cell.pos + Vec(1, 1)),
+                self:getCell(cell.pos + Vec(0, 1)),
+                self:getCell(cell.pos + Vec(-1, 1)),
+                self:getCell(cell.pos + Vec(-1, 0)),
+                self:getCell(cell.pos + Vec(-1, -1)),
+            }
+        end,
+        function(cell, neighbour)
+            return neighbour:traversalPassTest(entOrNil)
+        end,
+        function(cell, target)
+            return cell.pos:dist(target.pos)
+        end
+    )
+
+    self.debugPath = path
+
+    return found and util.reverseList(path) or nil
+end
+
 Cell = Engine:EntityClass('Cell')
 
 function Cell:setup(data)
     self.pos = self.pos or data.pos
     self.isWall = util.default(self.isWall, data.isWall)
+    self.isPit = util.default(self.isPit, data.isPit)
     self.entsSet = self.entsSet or {}
     self.litBySet = self.litBySet or { }
+    self.directlyLitBySet = self.directlyLitBySet or { }
 end
 
 function Cell:getPos()
     return self.pos
 end
 
-function Cell:traversableTest(entOrNil)
-    if self.isWall then
-        return false
-    end
-    for other in pairs(self.entsSet) do
-        if other ~= entOrNil and rawget(other, 'blocksTraversal') then
-            if other.class == Gate then
-                return not other:isLocked()
-            elseif other.class == ExitDoor then
-                return not other:isLocked()
-            else
-                return false
-            end
-        end
-    end
-    return true
-end
-
-function Cell:visionTest(entOrNil)
+function Cell:traversalPassTest(entOrNil)
     if self.isWall then return false end
+    if self.isPit then return false end
+
     for other in pairs(self.entsSet) do
         if other ~= entOrNil then
-            if other.class == Crate then
+            local checkFunc = rawget(other, 'blocksTraversal')
+            if checkFunc and checkFunc(other, entOrNil) then return false end
+        end
+    end
+    return true
+end
+
+function Cell:visionPassTest(entOrNil)
+    if self.isWall then return false end
+
+    for other in pairs(self.entsSet) do
+        if other ~= entOrNil then
+            local checkFunc = rawget(other, 'blocksVision')
+            if checkFunc and checkFunc(other) then
                 return false
             end
         end
@@ -315,19 +374,32 @@ function Cell:visionTest(entOrNil)
     return true
 end
 
-function Cell:blocksLight(entOrNil)
-    if self.isWall then
-        return true
-    end
+function Cell:lightPassTest(entOrNil)
+    if self.isWall then return false end
+
     for other in pairs(self.entsSet) do
-        if rawget(other, 'blocksLight') then
-            return true
+        if other ~= entOrNil then
+            local checkFunc = rawget(other, 'blocksLight')
+            if checkFunc and checkFunc(other) then
+                return false
+            end
         end
     end
-    return false
+    return true
 end
 
-function Cell:illuminated(entOrNil)
+function Cell:isIlluminated(entOrNil)
     --if next(self.litBySet) ~= nil then print("illuminated") end
     return next(self.litBySet) ~= nil
 end
+
+function Cell:findEntsOfClass(class)
+    local result = { }
+    for ent in pairs(self.entsSet) do
+        if ent.class == class then
+            table.insert(result, ent)
+        end
+    end
+    return result
+end
+

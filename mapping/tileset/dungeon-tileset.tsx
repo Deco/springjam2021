@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.2" name="dungeon-tileset" tilewidth="16" tileheight="16" tilecount="100" columns="10" objectalignment="topleft">
- <image source="../../game/art/tilesets/dungeon.png" width="160" height="160"/>
+<tileset version="1.5" tiledversion="1.7.2" name="dungeon-tileset" tilewidth="16" tileheight="16" tilecount="110" columns="10" objectalignment="topleft">
+ <image source="../../game/art/tilesets/dungeon.png" width="160" height="176"/>
  <tile id="0" type="wall"/>
  <tile id="1" type="wall"/>
  <tile id="2" type="wall"/>
@@ -59,4 +59,6 @@
  <tile id="71" type="floor"/>
  <tile id="72" type="floor"/>
  <tile id="73" type="floor"/>
+ <tile id="78" type="pit"/>
+ <tile id="100" type="pit"/>
 </tileset>

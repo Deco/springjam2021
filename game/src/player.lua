@@ -3,7 +3,7 @@ Player = Engine:EntityClass('Player')
 local playerSize = 0.4
 
 function Player:setup(data)
-    --self.renderDepth = 20
+    self.renderDepth = RenderingDepth.Player
     self.directionInfo = {
         [Cardinal.Up] = {
             desired = false,
@@ -29,7 +29,6 @@ function Player:setup(data)
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
     BasicEntSetup(self, data)
-    self.blocksLight = true
 
     self.lastMoveTime = self.lastMoveTime or 0
 
@@ -52,6 +51,8 @@ function Player:setup(data)
     }
 end
 
+function Player:blocksLight() return true end
+
 function Player:spawned()
     --
 end
@@ -60,6 +61,7 @@ function Player:update(time, dt)
     if self.inputActive then
         self:processInput(time, dt)
     end
+    SCREENTEXT(self:getPos())
 end
 
 function Player:processInput(time, dt)
@@ -84,7 +86,10 @@ function Player:onTouch(other)
     elseif other.class == Coffee then
         self:giveItem('coffee')
         Engine:Remove(other)
-    elseif other.class == Spikes or other.class == Vampire then
+    elseif other.class == Spikes then
+        self.alive = false
+        print('DEAD')
+    elseif other.class == Vampire and other.stage ~= VampireStage.Dying then
         self.alive = false
         print('DEAD')
     end
@@ -192,10 +197,11 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
-    if key == 'l' then
-        --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
-        SpawnVFX('art/fx/explosion.png', self:getPos())
-    end
+    --if key == 'l' then
+    --    --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+    --    --SpawnVFX('art/fx/explosion.png', self:getPos())
+    --    WORLD:pathFind(self:getPos(), Vec(3, 3))
+    --end
 end
 
 function Player:onKeyReleased(key, scancode)
