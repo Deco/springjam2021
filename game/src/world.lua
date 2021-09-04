@@ -15,6 +15,7 @@ function World:setup(data)
     self.bounds = self.bounds or AABBfromXYWH(0, 0, 0, 0)
 
     self.playerStartPos = self.playerStartPos or nil
+    self.haltRetouchy = false
 
     self.wallImage = Engine:getAsset('art/wall.png')
     self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
@@ -24,6 +25,7 @@ function World:setup(data)
 end
 
 function World:initLevel()
+    self.haltRetouchy = true
     for logicGroupName, logicGroup in pairs(self.logicGroups) do
         logicGroup.inputsList = {}
         logicGroup.outputsList = {}
@@ -45,6 +47,8 @@ function World:initLevel()
             self.playerStartPos = pos
         elseif name == 'Boulder' then
             Boulder.new(self, { pos = pos })
+        elseif name == 'BoulderRound' then
+            BoulderRound.new(self, { pos = pos })
         elseif name == 'Crate' then
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
@@ -74,7 +78,15 @@ function World:initLevel()
     end
 
     GAMESTATE.player:setPos(WORLD.playerStartPos)
-    GAMESTATE.player._lastPos = WORLD.playerStartPos
+    GAMESTATE.player._lastPos = WORLD.playerStartPos + (Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and Vec(0, -20) or Vec(0, 0))
+
+    self.haltRetouchy = false
+    for _, ent in ipairs(Engine.entitiesList) do
+        local retouchy = rawget(ent, 'retouchy')
+        if retouchy then
+            retouchy(ent, nil, WORLD:getCell(ent:getPos()))
+        end
+    end
 end
 
 function World:specialRender()

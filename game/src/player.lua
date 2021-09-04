@@ -72,6 +72,12 @@ end
 function Player:processInput(time, dt)
     if not self.alive then return end
 
+    if Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and GAMETIME < 1.5 then
+        for dir, dirInfo in pairs(self.directionInfo) do
+            dirInfo.desired = false
+        end
+        return
+    end
     if GAMETIME >= self.lastMoveTime + 10 * ONETICK then
         local someMoveDir = nil
         local possibleDirs = {}

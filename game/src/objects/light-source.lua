@@ -59,15 +59,13 @@ function LightSource:updateLight()
             if newDir == nil then
                 break
             end
-            print("Im in a mirror" .. mirrors[1].facingDiagDir)
-
-            print("Light From: " .. self.dir .. " -> " .. newDir)
+            
             self.dir = newDir
             mirrors[1].isReflecting = true
             table.insert(self.illuminatedMirrors, mirrors[1])
             currDirectLighter = mirrors[1]
         end
-        print("adding" .. currPos.x .. ", " .. currPos.y)
+        --print("adding" .. currPos.x .. ", " .. currPos.y)
         if not currCell:lightPassTest(self) and #currCell:findEntsOfClass(Mirror) < 1 then
             break
         end

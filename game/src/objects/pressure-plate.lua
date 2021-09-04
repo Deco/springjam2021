@@ -19,7 +19,10 @@ function PressurePlate:onTouch(other)
 end
 
 function PressurePlate:onUnTouch(other)
-    self.touchersSet[other] = nil
+    if self.touchersSet[other] then
+        self.touchersSet[other] = nil
+        WORLD:refreshLogicGroup(self.logicGroupName)
+    end
 end
 
 function PressurePlate:shouldConsiderSatisfied()
