@@ -27,6 +27,7 @@ local assets = {
     ['art/toggle-switch.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
+    ['art/Boulders.png'] = { type = 'image' },
 
     ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
     ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
