@@ -36,7 +36,7 @@ local assets = {
 
     ['art/vampire.png'] = { type = 'image' },
     ['art/vampire_left.png'] = { type = 'image' },
-   -- ['art/dust.png'] = { type = 'image' },
+    ['art/dust.png'] = { type = 'image' },
     ['art/light_beam-hori.png'] = { type = 'image' },
     ['art/light_beam-vert.png'] = { type = 'image' },
 
