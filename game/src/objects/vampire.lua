@@ -4,15 +4,18 @@ _G.VampireStage = {
     Wakeup = 1,
     Idle = 2,
     Alerted = 3,
+    Dying = 4,
 }
 
 local vampireWakeupDelay = 1.0
 local vampireIdleDelay = 0.3
 local vampireAlertDelay = 1.0
+local vampireDyingDelay = 1.0
 
 function Vampire:setup(data)
     --self.renderDepth = 11
     self.image = Engine:getAsset('art/vampire.png')
+    self.dustImage = Engine:getAsset('art/dust.png')
 
     BasicEntSetup(self, data)
 
@@ -36,7 +39,8 @@ function Vampire:update(time, dt)
         if GAMETIME > self.stageChangeTime + vampireWakeupDelay then
             self.stage = VampireStage.Idle
         end
-    elseif self.stage == VampireStage.Idle then
+    end
+    if self.stage == VampireStage.Idle then
         if GAMETIME > self.stageChangeTime + vampireIdleDelay then
             if updateMoveGoal() then
                 self.stage = VampireStage.Alerted
@@ -44,7 +48,8 @@ function Vampire:update(time, dt)
                 print('-> ALERT')
             end
         end
-    elseif self.stage == VampireStage.Alerted then
+    end
+    if self.stage == VampireStage.Alerted then
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
             self.moveGoal = GAMESTATE.player:getPos()
         end
@@ -62,7 +67,10 @@ function Vampire:update(time, dt)
                     local nextCell = WORLD:getCell(movePoints[2])
                     if nextCell:traversableTest(self) then
                         self:setPos(movePoints[2])
-                        if nextCell:illuminated() then print("This kills the vampire") end
+                        if nextCell:illuminated() then
+                            self.stage = VampireStage.Dying
+                            self.stageChangeTime = GAMETIME
+                        end
                     else
                         stop = true
                     end
@@ -80,18 +88,28 @@ function Vampire:update(time, dt)
             end
         end
     end
+    if self.stage == VampireStage.Dying then
+        --
+    end
 end
 
 function Vampire:render()
-    love.graphics.setColor(1, 1, 1, 1)
-    DrawSimpleEntImage(self, self.image)
+    if self.stage == VampireStage.Dying and GAMETIME > self.stageChangeTime + vampireDyingDelay then
+        DrawSimpleEntImage(self, self.dustImage)
+    else
+        love.graphics.setColor(1, 1, 1, 1)
+        DrawSimpleEntImage(self, self.image)
 
-    if self.stage == VampireStage.Wakeup then
-        love.graphics.setColor(1, 0, 0, 1)
-        love.graphics.print('?', 0.32, -1, 0, 0.07, 0.07)
-    elseif self.stage == VampireStage.Alerted and GAMETIME < self.stageChangeTime + vampireAlertDelay then
-        love.graphics.setColor(1, 0, 0, 1)
-        love.graphics.print('!', 0.35, -1, 0, 0.07, 0.07)
+        if self.stage == VampireStage.Wakeup then
+            love.graphics.setColor(1, 0, 0, 1)
+            love.graphics.print('?', 0.32, -1, 0, 0.07, 0.07)
+        elseif self.stage == VampireStage.Alerted and GAMETIME < self.stageChangeTime + vampireAlertDelay then
+            love.graphics.setColor(1, 0, 0, 1)
+            love.graphics.print('!', 0.35, -1, 0, 0.07, 0.07)
+        elseif self.stage == VampireStage.Dying then
+            love.graphics.setColor(1, 0, 0, 1)
+            love.graphics.print('!!!', 0, -1, 0, 0.07, 0.07)
+        end
     end
 end
 
