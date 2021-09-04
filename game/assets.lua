@@ -46,6 +46,7 @@ local assets = {
     ['art/lit.png'] = { type = 'image' },
 
     ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
+    ['src/maps/hallway_escape.lua'] = { type = 'tiledmap' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 

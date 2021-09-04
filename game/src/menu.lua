@@ -89,7 +89,8 @@ end
 local levels = {
     {
         label = "Bloody Blood Blood",
-        tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
+        --tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
+        tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'),
         logicGroups = {
         --    [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
         },
@@ -101,6 +102,12 @@ local levels = {
     {
         label = "Nothing",
         tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
+        logicGroups = {},
+        stuff = {},
+    },
+    {
+        label = "Hallway Escape",
+        tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'),
         logicGroups = {},
         stuff = {},
     },

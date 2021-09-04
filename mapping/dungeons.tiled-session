@@ -52,15 +52,15 @@
             "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 127.99999999999997,
-                "y": 127.99999999999997
+                "x": 128,
+                "y": 127.83333333333334
             }
         },
         "hand_fucking_coded.tmx": {
             "scale": 8,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 198.83333333333334,
+                "x": 198.75,
                 "y": 169
             }
         },
@@ -69,7 +69,7 @@
             "scaleInEditor": 5.5
         }
     },
-    "last.exportedFilePath": "E:/Programming/JAM/springjam2021/mapping/built",
+    "last.exportedFilePath": "E:/Programming/JAM/springjam2021/game/src/maps",
     "last.externalTilesetPath": "E:/Programming/JAM/springjam2021/mapping/tileset",
     "last.imagePath": "E:/Programming/JAM/springjam2021/game/art/tilesets",
     "last.objectTemplatePath": "E:/Programming/JAM/springjam2021/mapping/templates",
