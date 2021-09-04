@@ -1,6 +1,7 @@
 LightSource = Engine:EntityClass('LightSource')
 
 function LightSource:setup(data)
+    self.renderDepth = RenderingDepth.God
     self.image = Engine:getAsset('art/godbeam.png')
     self.illuminatedCellsList = self.illuminatedCellsList or { }
     self.firstRun = false--util.default(self.firstRun, false)
@@ -67,7 +68,7 @@ function LightSource:updateLight()
 
             currDir = newDir
             mirrors[1].isReflecting = true
-            mirrors[1].isReflectingGod = true
+            mirrors[1].isReflectingGod = (stepIdx == 1)
             table.insert(self.illuminatedMirrors, mirrors[1])
             currDirectLighter = mirrors[1]
         end

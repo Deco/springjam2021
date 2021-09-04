@@ -7,6 +7,7 @@ local assets = {
     ['src/maps/zigzag.lua'] = { type = 'tiledmap' },
     ['src/maps/laser_push.lua'] = { type = 'tiledmap' },
     ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
+    ['src/maps/lighty_mcLightface.lua'] = { type = 'tiledmap' },
     ['src/maps/lose_em.lua'] = { type = 'tiledmap' },
 
 

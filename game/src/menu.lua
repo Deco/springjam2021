@@ -123,6 +123,9 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
     },
     {
+        label = "Lighty McLightface",
+        tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
+    },
         label = "Lose 'em!",
         tiledmap = Engine:getAsset('src/maps/lose_em.lua'),
     }
