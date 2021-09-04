@@ -19,7 +19,7 @@ do
         local ageFrac = age / lifetime
         love.graphics.push()
         love.graphics.setColor(1, 1, 1,
-            math.remapClamp(ageFrac, 0.0, 0.05, 0.0,
+            self.asset.opacity * math.remapClamp(ageFrac, 0.0, 0.05, 0.0,
                 math.remapClamp(ageFrac, 0.6, 1.0, 1.0, 0.0)
             )
         )
@@ -28,7 +28,7 @@ do
         local desiredSize = self.asset.size * scale
         local s = desiredSize / Vec(self.asset.imageHandle:getWidth(), self.asset.imageHandle:getHeight())
         love.graphics.scale(s:xy())
-        love.graphics.translate(((self:getPos() - 0.5 * desiredSize) / s):xy())
+        love.graphics.translate(((self:getPos() + Vec(0.5, 0.5) - 0.5 * desiredSize) / s):xy())
         love.graphics.draw(self.asset.imageHandle)
         love.graphics.pop()
     end

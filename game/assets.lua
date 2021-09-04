@@ -18,13 +18,14 @@ local assets = {
 
     ['art/bomb.png'] = { type = 'image' },
     ['art/flashlight.png'] = { type = 'image' },
-    ['art/coffee.png'] = { type = 'image', scale = 0.5 },
+    ['art/coffee.png'] = { type = 'image', scale = 0.6 },
     ['art/crate.png'] = { type = 'image' },
     ['art/gate.png'] = { type = 'image' },
     ['art/gate_open.png'] = { type = 'image' },
     ['art/golden-key.png'] = { type = 'image' },
     ['art/pressure-plate.png'] = { type = 'image' },
-    ['art/toggle-switch.png'] = { type = 'image' },
+    ['art/toggle-switch-on.png'] = { type = 'image' },
+    ['art/toggle-switch-off.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
 
@@ -37,7 +38,7 @@ local assets = {
 
     ['art/tree.png'] = { type = 'image' },
 
-    ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
+    ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 
     ['sfx/explosion1.wav'] = { type = 'sfx', volume = 0.6 },
     ['sfx/explosion2.wav'] = { type = 'sfx', volume = 0.8 },

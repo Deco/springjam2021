@@ -1,7 +1,8 @@
 ToggleSwitch = Engine:EntityClass('ToggleSwitch')
 
 function ToggleSwitch:setup(data)
-    self.image = Engine:getAsset('art/toggle-switch.png')
+    self.onImage = Engine:getAsset('art/toggle-switch-on.png')
+    self.offImage = Engine:getAsset('art/toggle-switch-off.png')
     self.logicGroupIdx = data.logicGroupIdx
 
     self.isActivated = util.default(self.isActivated, false)
@@ -20,12 +21,8 @@ function ToggleSwitch:considerSatisfied()
 end
 
 function ToggleSwitch:render()
-    if self.isActivated then
-        love.graphics.setColor(0.2, 0.2, 0.2, 1)
-    else
-        love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
-    end
-    DrawSimpleEntImage(self, self.image)
+    love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
+    DrawSimpleEntImage(self, self.isActivated and self.onImage or self.offImage)
 end
 
 

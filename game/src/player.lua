@@ -190,9 +190,10 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
-    --if key == 'l' then
-    --    self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
-    --end
+    if key == 'l' then
+        --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+        SpawnVFX('art/fx/explosion.png', self:getPos())
+    end
 end
 
 function Player:onKeyReleased(key, scancode)
