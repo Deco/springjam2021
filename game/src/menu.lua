@@ -118,6 +118,10 @@ local levels = {
         label = "Light Grid",
         tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
     },
+    {
+        label = "Lose 'em!",
+        tiledmap = Engine:getAsset('src/maps/lose_em.lua'),
+    },
 }
 
 function TheMenu:gotoStage(newStage)
