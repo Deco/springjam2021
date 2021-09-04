@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 39,
+  nextobjectid = 40,
   properties = {},
   tilesets = {
     {
@@ -399,7 +399,7 @@ return {
           name = "Light",
           type = "",
           shape = "rectangle",
-          x = 208,
+          x = 224,
           y = 192,
           width = 16,
           height = 16,
@@ -469,22 +469,6 @@ return {
           }
         },
         {
-          id = 35,
-          name = "MovableMirror-DL",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 176,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225577,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
           id = 36,
           name = "MovableMirror-UL",
           type = "",
@@ -523,6 +507,22 @@ return {
           shape = "rectangle",
           x = 192,
           y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 1073741929,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownRight"
+          }
+        },
+        {
+          id = 39,
+          name = "MovableMirror-DR",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 176,
           width = 16,
           height = 16,
           rotation = 0,
