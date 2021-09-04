@@ -72,10 +72,10 @@
         },
         "pits.tmx": {
             "scale": 2.927801724137931,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 231.23150533676852,
-                "y": 175.89988958410012
+                "y": 175.55833640044168
             }
         },
         "tileset/dungeon-tileset.tsx": {
@@ -103,9 +103,10 @@
     "project": "dungeons.tiled-project",
     "property.type": "color",
     "recentFiles": [
+        "declan.tmx",
+        "tileset/dungeon-tileset.tsx",
         "hand_fucking_coded.tmx",
         "basic_map.tmx",
-        "tileset/dungeon-tileset.tsx",
         "back_and_forth.tmx",
         "C:/Users/Luke/Documents/sample.tmx",
         "C:/Users/Luke/Documents/pixelpoempack.tsx",

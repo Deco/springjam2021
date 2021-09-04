@@ -351,7 +351,7 @@ return {
         },
         {
           id = 2,
-          name = "ToggleSwitch",
+          name = "ToggleSwitch-GREEN",
           type = "",
           shape = "rectangle",
           x = 160,
@@ -421,7 +421,7 @@ return {
         },
         {
           id = 7,
-          name = "Gate",
+          name = "Gate-GREEN",
           type = "",
           shape = "rectangle",
           x = 192,
@@ -444,20 +444,6 @@ return {
           height = 16,
           rotation = 0,
           gid = 90,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 9,
-          name = "Light",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 304,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 91,
           visible = true,
           properties = {}
         }

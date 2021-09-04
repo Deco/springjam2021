@@ -5,6 +5,7 @@ local entityBasicStuff = {
         return self._pos
     end,
     setPos = function(self, pos)
+        assert(pos, 'pos is nil')
         local oldCell = self._cellIn
         if self._cellIn ~= nil then
             self._cellIn.entsSet[self] = nil
@@ -26,9 +27,7 @@ local entityBasicStuff = {
                 end
             end
             if rawget(self, 'blocksLight') and self:blocksLight() and newCell:isIlluminated() or (oldCell and oldCell:isIlluminated()) then
-                for _, lightSource in pairs(WORLD.lightSources) do
-                    lightSource:updateLight()
-                end
+                WORLD:refreshLight()
             end
             self._posChangeTime = GAMETIME
         end
@@ -58,6 +57,7 @@ local entityBasicStuff = {
 function _G.BasicEntSetup(self, data)
     util.copyFromTo(entityBasicStuff, self)
 
+    self.renderDepth = self.renderDepth or RenderingDepth.Default
     self._cellIn = self._cellIn or nil
     self:setPos(self._pos or assert(data.pos))
     self._lastPos = self._lastPos or self._pos

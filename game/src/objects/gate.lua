@@ -5,6 +5,8 @@ function Gate:setup(data)
     self.imageOpen = Engine:getAsset('art/gate_open.png')
     self.logicGroupName = data.logicGroupName
 
+    self._isLocked = true
+
     BasicEntSetup(self, data)
 end
 
@@ -12,16 +14,12 @@ function Gate:blocksTraversal() return self:isLocked() end
 function Gate:blocksVision() return self:isLocked() end
 function Gate:blocksLight() return self:isLocked() end
 
-function Gate:isLocked()
-    local logicGroup = WORLD:getLogicGroup(self.logicGroupName)
-    local anyUnsatisfied = false
-    for _, input in ipairs(logicGroup.inputsList) do
-        if not input:considerSatisfied() then
-            anyUnsatisfied = true
-        end
-    end
-    return anyUnsatisfied
+function Gate:onLogicGroupUpdate(isSatisfied)
+    self._isLocked = not isSatisfied
+    WORLD:refreshLight()
 end
+
+function Gate:isLocked() return self._isLocked end
 
 function Gate:render()
     love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupName).color))

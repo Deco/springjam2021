@@ -1,6 +1,7 @@
 _G.RenderingDepth = {
     -- under
     Spikes = 100,
+    Devices = 120,
     VampireDead = 150,
     Default = 200,
     Player = 220,
