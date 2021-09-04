@@ -1,33 +1,8 @@
 -- Mostly solid walls and stuff
 
-
 World = Engine:EntityClass('World')
 
 function World:setup(data)
-    self.levelData = self.levelData or {
-        '################',
-        '#              #',
-        '#              #',
-        'S    #####     #',
-        '#    #   #     #',
-        '# C  @ 1 @   T #',
-        '# c  #   #     #',
-        '# c  #####     #',
-        '#              #',
-        '# L            #',
-        '#          #####',
-        '#          2   E',
-        '#          #####',
-        '################',
-    }
-    self.logicGroups = self.logicGroups or {
-        [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
-    }
-    self.levelStuff = self.levelStuff or {
-        [1] = { type = "ToggleSwitch", group = 1, },
-        [2] = { type = "Gate", group = 1, }
-    }
-
     self.renderDepth = 0
     self.level = data.level
     self.logicGroups = self.logicGroups or {}
@@ -47,66 +22,113 @@ function World:initLevel()
     for logicGroupIdx, logicGroupInfo in ipairs(self.level.logicGroups) do
         self.logicGroups[logicGroupIdx] = util.mergeTables(logicGroupInfo, { inputsList = {}, outputsList = {}, })
     end
-    for rowIdx, rowStr in ipairs(self.level.data) do
-        for colIdx = 1, #rowStr do
-            local cellChar = rowStr:sub(colIdx, colIdx)
-            local cell = self:getCell(Vec(colIdx, rowIdx))
 
-            if cellChar == '#' then
+    for rowIdx, row in ipairs(self.level.tiledmap.handle.layers.map.data) do
+        for colIdx, tile in ipairs(row) do
+            local cell = self:getCell(Vec(colIdx-1, rowIdx-1))
+
+            if tile.type == "wall" then
                 cell.isWall = true
             else
                 cell.isWall = false
-
-                if cellChar == 'S' then
-                    self.startDoorPos = cell.pos
-                elseif cellChar == 'C' then
-                    Coffee.new(self, { pos = cell.pos })
-                elseif cellChar == '@' then
-                    Spikes.new(self, { pos = cell.pos })
-                elseif cellChar == 'T' then
-                    Tomb.new(self, { pos = cell.pos })
-                    --Vampire.new(self, { pos = cell.pos })
-                elseif cellChar == 'E' then
-                    ExitDoor.new(self, { pos = cell.pos })
-                elseif cellChar == 'c' then
-                    Crate.new(self, { pos = cell.pos })
-                elseif cellChar == 'L' then
-                    local ent = LightSource.new(self, { pos = cell.pos })
-                    table.insert(self.lightSources, ent)
-
-                elseif tonumber(cellChar, 10) ~= nil then
-                    local thing = self.level.stuff[tonumber(cellChar, 10)]
-                    if thing.type == 'PressurePlate' then
-                        local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-                    elseif thing.type == 'ToggleSwitch' then
-                        local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-                    elseif thing.type == 'Gate' then
-                        local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).outputsList, ent)
-                    end
-                end
             end
         end
     end
+
+    for _,object in pairs(self.level.tiledmap.handle.objects) do
+        local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
+        local name = object.name
+
+        if name == 'PlayerStart' then
+            self.startDoorPos = pos
+        elseif name == 'Crate' then
+            Crate.new(self, { pos = pos })
+        elseif name == 'Coffee' then
+            Coffee.new(self, { pos = pos })
+        elseif name == 'Tomb' then
+            Tomb.new(self, { pos = pos })
+        elseif name == 'Spikes' then
+            Spikes.new(self, { pos = pos })
+        elseif name == 'Light' then
+            local ent = LightSource.new(self, { pos = pos })
+            table.insert(self.lightSources, ent)
+        elseif name == 'PressurePlate' then
+            local ent = PressurePlate.new(self, { pos = pos })
+            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
+        elseif name == 'ToggleSwitch' then
+            local ent = ToggleSwitch.new(self, { pos = pos })
+            --table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+        elseif name == 'Gate' then
+            local ent = Gate.new(self, { pos = pos })
+            --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
+        end
+    end
+
+    -- TODO: strip this
+    --for rowIdx, rowStr in ipairs({}) do
+    --    for colIdx = 1, #rowStr do
+    --        local cellChar = rowStr:sub(colIdx, colIdx)
+    --        local cell = self:getCell(Vec(colIdx, rowIdx))
+    --
+    --        if cellChar == '#' then
+    --            cell.isWall = false
+    --        else
+    --            cell.isWall = false
+    --
+    --
+    --            if cellChar == 'S' then
+    --                self.startDoorPos = cell.pos
+    --            elseif cellChar == 'C' then
+    --                Coffee.new(self, { pos = cell.pos })
+    --            elseif cellChar == '@' then
+    --                Spikes.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'T' then
+    --                Tomb.new(self, { pos = cell.pos })
+    --                --Vampire.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'E' then
+    --                ExitDoor.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'c' then
+    --                Crate.new(self, { pos = cell.pos })
+    --            elseif tonumber(cellChar, 10) ~= nil then
+    --                local thing = self.level.stuff[tonumber(cellChar, 10)]
+    --                if thing.type == 'PressurePlate' then
+    --                    local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+    --                elseif thing.type == 'ToggleSwitch' then
+    --                    local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+    --                elseif thing.type == 'Gate' then
+    --                    local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).outputsList, ent)
+    --                end
+    --            end
+    --    end
+    --end
 
     GAMESTATE.player:setPos(WORLD.startDoorPos)
 end
 
 function World:specialRender()
-    -- temp
     local sixteenToOne = 1 / 16
-    for x = self.bounds.x0, self.bounds.x1 do
-        for y = self.bounds.y0, self.bounds.y1 do
-            local cell = self:getCell(Vec(x, y))
-            if cell.isWall then
-                love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
 
-            end
+    love.graphics.push()
+    love.graphics.scale(sixteenToOne)
+    for _,layer in ipairs(self.level.tiledmap.handle.layers) do
+        if layer.name == "map" or layer.name == "scatter" then
+            layer:draw()
         end
     end
+    love.graphics.pop()
+
+    -- temp
+    --for x = self.bounds.x0, self.bounds.x1 do
+    --    for y = self.bounds.y0, self.bounds.y1 do
+    --        local cell = self:getCell(Vec(x, y))
+    --        if cell.isWall then
+    --            love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
+    --        end
+    --    end
+    --end
 end
 
 function World:specialRenderAfter()

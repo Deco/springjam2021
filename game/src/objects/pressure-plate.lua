@@ -3,6 +3,7 @@ PressurePlate = Engine:EntityClass('PressurePlate')
 function PressurePlate:setup(data)
     self.image = Engine:getAsset('art/pressure-plate.png')
     self.logicGroupIdx = data.logicGroupIdx
+    self.color = util.hex2rgb(logicGroupIdx)
 
     self.hasBeenTriggered = false
 
@@ -25,7 +26,7 @@ function PressurePlate:render()
     if self.hasBeenTriggered then
         love.graphics.setColor(0.2, 0.2, 0.2, 1)
     else
-        love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupIdx).color))
+        love.graphics.setColor(table.unpack(self.color))
     end
     DrawSimpleEntImage(self, self.image)
 end

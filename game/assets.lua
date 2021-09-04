@@ -41,6 +41,8 @@ local assets = {
     ['art/tree.png'] = { type = 'image' },
     ['art/lit.png'] = { type = 'image' },
 
+    ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
+
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 
     ['sfx/explosion1.wav'] = { type = 'sfx', volume = 0.6 },

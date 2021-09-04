@@ -1,4 +1,5 @@
 --
+local sti = require("lib.sti")
 
 GMAKER 'Engine' -- singleton
 
@@ -377,6 +378,17 @@ local AssetTypes = {
         create = function(info) info.imageHandle = love.graphics.newImage(info.path) end,
         destroy = function(info) info.imageHandle = info.imageHandle:release() end,
         fallback = { imageHandle = love.graphics.newImage('art/missing.png'), lifetime = 3.0, },
+    },
+    tiledmap = {
+        extensions = {},
+        create = function(info)
+            info.handle = sti(info.path)
+        end,
+        destroy = function(info)
+            sti:flush()
+            info.handle = nil
+        end,
+        fallback = { handle = {} },
     },
 }
 
