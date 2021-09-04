@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 31,
+  nextobjectid = 39,
   properties = {},
   tilesets = {
     {
@@ -409,102 +409,6 @@ return {
           properties = {}
         },
         {
-          id = 15,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 176,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225574,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
-          id = 22,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 240,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483750,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 23,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 240,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 102,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpRight"
-          }
-        },
-        {
-          id = 26,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483750,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 27,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 192,
-          y = 208,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741926,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 28,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 16,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225574,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
           id = 29,
           name = "Tomb-GoldenKey",
           type = "",
@@ -531,6 +435,102 @@ return {
           gid = 90,
           visible = true,
           properties = {}
+        },
+        {
+          id = 32,
+          name = "MovableMirror-DL",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 16,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 3221225577,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownLeft"
+          }
+        },
+        {
+          id = 33,
+          name = "MovableMirror-UL",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483753,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
+        },
+        {
+          id = 35,
+          name = "MovableMirror-DL",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 176,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 3221225577,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownLeft"
+          }
+        },
+        {
+          id = 36,
+          name = "MovableMirror-UL",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483753,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
+        },
+        {
+          id = 37,
+          name = "MovableMirror-UR",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 105,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 38,
+          name = "MovableMirror-DR",
+          type = "",
+          shape = "rectangle",
+          x = 192,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 1073741929,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownRight"
+          }
         }
       }
     }
