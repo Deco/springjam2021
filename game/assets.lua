@@ -38,6 +38,7 @@ local assets = {
     ['art/mirror_dynamic.png'] = { type = 'image' },
     ['art/Boulder.png'] = { type = 'image' },
     ['art/Mirror.png'] = { type = 'image' },
+    ['art/Mirror_active.png'] = { type = 'image' },
 
     ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
     ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
