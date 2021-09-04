@@ -30,6 +30,7 @@ function Engine:load(args)
     self.DP:enable(true)
     self.UP = PROBE.new()
     self.UP:enable(true)
+    self.lastDrawTime = 0
 
     self.entitiesList = {}
     self.nextId = 0
@@ -92,7 +93,7 @@ function Engine:EntityClass(name)
         classInfo.instancesSet[instance] = true
         table.insert(self.entitiesList, instance)
         if type(owner) ~= 'string' then
-            print(string.format("[%s E%i] -> [%s E%i]", owner.__name, owner.id, name, instance.id))
+            --print(string.format("[%s E%i] -> [%s E%i]", owner.__name, owner.id, name, instance.id))
             owner.ownedSet[instance] = true
         end
 
@@ -118,7 +119,7 @@ end
 
 function Engine:Remove(ent)
     if not ent.valid then return end
-    print(string.format("[%s E%i] X", ent.__name, ent.id))
+    --print(string.format("[%s E%i] X", ent.__name, ent.id))
 
     local cellIn = rawget(ent, '_cellIn')
     if cellIn then
@@ -179,8 +180,10 @@ function Engine:draw()
     self.DP:startCycle()
     self.currDebugScreenText = self.drawDebugScreenText
 
+    local dt = love.timer.getTime() - self.lastDrawTime
+
     if self.camera then
-        self.camera:specialRender()
+        self.camera:specialRender(dt)
     end
 
     love.graphics.push()
@@ -237,6 +240,8 @@ function Engine:draw()
         self.DP:draw(20, 20, 200, winH - 20 - 20, "DRAW CYCLE")
         self.UP:draw(winW - 20 - 200, 20, 200, winH - 40, "UPDATE CYCLE")
     end
+
+    self.lastDrawTime = love.timer.getTime()
 end
 
 function _G.SCREENTEXT(text)
@@ -341,6 +346,26 @@ local AssetTypes = {
             info.size = nil
         end,
         fallback = { handle = love.graphics.newImage('art/missing.png'), size = Vec(900, 900) },
+    },
+    anim = {
+        extensions = {},
+        create = function(info)
+            info.handle = love.graphics.newImage(info.path)
+            info.handle:setFilter(info.filterMin or 'nearest', info.filterMax or 'nearest', info.anisotropy or nil)
+            info.fullSize = Vec(info.handle:getWidth(), info.handle:getHeight())
+            info.frameSize = Vec(info.handle:getWidth() / info.frames, info.handle:getHeight())
+            info.quads = {}
+            for frameIdx = 0, info.frames - 1 do
+                table.insert(info.quads, love.graphics.newQuad(info.frameSize.x * frameIdx, 0, info.frameSize.x, info.frameSize.y, info.fullSize.x, info.fullSize.y))
+            end
+        end,
+        destroy = function(info)
+            info.handle = info.handle:release()
+            info.fullSize = nil
+            info.frameSize = nil
+            info.quads = nil
+        end,
+        fallback = { handle = love.graphics.newImage('art/missing.png'), fullSize = Vec(900, 900), frameSize = Vec(900, 900), quads = {}, },
     },
     sfx = {
         extensions = { "wav", "mp3", "ogg" },

@@ -57,6 +57,7 @@ function World:initLevel()
     --        else
     --            cell.isWall = false
     --
+    --
     --            if cellChar == 'S' then
     --                self.startDoorPos = cell.pos
     --            elseif cellChar == 'C' then
@@ -67,7 +68,7 @@ function World:initLevel()
     --                Tomb.new(self, { pos = cell.pos })
     --                --Vampire.new(self, { pos = cell.pos })
     --            elseif cellChar == 'E' then
-    --                --ExitDoor.new(self, { pos = cell.pos })
+    --                ExitDoor.new(self, { pos = cell.pos })
     --            elseif cellChar == 'c' then
     --                Crate.new(self, { pos = cell.pos })
     --            elseif tonumber(cellChar, 10) ~= nil then
@@ -83,9 +84,8 @@ function World:initLevel()
     --                    table.insert(self:getLogicGroup(thing.group).outputsList, ent)
     --                end
     --            end
-    --        end
     --    end
-    end
+    --end
 
     GAMESTATE.player:setPos(WORLD.startDoorPos)
 end

@@ -21,6 +21,7 @@ function TheMenu:setup()
     self.wasPaused = self.wasPaused or false
 
     self.targetLevel = self.targetLevel or nil
+    self.targetLevelIdx = self.targetLevelIdx or nil
     self.gameState = self.gameState or nil
 
     love.window.setTitle(self.gameTitle)
@@ -126,7 +127,8 @@ function TheMenu:gotoStage(newStage)
     end
     if newStage == MenuStage.Playing then
         if self.targetLevel == nil then
-            self.targetLevel = levels[1]
+            self.targetLevelIdx = 1
+            self.targetLevel = levels[self.targetLevelIdx]
         end
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
@@ -134,8 +136,12 @@ function TheMenu:gotoStage(newStage)
 end
 
 function TheMenu:loadLevel(targetIdx)
+    if targetIdx == 'next' then
+        targetIdx = math.indexWrap(self.targetLevelIdx + 1, #levels)
+    end
     if levels[targetIdx] then
-        self.targetLevel = levels[targetIdx]
+        self.targetLevelIdx = targetIdx
+        self.targetLevel = levels[self.targetLevelIdx]
         self:gotoStage(MenuStage.Playing)
     end
 end
@@ -194,10 +200,10 @@ function TheMenu:onTextInput(text)
 end
 
 function TheMenu:onMouseWheel(dx, dy)
-    if Engine.camera then
-        local rate = 0.3
-        Engine.camera:setZoomScale(Engine.camera:getZoomScale() * (dy < 0 and (1 + rate) or 1 / (1 + rate)))
-    end
+    --if Engine.camera then
+    --    local rate = 0.3
+    --    Engine.camera:setZoomScale(Engine.camera:getZoomScale() * (dy < 0 and (1 + rate) or 1 / (1 + rate)))
+    --end
 end
 
 

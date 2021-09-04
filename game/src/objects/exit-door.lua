@@ -15,13 +15,13 @@ function ExitDoor:isLocked()
 end
 
 function ExitDoor:onUse(player)
-    if self.stage == ExitDoorStage.Closed and player:hasItem('goldenKey') then
+    if self._isLocked and player:hasItem('goldenKey') then
         player:takeItem('goldenKey')
         self._isLocked = false
     end
 end
 
-function ExitDoor:getUsePrompt()
+function ExitDoor:getUsePrompt(player)
     if self._isLocked then
         if player:hasItem('goldenKey') then
             return "Press SPACE to UNLOCK DOOR"
@@ -33,7 +33,7 @@ end
 
 function ExitDoor:onTouch(other)
     if other.class == Player then
-        -- todo: advance to next level
+        Engine.menu:loadLevel('next')
     end
 end
 

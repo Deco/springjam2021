@@ -59,6 +59,10 @@ function math.mod(a, b)
     return ((a % b) + b) % b
 end
 
+function math.indexWrap(idx, count)
+    return math.mod(idx - 1, count) + 1
+end
+
 function math.floorTo(val, interval)
     return math.floor(val / interval) * interval
 end
