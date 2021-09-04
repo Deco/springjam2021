@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
  <tileset firstgid="1" source="../tileset/dungeon-tileset.tsx"/>
- <object name="Mirror" gid="1073741926" width="16" height="16">
+ <object name="MovableMirror-UR" gid="105" width="16" height="16">
   <properties>
-   <property name="initialFacingDir" value="DownRight"/>
+   <property name="initialFacingDir" value="UpRight"/>
   </properties>
  </object>
 </template>

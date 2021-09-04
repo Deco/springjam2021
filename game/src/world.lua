@@ -61,8 +61,10 @@ function World:initLevel()
             Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
             local ent = LightSource.new(self, { pos = pos })
-        elseif name == 'Mirror' then
-            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]] })
+        elseif name == 'RotatingMirror' then
+            Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Rotating })
+        elseif name == 'MovableMirror' then
+            Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Moving })
         elseif name == 'ExitDoor' then
             ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then
@@ -115,26 +117,30 @@ end
 
 function World:specialRenderAfter()
     -- temp
-    love.graphics.setColor(1, 1, 1, 1.0)
     local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
     love.graphics.setBlendMode('add')
     local sixteenToOne = 1 / 16
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
-            if cell:isIlluminated() and cell:lightPassTest() then
-                local hasHoriz, hasVert = false, false
-                for lighter in pairs(cell.directlyLitBySet) do
+            if cell:isIlluminated() and cell:lightPassTest() and #cell:findEntsOfClass(LightSource) == 0 then
+                local horizFrac, vertFrac = 0, 0
+                for lighter, source in pairs(cell.directlyLitBySet) do
                     local lighterPos = lighter:getPos()
-                    if lighterPos.x == x then hasVert = true end
-                    if lighterPos.y == y then hasHoriz = true end
+                    local litInfo = cell.litBySet[source]
+                    if lighterPos.x == x then
+                        vertFrac = math.remapClamp(GAMETIME - litInfo.time - 0.007 * litInfo.idx, 0, 0.3, 0.0, 1.0)
+                    end
+                    if lighterPos.y == y then
+                        horizFrac = math.remapClamp(GAMETIME - litInfo.time - 0.007 * litInfo.idx, 0, 0.3, 0.0, 1.0)
+                    end
                 end
-                if hasHoriz and hasVert then
-                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                if horizFrac > 0 then
+                    love.graphics.setColor(1, 1, 1, horizFrac)
                     love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
-                elseif hasHoriz then
-                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
-                elseif hasVert then
+                end
+                if vertFrac > 0 then
+                    love.graphics.setColor(1, 1, 1, vertFrac)
                     love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
                 end
             end
