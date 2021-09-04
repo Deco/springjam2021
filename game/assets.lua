@@ -28,6 +28,7 @@ local assets = {
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
     ['art/Boulder.png'] = { type = 'image' },
+    ['art/Mirror.png'] = { type = 'image' },
 
     ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
     ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
@@ -35,7 +36,7 @@ local assets = {
 
     ['art/vampire.png'] = { type = 'image' },
     ['art/vampire_left.png'] = { type = 'image' },
-    ['art/dust.png'] = { type = 'image' },
+   -- ['art/dust.png'] = { type = 'image' },
     ['art/light_beam-hori.png'] = { type = 'image' },
     ['art/light_beam-vert.png'] = { type = 'image' },
 
