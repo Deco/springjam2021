@@ -6,6 +6,7 @@ local assets = {
     ['src/maps/ko_hand_fucking_coded.lua'] = { type = 'tiledmap' },
     ['src/maps/zigzag.lua'] = { type = 'tiledmap' },
     ['src/maps/laser_push.lua'] = { type = 'tiledmap' },
+    ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
 
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },

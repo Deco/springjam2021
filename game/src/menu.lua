@@ -118,6 +118,10 @@ local levels = {
         label = "Light Grid",
         tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
     },
+    {
+        label = "Sea Floor Cavern",
+        tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
+    },
 }
 
 function TheMenu:gotoStage(newStage)
