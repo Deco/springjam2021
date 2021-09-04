@@ -127,8 +127,8 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
     },
     {
-        label = "Lose 'em!",
-        tiledmap = Engine:getAsset('src/maps/lose_em.lua'),
+        label = "Pipework",
+        tiledmap = Engine:getAsset('src/maps/pipework.lua'),
     }
 }
 

@@ -39,7 +39,7 @@ function Vampire:update(time, dt)
     end
 
     local updateMoveGoal = function()
-        if GAMETIME < self.lastPathingTime + 0.5 then return nil end
+        if GAMETIME < self.lastPathingTime + 0.1 then return nil end
         self.lastPathingTime = GAMETIME
 
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
