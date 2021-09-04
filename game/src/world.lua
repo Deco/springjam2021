@@ -4,31 +4,10 @@
 World = Engine:EntityClass('World')
 
 function World:setup(data)
-    self.levelData = self.levelData or {
-        '################',
-        '#              #',
-        '#              #',
-        'S    #####     #',
-        '#    #   #     #',
-        '# C  @ 1 @   T #',
-        '#    #   #     #',
-        '#    #####     #',
-        '#              #',
-        '#              #',
-        '#          #####',
-        '#          2   E',
-        '#          #####',
-        '################',
-    }
-    self.logicGroups = self.logicGroups or {
-        [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
-    }
-    self.levelStuff = self.levelStuff or {
-        [1] = { type = "ToggleSwitch", group = 1, },
-        [2] = { type = "Gate", group = 1, }
-    }
 
     self.renderDepth = 0
+    self.level = data.level
+    self.logicGroups = self.logicGroups or {}
 
     self.grid = self.grid or {}
     self.bounds = self.bounds or AABBfromXYWH(0, 0, 0, 0)
@@ -50,6 +29,11 @@ function World:setup(data)
 end
 
 function World:initLevel()
+    self.logicGroups = {}
+    for logicGroupIdx, logicGroupInfo in ipairs(self.level.logicGroups) do
+        self.logicGroups[logicGroupIdx] = util.mergeTables(logicGroupInfo, { inputsList = {}, outputsList = {}, })
+    end
+
     local levelMap = {}
     for _, layer in ipairs(self.level.handle.layers) do
         if layer.name == 'map' then
@@ -58,9 +42,8 @@ function World:initLevel()
         end
     end
 
-    for rowIdx = 1, #self.levelData do
-        for colIdx = 1, #self.levelData[1] do
-            local rowStr = self.levelData[rowIdx]
+    for rowIdx, rowStr in ipairs(self.level.data) do
+        for colIdx = 1, #rowStr do
             local cellChar = rowStr:sub(colIdx, colIdx)
             local cell = self:getCell(Vec(colIdx, rowIdx))
 
@@ -83,7 +66,7 @@ function World:initLevel()
                 elseif cellChar == 'c' then
                     Crate.new(self, { pos = cell.pos })
                 elseif tonumber(cellChar, 10) ~= nil then
-                    local thing = self.levelStuff[tonumber(cellChar, 10)]
+                    local thing = self.level.stuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
                         local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
                         table.insert(self:getLogicGroup(thing.group).inputsList, ent)

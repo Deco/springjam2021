@@ -20,6 +20,7 @@ function TheMenu:setup()
     self.isPaused = self.isPaused or false
     self.wasPaused = self.wasPaused or false
 
+    self.targetLevel = self.targetLevel or nil
     self.gameState = self.gameState or nil
 
     love.window.setTitle(self.gameTitle)
@@ -78,13 +79,63 @@ function TheMenu:specialUpdate(time, dt)
     Engine.UP:popEvent()
 end
 
+local levels = {
+    {
+        label = "Bloody Blood Blood",
+        data = {
+            '################',
+            '#              #',
+            '#              #',
+            'S    #####     #',
+            '#    #   #     #',
+            '# C  @ 1 @   T #',
+            '#    #   #     #',
+            '#    #####     #',
+            '#              #',
+            '#              #',
+            '#          #####',
+            '#          2   E',
+            '#          #####',
+            '################',
+        },
+        logicGroups = {
+            [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
+        },
+        stuff = {
+            [1] = { type = "ToggleSwitch", group = 1, },
+            [2] = { type = "Gate", group = 1, }
+        },
+    },
+    {
+        label = "Nothing",
+        data = {
+            '####',
+            '#S #',
+            '#  #',
+            '####',
+        },
+        logicGroups = {},
+        stuff = {},
+    },
+}
+
 function TheMenu:gotoStage(newStage)
-    assert(newStage ~= self.stage)
-    self.stage = newStage
-    if newStage == MenuStage.Playing then
-        self.gameState = GameState.new(self)
-    elseif self.gameState ~= nil then
+    if self.stage == MenuStage.Playing then
         self.gameState = Engine:Remove(self.gameState)
+    end
+    if newStage == MenuStage.Playing then
+        if self.targetLevel == nil then
+            self.targetLevel = levels[1]
+        end
+        self.gameState = GameState.new(self, { level = self.targetLevel, })
+    end
+    self.stage = newStage
+end
+
+function TheMenu:loadLevel(targetIdx)
+    if levels[targetIdx] then
+        self.targetLevel = levels[targetIdx]
+        self:gotoStage(MenuStage.Playing)
     end
 end
 
