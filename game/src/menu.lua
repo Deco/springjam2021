@@ -113,6 +113,10 @@ local levels = {
         label = "Keg",
         tiledmap = Engine:getAsset('src/maps/ko_hand_fucking_coded.lua'),
     },
+    {
+        label = "Light Grid",
+        tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
+    },
 }
 
 function TheMenu:gotoStage(newStage)
