@@ -53,7 +53,7 @@ function World:initLevel()
             local ent = LightSource.new(self, { pos = pos })
             table.insert(self.lightSources, ent)
         elseif name == 'Mirror' then
-            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal.DownLeft })
+            local ent = Mirror.new(self, { pos = pos, facingDiagDir = object.properties["initialFacingDir"] })
         elseif name == 'PressurePlate' then
             local ent = PressurePlate.new(self, { pos = pos })
             --table.insert(self:getLogicGroup(thing.color).inputsList, ent)
@@ -330,4 +330,14 @@ end
 function Cell:illuminated(entOrNil)
     --if next(self.litBySet) ~= nil then print("illuminated") end
     return next(self.litBySet) ~= nil
+end
+
+function Cell:findEntsOfClass(class)
+    local result = { }
+    for ent in pairs(self.entsSet) do
+        if ent.class == class then
+            table.insert(result, ent)
+        end
+    end
+    return result
 end

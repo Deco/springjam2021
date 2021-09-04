@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 25,
+  nextobjectid = 28,
   properties = {},
   tilesets = {
     {
@@ -301,7 +301,7 @@ return {
         1, 22, 20, 20, 7, 30, 17, 28, 9, 18, 30, 8, 8, 10, 30, 10, 20, 18, 27, 19, 29, 28, 30, 20, 8, 27, 25, 36,
         11, 22, 7, 8, 20, 18, 17, 7, 8, 9, 10, 7, 8, 7, 10, 10, 51, 42, 43, 44, 45, 56, 22, 9, 8, 19, 25, 36,
         1, 22, 28, 27, 17, 19, 19, 17, 18, 19, 20, 17, 18, 27, 10, 28, 16, 79, 79, 79, 79, 21, 22, 18, 30, 18, 25, 36,
-        11, 22, 27, 19, 17, 19, 7, 27, 28, 7, 30, 27, 28, 18, 28, 28, 26, 79, 79, 79, 79, 31, 22, 18, 7, 18, 25, 36,
+        11, 22, 27, 19, 17, 19, 7, 27, 28, 29, 30, 27, 28, 18, 28, 28, 26, 79, 79, 79, 79, 31, 22, 18, 7, 18, 25, 36,
         1, 22, 9, 30, 10, 19, 18, 7, 8, 9, 10, 7, 8, 30, 27, 8, 36, 79, 79, 79, 79, 11, 22, 27, 20, 18, 25, 36,
         21, 22, 20, 10, 18, 28, 20, 17, 18, 19, 20, 17, 18, 19, 17, 9, 16, 79, 79, 79, 79, 21, 22, 18, 27, 29, 25, 36,
         11, 32, 34, 33, 34, 33, 33, 34, 33, 33, 34, 34, 33, 34, 34, 34, 26, 79, 79, 79, 79, 31, 32, 33, 33, 34, 35, 36,
@@ -403,8 +403,8 @@ return {
           name = "Gate",
           type = "",
           shape = "rectangle",
-          x = 192,
-          y = 160,
+          x = 133.333,
+          y = 130.667,
           width = 16,
           height = 16,
           rotation = 0,
@@ -447,8 +447,8 @@ return {
           name = "Light",
           type = "",
           shape = "rectangle",
-          x = 144,
-          y = 176,
+          x = 112,
+          y = 208,
           width = 16,
           height = 16,
           rotation = 0,
@@ -472,17 +472,51 @@ return {
         },
         {
           id = 24,
-          name = "Light",
+          name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 64,
-          y = 64,
+          x = 160,
+          y = 208,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 87,
+          gid = 78,
           visible = true,
-          properties = {}
+          properties = {
+            ["initialFacingDir"] = 8
+          }
+        },
+        {
+          id = 26,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 78,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = 4
+          }
+        },
+        {
+          id = 27,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 78,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = 8
+          }
         }
       }
     }
