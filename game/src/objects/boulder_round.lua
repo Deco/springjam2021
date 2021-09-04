@@ -16,7 +16,7 @@ function BoulderRound:blocksTraversal() return true end
 function BoulderRound:blocksVision() return true end
 function BoulderRound:blocksLight() return true end
 function BoulderRound:isMovable() return true end
-function BoulderRound:activatesPlates() return true end
+function BoulderRound:activatesFloorSensors() return true end
 
 function BoulderRound:render()
     love.graphics.setColor(1, 1, 1, 1)

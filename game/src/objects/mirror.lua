@@ -23,7 +23,7 @@ end
 function Mirror:blocksTraversal() return true end
 function Mirror:blocksLight() return true end
 function Mirror:isMovable() return self.kind == MirrorKind.Moving end
-function Mirror:activatesPlates() return true end
+function Mirror:activatesFloorSensors() return true end
 
 function Mirror:onUse(player)
     if self.kind == MirrorKind.Rotating then
