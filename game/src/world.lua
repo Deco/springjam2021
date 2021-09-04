@@ -3,7 +3,6 @@
 World = Engine:EntityClass('World')
 
 function World:setup(data)
-    self.renderDepth = 0
     self.level = data.level
     self.logicGroups = self.logicGroups or {
         GREEN = { color = { 0, 1, 0, 1 } },
@@ -154,7 +153,8 @@ function World:specialRenderAfter()
                     if lighterPos.y == y then hasHoriz = true end
                 end
                 if hasHoriz and hasVert then
-                    -- do cross
+                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
                 elseif hasHoriz then
                     love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
                 elseif hasVert then
@@ -168,17 +168,17 @@ function World:specialRenderAfter()
     end
     love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
 
-    if self.debugPath then
-        love.graphics.setColor(0.7, 0.7, 1, 1)
-        local lastCell = nil
-        for cellIdx, cell in ipairs(self.debugPath) do
-            if lastCell then
-                love.graphics.setLineWidth(1 / 8)
-                love.graphics.line(lastCell.pos.x + 0.5, lastCell.pos.y + 0.5, cell.pos.x + 0.5, cell.pos.y + 0.5)
-            end
-            lastCell = cell
-        end
-    end
+    --if self.debugPath then
+    --    love.graphics.setColor(0.7, 0.7, 1, 1)
+    --    local lastCell = nil
+    --    for cellIdx, cell in ipairs(self.debugPath) do
+    --        if lastCell then
+    --            love.graphics.setLineWidth(1 / 8)
+    --            love.graphics.line(lastCell.pos.x + 0.5, lastCell.pos.y + 0.5, cell.pos.x + 0.5, cell.pos.y + 0.5)
+    --        end
+    --        lastCell = cell
+    --    end
+    --end
 end
 
 function World:getCell(pos)

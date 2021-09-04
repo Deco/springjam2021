@@ -25,7 +25,7 @@ local entityBasicStuff = {
                     if rawget(other, 'onTouch') then other:onTouch(self) end
                 end
             end
-            if newCell:isIlluminated() or (oldCell and oldCell:isIlluminated()) then
+            if rawget(self, 'blocksLight') and self:blocksLight() and newCell:isIlluminated() or (oldCell and oldCell:isIlluminated()) then
                 for _, lightSource in pairs(WORLD.lightSources) do
                     lightSource:updateLight()
                 end

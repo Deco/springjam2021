@@ -13,7 +13,7 @@ local vampireAlertDelay = 1.0
 local vampireDyingDelay = 1.0
 
 function Vampire:setup(data)
-    self.renderDepth = 20
+    self.renderDepth = RenderingDepth.VampireAlive
     self.image = Engine:getAsset('art/vampire.png')
     self.dustImage = Engine:getAsset('art/dust.png')
 
@@ -39,6 +39,7 @@ function Vampire:update(time, dt)
             local path = WORLD:pathFind(self:getPos(), moveGoal, self)
             if path then
                 path = util.map(path, function(cell) return cell.pos end)
+                table.remove(path, 1)
             else
                 path = WORLD:getLineMovePath(self:getPos(), moveGoal)
             end
@@ -70,7 +71,7 @@ function Vampire:update(time, dt)
         elseif GAMETIME > self.lastMoveTime + 5 * ONETICK then
             self.lastMoveTime = GAMETIME
             local stop = false
-            if #self.movePath == 0 or self:getPos():dist(self.movePath[1]) < 1 then
+            if #self.movePath == 0 then
                 stop = true
             else
                 local nextPos = table.remove(self.movePath, 1)
@@ -92,7 +93,7 @@ function Vampire:update(time, dt)
         end
     end
     if self.stage == VampireStage.Dying then
-        self.renderDepth = -9
+        self.renderDepth = RenderingDepth.VampireDead
     end
 end
 

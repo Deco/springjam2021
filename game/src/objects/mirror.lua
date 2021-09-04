@@ -17,24 +17,12 @@ function Mirror:isMovable() return true end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
+    --love.graphics.setLineWidth(0.1)
+    --love.graphics.rectangle('line', 0, 0, 1, 1)
     DrawSimpleEntImage(self, self.image)
 end
 
-function Mirror:redirectLight()
-    local lightFromDir = nil
-    if WORLD:getCell(self:getPos() + Vec(-1, 0)):isIlluminated() then
-        lightFromDir = Cardinal.Left
-    end
-    if WORLD:getCell(self:getPos() + Vec(1, 0)):isIlluminated() then
-        lightFromDir = Cardinal.Right
-    end
-    if WORLD:getCell(self:getPos() + Vec(0, -1)):isIlluminated() then
-        lightFromDir = Cardinal.Up
-    end
-    if WORLD:getCell(self:getPos() + Vec(0, 1)):isIlluminated() then
-        lightFromDir = Cardinal.Down
-    end
-
+function Mirror:redirectLight(lightFromDir)
     --Light from above
     if self.facingDiagDir == Diagonal.UpRight and lightFromDir == Cardinal.Up then
         return Cardinal.Right
@@ -69,5 +57,20 @@ function Mirror:redirectLight()
     if self.facingDiagDir == Diagonal.DownRight and lightFromDir == Cardinal.Right then
         return Cardinal.Down
     end
+
+    if lightFromDir == 'up' then
+        if self.facingDiagDir == Diagonal.UpRight then
+            return Cardinal.Right
+        elseif self.facingDiagDir == Diagonal.DownRight then
+            return Cardinal.Down
+        elseif self.facingDiagDir == Diagonal.DownLeft then
+            return Cardinal.Left
+        elseif self.facingDiagDir == Diagonal.UpLeft then
+            return Cardinal.Up
+        end
+    end
+
     return nil
 end
+
+

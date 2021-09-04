@@ -39,6 +39,5 @@
   <object id="6" name="Tomb" gid="85" x="272" y="128" width="16" height="16"/>
   <object id="7" template="templates/Gate-COLOR.tx" name="Gate" x="192" y="304"/>
   <object id="8" name="Coffee" gid="90" x="48" y="128" width="16" height="16"/>
-  <object id="9" name="Light" gid="91" x="32" y="304" width="16" height="16"/>
  </objectgroup>
 </map>

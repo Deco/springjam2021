@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="28">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="30">
  <editorsettings>
   <export target="../game/src/maps/hand_fucking_coded.lua" format="lua"/>
  </editorsettings>
@@ -68,6 +68,12 @@
    </properties>
   </object>
   <object id="27" template="templates/Mirror.tx" x="224" y="160" rotation="0">
+   <properties>
+    <property name="initialFacingDir" type="int" value="8"/>
+   </properties>
+  </object>
+  <object id="28" template="templates/Light.tx" x="176" y="128"/>
+  <object id="29" template="templates/Mirror.tx" x="224" y="64" rotation="0">
    <properties>
     <property name="initialFacingDir" type="int" value="8"/>
    </properties>

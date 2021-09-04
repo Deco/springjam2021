@@ -41,12 +41,13 @@ function LightSource:updateLight()
 
     local currPos = self:getPos() + math.cardinalToOffset(self.dir)
     local currDirectLighter = self
-    for loopIdx = 1, 1000 do
+    for loopIdx = 1, 600 do
         local currCell = WORLD:getCell(currPos)
         table.insert(self.illuminatedCellsList, currCell)
         local mirrors = currCell:findEntsOfClass(Mirror)
         if #mirrors > 0 then
-            local newDir = mirrors[1]:redirectLight()
+            local lightFromDir = math.indexWrap(self.dir + 2, 4)
+            local newDir = mirrors[1]:redirectLight(lightFromDir)
             if newDir == nil then
                 break
             end

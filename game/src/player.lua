@@ -3,7 +3,7 @@ Player = Engine:EntityClass('Player')
 local playerSize = 0.4
 
 function Player:setup(data)
-    --self.renderDepth = 20
+    self.renderDepth = RenderingDepth.Player
     self.directionInfo = {
         [Cardinal.Up] = {
             desired = false,
@@ -51,7 +51,6 @@ function Player:setup(data)
     }
 end
 
-
 function Player:blocksLight() return true end
 
 function Player:spawned()
@@ -62,6 +61,7 @@ function Player:update(time, dt)
     if self.inputActive then
         self:processInput(time, dt)
     end
+    SCREENTEXT(self:getPos())
 end
 
 function Player:processInput(time, dt)

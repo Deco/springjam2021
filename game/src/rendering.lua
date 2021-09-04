@@ -1,3 +1,15 @@
+_G.RenderingDepth = {
+    -- under
+    Spikes = 100,
+    VampireDead = 150,
+    Default = 200,
+    Player = 220,
+    Key = 240,
+    VampireAlive = 250,
+
+    -- over
+}
+
 _G.DrawSimpleEntImage = function(ent, imageAsset)
     if imageAsset then
         love.graphics.push()
