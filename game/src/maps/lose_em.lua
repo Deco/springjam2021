@@ -5,11 +5,11 @@ return {
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 16,
-  height = 17,
+  height = 16,
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 40,
+  nextobjectid = 10,
   properties = {},
   tilesets = {
     {
@@ -286,7 +286,7 @@ return {
       x = 0,
       y = 0,
       width = 16,
-      height = 17,
+      height = 16,
       id = 1,
       name = "map",
       visible = true,
@@ -298,23 +298,22 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        79, 79, 79, 11, 5, 2, 3, 4, 5, 2, 3, 4, 5, 24, 3, 6,
-        79, 79, 79, 1, 13, 14, 13, 14, 13, 14, 13, 14, 13, 25, 101, 6,
-        79, 79, 79, 31, 8, 17, 29, 23, 10, 18, 9, 28, 20, 51, 79, 16,
-        79, 79, 79, 11, 17, 27, 19, 55, 54, 101, 101, 101, 101, 16, 79, 26,
-        79, 79, 79, 31, 101, 101, 17, 6, 1, 18, 30, 8, 8, 6, 79, 36,
-        79, 79, 79, 31, 18, 27, 19, 36, 31, 30, 20, 8, 27, 16, 79, 16,
-        79, 79, 79, 11, 17, 101, 101, 3, 2, 24, 24, 24, 24, 3, 79, 26,
-        79, 79, 79, 11, 20, 19, 8, 7, 9, 8, 19, 28, 24, 15, 79, 36,
-        79, 79, 79, 41, 45, 43, 42, 45, 45, 54, 10, 55, 56, 28, 51, 46,
-        79, 79, 79, 79, 79, 79, 79, 79, 79, 11, 19, 36, 31, 7, 16, 79,
-        79, 79, 79, 79, 79, 79, 79, 79, 79, 11, 27, 16, 11, 7, 16, 79,
-        79, 79, 79, 79, 79, 79, 11, 70, 16, 11, 19, 16, 11, 9, 2, 26,
-        79, 79, 79, 79, 79, 1, 2, 37, 2, 2, 24, 3, 4, 23, 14, 26,
-        79, 79, 79, 79, 79, 1, 10, 18, 28, 20, 28, 19, 23, 23, 20, 36,
-        79, 79, 79, 79, 79, 1, 33, 34, 33, 34, 24, 51, 54, 18, 7, 16,
-        79, 79, 79, 79, 79, 41, 43, 44, 45, 42, 43, 46, 21, 18, 19, 26,
-        79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 41, 45, 42, 46
+        11, 5, 5, 5, 5, 2, 5, 2, 4, 2, 3, 16, 79, 79, 79, 79,
+        1, 9, 9, 18, 30, 27, 7, 29, 28, 17, 18, 16, 79, 79, 79, 79,
+        21, 30, 51, 45, 42, 43, 45, 45, 45, 56, 10, 16, 79, 79, 79, 79,
+        1, 9, 16, 79, 79, 79, 79, 79, 79, 31, 30, 16, 79, 79, 79, 79,
+        21, 27, 36, 79, 79, 79, 79, 79, 79, 11, 30, 26, 79, 79, 79, 79,
+        11, 9, 26, 79, 79, 79, 79, 79, 79, 21, 29, 26, 79, 79, 79, 79,
+        31, 19, 36, 79, 79, 79, 79, 79, 79, 11, 17, 36, 79, 79, 79, 79,
+        1, 18, 6, 79, 79, 79, 79, 79, 79, 11, 27, 36, 79, 79, 79, 79,
+        21, 20, 2, 2, 3, 5, 5, 2, 5, 3, 19, 5, 2, 4, 5, 36,
+        1, 28, 10, 17, 20, 18, 27, 9, 27, 29, 17, 10, 28, 8, 27, 6,
+        41, 43, 44, 43, 42, 45, 45, 42, 42, 54, 25, 101, 101, 101, 22, 36,
+        79, 79, 79, 79, 79, 79, 79, 79, 79, 21, 25, 79, 23, 23, 23, 16,
+        79, 79, 79, 79, 79, 79, 79, 79, 79, 11, 25, 79, 23, 79, 22, 6,
+        79, 79, 79, 79, 79, 79, 79, 79, 79, 1, 18, 7, 23, 9, 18, 26,
+        79, 79, 79, 79, 79, 79, 79, 79, 79, 41, 42, 45, 42, 43, 43, 46,
+        79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79, 79
       }
     },
     {
@@ -322,7 +321,7 @@ return {
       x = 0,
       y = 0,
       width = 16,
-      height = 17,
+      height = 16,
       id = 3,
       name = "scatter",
       visible = true,
@@ -337,9 +336,8 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 69, 0, 0, 65, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -367,54 +365,12 @@ return {
       properties = {},
       objects = {
         {
-          id = 8,
-          name = "ExitDoor",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 0,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 9,
-          name = "PlayerStart",
-          type = "",
-          shape = "rectangle",
-          x = 112,
-          y = 208,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 76,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 13,
-          name = "Light",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 192,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 29,
+          id = 7,
           name = "Tomb-GoldenKey",
           type = "",
           shape = "rectangle",
-          x = 144,
-          y = 16,
+          x = 192,
+          y = 176,
           width = 16,
           height = 16,
           rotation = 0,
@@ -423,114 +379,32 @@ return {
           properties = {}
         },
         {
-          id = 30,
+          id = 8,
+          name = "PlayerStart",
+          type = "",
+          shape = "rectangle",
+          x = 144,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 76,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 9,
           name = "Coffee",
           type = "",
           shape = "rectangle",
-          x = 224,
-          y = 208,
+          x = 192,
+          y = 144,
           width = 16,
           height = 16,
           rotation = 0,
           gid = 90,
           visible = true,
           properties = {}
-        },
-        {
-          id = 32,
-          name = "MovableMirror-DL",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 16,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225577,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
-          id = 33,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 36,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 224,
-          y = 240,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 37,
-          name = "MovableMirror-UR",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 240,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 105,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpRight"
-          }
-        },
-        {
-          id = 38,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 192,
-          y = 208,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 39,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 208,
-          y = 176,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
         }
       }
     }

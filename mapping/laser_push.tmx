@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="17" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="39">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="17" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="40">
  <editorsettings>
   <export target="../game/src/maps/laser_push.lua" format="lua"/>
  </editorsettings>
@@ -49,14 +49,14 @@
  <objectgroup id="2" name="entities">
   <object id="8" template="templates/ExitDoor.tx" x="208" y="0"/>
   <object id="9" template="templates/PlayerStart.tx" x="112" y="208"/>
-  <object id="13" template="templates/Light.tx" x="208" y="192"/>
+  <object id="13" template="templates/Light.tx" x="224" y="192"/>
   <object id="29" template="templates/Tomb-GoldenKey.tx" x="144" y="16"/>
   <object id="30" template="templates/Coffee.tx" x="224" y="208"/>
   <object id="32" template="templates/MovableMirror_DL.tx" x="224" y="16"/>
   <object id="33" template="templates/MovableMirror_UL.tx" x="224" y="112"/>
-  <object id="35" template="templates/MovableMirror_DL.tx" x="208" y="176"/>
   <object id="36" template="templates/MovableMirror_UL.tx" x="224" y="240"/>
   <object id="37" template="templates/MovableMirror_UR.tx" x="208" y="240"/>
   <object id="38" template="templates/MovableMirror_DR.tx" x="192" y="208"/>
+  <object id="39" template="templates/MovableMirror_DR.tx" x="208" y="176"/>
  </objectgroup>
 </map>

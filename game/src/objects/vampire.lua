@@ -35,6 +35,7 @@ function Vampire:update(time, dt)
     if self.stage ~= VampireStage.Dying and WORLD:getCell(self:getPos()):isIlluminated() then
         self.stage = VampireStage.Dying
         self.stageChangeTime = GAMETIME
+        WORLD:refreshLight()
     end
 
     local updateMoveGoal = function()
