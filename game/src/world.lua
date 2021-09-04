@@ -47,6 +47,8 @@ function World:initLevel()
             self.playerStartPos = pos
         elseif name == 'Boulder' then
             Boulder.new(self, { pos = pos })
+        elseif name == 'BoulderRound' then
+            BoulderRound.new(self, { pos = pos })
         elseif name == 'Crate' then
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then

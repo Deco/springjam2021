@@ -62,6 +62,8 @@ local entityBasicStuff = {
                         ignoreEnt = ent
                     else
                         ent:setPos(entDestPos)
+                        local onShovedFunc = rawget(ent, "onShoved")
+                        if onShovedFunc then onShovedFunc(ent, dir, self) end
                     end
                 end
             end

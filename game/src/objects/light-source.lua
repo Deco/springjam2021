@@ -60,10 +60,8 @@ function LightSource:updateLight()
             if newDir == nil then
                 break
             end
-            --print("Im in a mirror" .. mirrors[1].facingDiagDir)
 
-            --print("Light From: " .. currDir .. " -> " .. newDir)
-            currDir = newDir
+            self.dir = newDir
             mirrors[1].isReflecting = true
             table.insert(self.illuminatedMirrors, mirrors[1])
             currDirectLighter = mirrors[1]
