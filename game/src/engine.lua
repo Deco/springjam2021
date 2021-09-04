@@ -13,6 +13,7 @@ Engine.assetKeyInfoMap = Engine.assetKeyInfoMap or {}
 
 _G.GAMETIME = -1
 _G.ONETICK = 1 / 60
+_G.SCREENTEXTSCALE = 0.2
 
 _G.ProfileMode = {
     Off = 0,
@@ -184,15 +185,20 @@ function Engine:draw()
     love.graphics.push()
 
     local pixelSize = Vec(love.graphics.getDimensions())
-    local referenceSize = Vec(500, 200)
+    love.graphics.translate(0.5 * pixelSize.x, 0.5 * pixelSize.y)
+    local referenceSize = Vec(500, 250)
     local scale
     if (referenceSize.x / referenceSize.y) > (pixelSize.x / pixelSize.y) then
-        scale = pixelSize.y / referenceSize.y
-    else
         scale = pixelSize.x / referenceSize.x
+    else
+        scale = pixelSize.y / referenceSize.y
     end
-    scale = math.floorTo(scale, 1)
+    --scale = math.floorTo(scale, 1)
     love.graphics.scale(scale)
+    love.graphics.translate(-0.5 * referenceSize.x, -0.5 * referenceSize.y)
+
+    --love.graphics.setColor(1, 1, 1, 1)
+    --love.graphics.rectangle('line', 0, 0, referenceSize.x, referenceSize.y)
 
     for _, ent in ipairs(self.entitiesList) do
         self.DP:pushEvent(string.format('screenRender %s', tostring(ent)))
@@ -259,7 +265,9 @@ function Engine:onKeyPressed(key, scancode, isrepeat)
         end
 
         if tonumber(key, 10) ~= nil then
-            local targetLevelNum = (key == '0' and 10 or tonumber(key, 10)) + love.keyboard.isS
+            local targetLevelNum = (key == '0' and 10 or tonumber(key, 10))
+            if love.keyboard.isDown('lshift') then targetLevelNum = targetLevelNum + 10 end
+            self.menu:loadLevel(targetLevelNum)
         end
     end
     self.menu:onKeyPressed(key, scancode, isrepeat)

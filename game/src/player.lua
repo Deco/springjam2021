@@ -27,7 +27,7 @@ function Player:setup(data)
             image = Engine:getAsset('art/coffee.png'),
             count = 0,
         },
-        key = {
+        goldenKey = {
             order = 1,
             niceName = "GOLDEN KEY",
             image = Engine:getAsset('art/key.png'),
@@ -106,46 +106,53 @@ end
 
 function Player:giveItem(kind)
     self.inventory[kind].count = self.inventory[kind].count + 1
-    table.insert(self.topPrompts, { t = GAMETIME, d = 2.0, msg = "Obtained 1x " .. self.inventory[kind].niceName })
+    self:showTopPrompt("Obtained 1x " .. self.inventory[kind].niceName)
 end
 
 function Player:takeItem(kind)
     assert(self.inventory[kind].count > 0)
     self.inventory[kind].count = self.inventory[kind].count - 1
-    table.insert(self.topPrompts, { t = GAMETIME, d = 2.0, msg = "Used 1x " .. self.inventory[kind].niceName })
+    self:showTopPrompt("Used 1x " .. self.inventory[kind].niceName)
+end
+
+function Player:showTopPrompt(msg, color, duration)
+    duration = duration or 2.0
+    table.insert(self.topPrompts, { t = GAMETIME, d = duration, c = color or { 1, 1, 1 }, msg = msg })
 end
 
 function Player:screenRender()
     local promptFont = Engine:getAsset('PromptFont')
-    local winSize = Vec(love.graphics.getDimensions())
     local text = ""
     for _, candidate in ipairs(self:getUseCandidates()) do
         text = text .. (candidate:getUsePrompt() or "") .. "\n"
     end
-    local textW = promptFont.handle:getWidth(text)
+    local textW = promptFont.handle:getWidth(text) * SCREENTEXTSCALE
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(promptFont.handle)
-    love.graphics.print(text, winSize.x / 2 - textW / 2, winSize.y * 0.8)
+    love.graphics.print(text, 250 - textW / 2, 160, 0, SCREENTEXTSCALE, SCREENTEXTSCALE)
 
-    --for topPromptIdx, topPromptInfo in ipairs()
-    --local textW = promptFont.handle:getWidth(text)
-    --love.graphics.setColor(1, 1, 1, 1)
-    --love.graphics.setFont(promptFont.handle)
-    --love.graphics.print(text, winSize.x / 2 - textW / 2, winSize.y * 0.8)
+    for topPromptIdx, topPromptInfo in ipairs(self.topPrompts) do
+        local textSize = Vec(promptFont.handle:getWidth(topPromptInfo.msg), promptFont.handle:getHeight()) * SCREENTEXTSCALE
+        local slideIn = math.remapClamp(GAMETIME - topPromptInfo.t, 0.0, 0.2, -5.0, 0.0)
+        local alphaOut = math.remapClamp(GAMETIME - topPromptInfo.t, topPromptInfo.d - 0.2, topPromptInfo.d, 1.0, 0.0)
+        love.graphics.setColor(topPromptInfo.c[1], topPromptInfo.c[2], topPromptInfo.c[3], alphaOut)
+        love.graphics.print(topPromptInfo.msg, 250 - textSize.x / 2, 20 + (textSize.y * 1.1) * (topPromptIdx - 1) + slideIn, 0, SCREENTEXTSCALE, SCREENTEXTSCALE)
+    end
+    self.topPrompts = util.filterList(self.topPrompts, function(tpi) return GAMETIME < tpi.t + tpi.d end)
 
     local inv = util.tablePairs(self.inventory)
     table.sort(inv, function(a, b) return a.val.order < b.val.order end)
     love.graphics.setColor(0.1, 0.1, 0.1, 0.5)
-    love.graphics.rectangle('fill', 25, 175, 6 + 20 * #inv, 26)
+    love.graphics.rectangle('fill', 25, 225, 6 + 20 * #inv, 26)
     for entryIdx, entry in ipairs(inv) do
         local info = entry.val
 
         --love.graphics.draw(info.image.handle, 0.03 + 0.04 * winSize.x, 0.9 * winSize.y)
         love.graphics.setColor(1, 1, 1, 0.3)
-        love.graphics.rectangle('line', 30 + 20 * (entryIdx - 1), 180, 16, 16)
+        love.graphics.rectangle('line', 30 + 20 * (entryIdx - 1), 230, 16, 16)
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.draw(info.image.handle, 30 + 20 * (entryIdx - 1), 180, 0, 16/info.image.size.x, 16/info.image.size.y)
-        love.graphics.print('x'..info.count, 40 + 20 * (entryIdx - 1), 190, 0, 0.2, 0.2)
+        love.graphics.draw(info.image.handle, 30 + 20 * (entryIdx - 1), 230, 0, 16 / info.image.size.x, 16 / info.image.size.y)
+        love.graphics.print('x' .. info.count, 40 + 20 * (entryIdx - 1), 240, 0, 0.2, 0.2)
     end
 end
 
@@ -159,6 +166,9 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
+    --if key == 'l' then
+    --    self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+    --end
 end
 
 function Player:onKeyReleased(key, scancode)
