@@ -38,7 +38,7 @@ function Vampire:update(time, dt)
     end
 
     local updateMoveGoal = function()
-        if GAMETIME < self.lastPathingTime + 0.5 then return end
+        if GAMETIME < self.lastPathingTime + 0.5 then return nil end
         self.lastPathingTime = GAMETIME
 
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
@@ -66,10 +66,10 @@ function Vampire:update(time, dt)
     end
     if self.stage == VampireStage.Idle then
         if GAMETIME > self.stageChangeTime + vampireIdleDelay then
-            if updateMoveGoal() then
+            if updateMoveGoal() == true then
                 self.stage = VampireStage.Alerted
                 self.stageChangeTime = GAMETIME
-                print('-> ALERT')
+                --print('-> ALERT')
             end
         end
     end
@@ -96,10 +96,10 @@ function Vampire:update(time, dt)
                 end
             end
             if stop then
-                if not updateMoveGoal() then
+                if updateMoveGoal() == false then
                     self.stage = VampireStage.Idle
                     self.stageChangeTime = GAMETIME
-                    print('-> IDLE')
+                    --print('-> IDLE')
                     self.movePath = nil
                 end
             end

@@ -62,6 +62,6 @@
   <object id="43" template="templates/RotatingMirror_UL.tx" x="416" y="240"/>
   <object id="44" template="templates/RotatingMirror_DR.tx" x="384" y="240"/>
   <object id="45" template="templates/RotatingMirror_DL.tx" x="384" y="288"/>
-  <object id="46" template="templates/Light.tx" x="304" y="304"/>
+  <object id="46" template="templates/Light.tx" x="304" y="288"/>
  </objectgroup>
 </map>
