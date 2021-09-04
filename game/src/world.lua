@@ -39,7 +39,7 @@ function World:initLevel()
 
     for _, object in pairs(self.level.tiledmap.handle.objects) do
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
-        local name, logicGroupName = unpack(util.splitString(object.name, '-'))
+        local name, extraData = unpack(util.splitString(object.name, '-'))
 
         if name == 'PlayerStart' then
             self.playerStartPos = pos
@@ -50,7 +50,7 @@ function World:initLevel()
         elseif name == 'Coffee' then
             Coffee.new(self, { pos = pos })
         elseif name == 'Tomb' then
-            Tomb.new(self, { pos = pos })
+            Tomb.new(self, { pos = pos, hasGoldenKey = (extraData == 'GoldenKey') })
         elseif name == 'Spikes' then
             Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
@@ -60,14 +60,14 @@ function World:initLevel()
         elseif name == 'ExitDoor' then
             ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then
-            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = logicGroupName })
-            table.insert(self:getLogicGroup(logicGroupName).inputsList, ent)
+            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = extraData })
+            table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'ToggleSwitch' then
-            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = logicGroupName })
-            table.insert(self:getLogicGroup(logicGroupName).inputsList, ent)
+            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = extraData })
+            table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'Gate' then
-            local ent = Gate.new(self, { pos = pos, logicGroupName = logicGroupName })
-            table.insert(self:getLogicGroup(logicGroupName).outputsList, ent)
+            local ent = Gate.new(self, { pos = pos, logicGroupName = extraData })
+            table.insert(self:getLogicGroup(extraData).outputsList, ent)
         end
     end
 
@@ -377,12 +377,12 @@ function Cell:getPos()
     return self.pos
 end
 
-function Cell:traversalPassTest(entOrNil)
+function Cell:traversalPassTest(entOrNil, secondEntOrNil)
     if self.isWall then return false end
     if self.isPit then return false end
 
     for other in pairs(self.entsSet) do
-        if other ~= entOrNil then
+        if other ~= entOrNil and other ~= secondEntOrNil then
             local checkFunc = rawget(other, 'blocksTraversal')
             if checkFunc and checkFunc(other, entOrNil) then return false end
         end

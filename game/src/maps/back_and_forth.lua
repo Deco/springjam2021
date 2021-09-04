@@ -407,7 +407,7 @@ return {
         },
         {
           id = 6,
-          name = "Tomb",
+          name = "Tomb-GoldenKey",
           type = "",
           shape = "rectangle",
           x = 272,

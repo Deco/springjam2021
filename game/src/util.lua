@@ -292,4 +292,10 @@ function util.splitString(str, sep)
     return out
 end
 
+function util.some(list, func)
+    for _, val in ipairs(list) do
+        if func(val) then return true end
+    end
+    return false
+end
 

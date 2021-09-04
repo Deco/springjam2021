@@ -117,6 +117,7 @@ function TheMenu:gotoStage(newStage)
             self.targetLevelIdx = 1
             self.targetLevel = levels[self.targetLevelIdx]
         end
+        GAMETIME = 0
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
     self.stage = newStage
