@@ -12,13 +12,14 @@ function Tomb:setup(data)
     self.openedImage = Engine:getAsset('art/Koffeen_open.png')
     self.closedImage = Engine:getAsset('art/koffeen.png')
     self.openingAnim = Engine:getAsset('art/Koffeen_open-Sheet.png')
-    self.blocksTraversal = true
 
     BasicEntSetup(self, data)
 
     self.stage = self.stage or TombStage.Closed
     self.stageChangeTime = self.stageChangeTime or 0
 end
+
+function Tomb:blocksTraversal() return self.stage ~= TombStage.Opened end
 
 function Tomb:onTouch(other)
     --if other.class == Player and self.stage == TombStage.Closed and other.inventory.coffee.count > 0 then
@@ -49,7 +50,6 @@ end
 function Tomb:update(time, dt)
     if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + tombOpeningDuration then
         self.stage = TombStage.Opened
-        self.blocksTraversal = false
         Key.new(WORLD, { pos = self:getPos(), })
         SpawnVFX('art/fx/explosion.png', self:getPos())
         Vampire.new(WORLD, { pos = self:getPos(), })

@@ -29,7 +29,6 @@ function Player:setup(data)
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
     BasicEntSetup(self, data)
-    self.blocksLight = true
 
     self.lastMoveTime = self.lastMoveTime or 0
 
@@ -51,6 +50,9 @@ function Player:setup(data)
         count = 0,
     }
 end
+
+
+function Player:blocksLight() return true end
 
 function Player:spawned()
     --

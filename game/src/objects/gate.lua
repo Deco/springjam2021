@@ -4,11 +4,13 @@ function Gate:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')
     self.logicGroupName = data.logicGroupName
-    self.blocksTraversal = true
-    self.blocksLight = true
 
     BasicEntSetup(self, data)
 end
+
+function Gate:blocksTraversal() return self:isLocked() end
+function Gate:blocksVision() return self:isLocked() end
+function Gate:blocksLight() return self:isLocked() end
 
 function Gate:isLocked()
     local logicGroup = WORLD:getLogicGroup(self.logicGroupName)

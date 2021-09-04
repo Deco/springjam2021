@@ -25,7 +25,7 @@ local entityBasicStuff = {
                     if rawget(other, 'onTouch') then other:onTouch(self) end
                 end
             end
-            if newCell:illuminated() or (oldCell and oldCell:illuminated()) then
+            if newCell:isIlluminated() or (oldCell and oldCell:isIlluminated()) then
                 for _, lightSource in pairs(WORLD.lightSources) do
                     lightSource:updateLight()
                 end
@@ -38,22 +38,20 @@ local entityBasicStuff = {
         local destCell = WORLD:getCell(destPos)
 
         for ent in pairs(destCell.entsSet) do
-            print("trying to move: " .. ent.__name)
-            if rawget(ent, 'isMovable') then
+            local checkFunc = rawget(ent, 'isMovable')
+            if checkFunc and checkFunc(ent, self) then
                 local entDestPos = destPos + math.cardinalToOffset(dir)
                 local entDestCell = WORLD:getCell(entDestPos)
-                if entDestCell:traversableTest(ent) then
+                if entDestCell:traversalPassTest(ent) then
                     ent:setPos(entDestPos)
                 end
             end
         end
-        if not destCell:traversableTest(self) then
+        if not destCell:traversalPassTest(self) then
             return false
         end
         self:setPos(destPos)
         return true
-
-
     end,
 }
 

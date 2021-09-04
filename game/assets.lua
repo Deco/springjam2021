@@ -1,5 +1,6 @@
 local assets = {
     ['src/maps/back_and_forth.lua'] = { type = 'tiledmap' },
+    ['src/maps/pits.lua'] = { type = 'tiledmap' },
     ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },

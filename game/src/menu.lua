@@ -88,15 +88,15 @@ end
 
 local levels = {
     {
+        label = "Pits",
+        tiledmap = Engine:getAsset('src/maps/pits.lua'),
+    },
+    {
         label = "Back and Forth",
         tiledmap = Engine:getAsset('src/maps/back_and_forth.lua'),
     },
     {
         label = "Bloody Blood Blood",
-        tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
-    },
-    {
-        label = "Nothing",
         tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
     },
 }

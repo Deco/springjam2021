@@ -1,10 +1,6 @@
 Mirror = Engine:EntityClass('Mirror')
 
 function Mirror:setup(data)
-    self.isMovable = true
-
-    self.blocksTraversal = true
-    self.blocksLight = true
     BasicEntSetup(self, data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.isMovingMirror = util.default(data.isMovingMirror ,true)
@@ -14,6 +10,10 @@ function Mirror:setup(data)
         self.image = Engine:getAsset('art/mirror_static.png')
     end
 end
+
+function Mirror:blocksTraversal() return true end
+function Mirror:blocksLight() return true end
+function Mirror:isMovable() return true end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)

@@ -139,14 +139,10 @@ end
 function World:specialRenderAfter()
     -- temp
     local sixteenToOne = 1 / 16
-    local illuminated = false
-    local blocksLight = false
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
-            blocksLight = cell:blocksLight()
-            illuminated = cell:illuminated()
-            if illuminated and (not blocksLight) then
+            if cell:isIlluminated() and cell:lightPassTest() then
                 love.graphics.draw(self.litBlitImage.handle, x, y, 0, 1 / 32, 1 / 32)
             end
 
@@ -192,9 +188,10 @@ function World:getLogicGroup(name)
     return self.logicGroups[name]
 end
 
-function World:canSee(v0, v1)
+function World:canSee(v0, v1, entOrNil)
     local visionTest = function(x, y)
-        return self:getCell(Vec(x, y)):visionTest(nil)
+        local wtf = self:getCell(Vec(x, y)):visionPassTest(entOrNil)
+        return wtf
     end
 
     local x0, y0, x1, y1 = v0.x, v0.y, v1.x, v1.y
@@ -237,8 +234,8 @@ function World:canSee(v0, v1)
 end
 
 function World:getLineMovePath(v0, v1)
-    local traversableTest = function(x, y)
-        return self:getCell(Vec(x, y)):traversableTest(nil)
+    local traversalPassTest = function(x, y)
+        return self:getCell(Vec(x, y)):traversalPassTest(nil)
     end
 
     local points = {}
@@ -263,7 +260,7 @@ function World:getLineMovePath(v0, v1)
 
     local err, e2 = dx - dy, nil
 
-    if not traversableTest(x0, y0) then
+    if not traversalPassTest(x0, y0) then
         return points, false
     end
     table.insert(points, Vec(x0, y0))
@@ -278,7 +275,7 @@ function World:getLineMovePath(v0, v1)
             err = err + dx
             y0 = y0 + sy
         end
-        if not traversableTest(x0, y0) then
+        if not traversalPassTest(x0, y0) then
             return points, false
         end
         table.insert(points, Vec(x0, y0))
@@ -306,7 +303,7 @@ function World:pathFind(v0, v1, entOrNil)
             }
         end,
         function(cell, neighbour)
-            return neighbour:traversableTest(entOrNil)
+            return neighbour:traversalPassTest(entOrNil)
         end,
         function(cell, target)
             return cell.pos:dist(target.pos)
@@ -332,29 +329,26 @@ function Cell:getPos()
     return self.pos
 end
 
-function Cell:traversableTest(entOrNil)
-    if self.isWall or self.isPit then return false end
+function Cell:traversalPassTest(entOrNil)
+    if self.isWall then return false end
+    if self.isPit then return false end
 
     for other in pairs(self.entsSet) do
-        if other ~= entOrNil and rawget(other, 'blocksTraversal') then
-            if other.class == Gate then
-                return not other:isLocked()
-            elseif other.class == ExitDoor then
-                return not other:isLocked()
-            else
-                return false
-            end
+        if other ~= entOrNil then
+            local checkFunc = rawget(other, 'blocksTraversal')
+            if checkFunc and checkFunc(other, entOrNil) then return false end
         end
     end
     return true
 end
 
-function Cell:visionTest(entOrNil)
+function Cell:visionPassTest(entOrNil)
     if self.isWall then return false end
 
     for other in pairs(self.entsSet) do
         if other ~= entOrNil then
-            if other.class == Crate then
+            local checkFunc = rawget(other, 'blocksVision')
+            if checkFunc and checkFunc(other) then
                 return false
             end
         end
@@ -362,18 +356,23 @@ function Cell:visionTest(entOrNil)
     return true
 end
 
-function Cell:blocksLight(entOrNil)
-    if self.isWall then return true end
+function Cell:lightPassTest(entOrNil)
+    if self.isWall then return false end
 
     for other in pairs(self.entsSet) do
-        if rawget(other, 'blocksLight') then
-            return true
+        if other ~= entOrNil then
+            local checkFunc = rawget(other, 'blocksLight')
+            if checkFunc and checkFunc(other) then
+                return false
+            end
         end
     end
-    return false
+    return true
 end
 
-function Cell:illuminated(entOrNil)
+function Cell:isIlluminated(entOrNil)
     --if next(self.litBySet) ~= nil then print("illuminated") end
     return next(self.litBySet) ~= nil
 end
+
+

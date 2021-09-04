@@ -23,12 +23,18 @@ function Vampire:setup(data)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.movePath = self.movePath or nil
-    self.blocksLight = true
 end
 
+function Vampire:blocksLight() return true end
+
 function Vampire:update(time, dt)
+    if self.stage ~= VampireStage.Dying and WORLD:getCell(self:getPos()):isIlluminated() then
+        self.stage = VampireStage.Dying
+        self.stageChangeTime = GAMETIME
+    end
+    
     local updateMoveGoal = function()
-        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
+        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
             local moveGoal = GAMESTATE.player:getPos()
             local path = WORLD:pathFind(self:getPos(), moveGoal, self)
             if path then
@@ -69,12 +75,8 @@ function Vampire:update(time, dt)
             else
                 local nextPos = table.remove(self.movePath, 1)
                 local nextCell = WORLD:getCell(nextPos)
-                if nextCell:traversableTest(self) then
+                if nextCell:traversalPassTest(self) then
                     self:setPos(nextPos)
-                    if nextCell:illuminated() then
-                        self.stage = VampireStage.Dying
-                        self.stageChangeTime = GAMETIME
-                    end
                 else
                     stop = true
                 end

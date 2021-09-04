@@ -38,16 +38,16 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 204.5,
-                "y": 137.5
+                "x": 202.5,
+                "y": 137
             }
         },
         "basic_map.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -133,
-                "y": 76.75
+                "x": 120,
+                "y": 255.75
             }
         },
         "basic_map.tmx#dungeon-tileset": {
@@ -62,6 +62,14 @@
                 "y": 127.83333333333334
             }
         },
+        "pits.tmx": {
+            "scale": 2.927801724137931,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 231.23150533676852,
+                "y": 175.89988958410012
+            }
+        },
         "tileset/dungeon-tileset.tsx": {
             "scaleInDock": 5.5,
             "scaleInEditor": 1
@@ -70,6 +78,7 @@
     "last.exportedFilePath": "C:/why/folders/springjam2021/game/src/maps",
     "last.externalTilesetPath": "E:/Programming/JAM/springjam2021/mapping/tileset",
     "last.imagePath": "E:/Programming/JAM/springjam2021/game/art/tilesets",
+    "last.objectTemplatePath": "C:/why/folders/springjam2021/mapping/templates",
     "map.fixedSize": false,
     "map.height": 16,
     "map.lastUsedExportFilter": "Lua files (*.lua)",
