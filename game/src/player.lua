@@ -84,7 +84,10 @@ function Player:onTouch(other)
     elseif other.class == Coffee then
         self:giveItem('coffee')
         Engine:Remove(other)
-    elseif other.class == Spikes or other.class == Vampire then
+    elseif other.class == Spikes then
+        self.alive = false
+        print('DEAD')
+    elseif other.class == Vampire and other.stage ~= VampireStage.Dying then
         self.alive = false
         print('DEAD')
     end
@@ -192,10 +195,11 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
-    if key == 'l' then
-        --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
-        SpawnVFX('art/fx/explosion.png', self:getPos())
-    end
+    --if key == 'l' then
+    --    --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+    --    --SpawnVFX('art/fx/explosion.png', self:getPos())
+    --    WORLD:pathFind(self:getPos(), Vec(3, 3))
+    --end
 end
 
 function Player:onKeyReleased(key, scancode)

@@ -1,4 +1,7 @@
 local assets = {
+    ['src/maps/back_and_forth.lua'] = { type = 'tiledmap' },
+    ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
+
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
     ['fonts/HelvetiPixel.ttf:60'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 60 },
@@ -41,8 +44,6 @@ local assets = {
 
     ['art/tree.png'] = { type = 'image' },
     ['art/lit.png'] = { type = 'image' },
-
-    ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 

@@ -13,7 +13,7 @@ local vampireAlertDelay = 1.0
 local vampireDyingDelay = 1.0
 
 function Vampire:setup(data)
-    --self.renderDepth = 11
+    self.renderDepth = 20
     self.image = Engine:getAsset('art/vampire.png')
     self.dustImage = Engine:getAsset('art/dust.png')
 
@@ -22,14 +22,21 @@ function Vampire:setup(data)
     self.stage = util.default(self.stage, VampireStage.Wakeup)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
-    self.moveGoal = self.moveGoal or nil
+    self.movePath = self.movePath or nil
     self.blocksLight = true
 end
 
 function Vampire:update(time, dt)
     local updateMoveGoal = function()
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
-            self.moveGoal = GAMESTATE.player:getPos()
+            local moveGoal = GAMESTATE.player:getPos()
+            local path = WORLD:pathFind(self:getPos(), moveGoal, self)
+            if path then
+                path = util.map(path, function(cell) return cell.pos end)
+            else
+                path = WORLD:getLineMovePath(self:getPos(), moveGoal)
+            end
+            self.movePath = path
             return true
         end
         return false
@@ -50,29 +57,23 @@ function Vampire:update(time, dt)
         end
     end
     if self.stage == VampireStage.Alerted then
-        if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos()) then
-            self.moveGoal = GAMESTATE.player:getPos()
-        end
+        updateMoveGoal()
 
         if GAMETIME < self.stageChangeTime + vampireAlertDelay then
             --
         elseif GAMETIME > self.lastMoveTime + 5 * ONETICK then
             self.lastMoveTime = GAMETIME
             local stop = false
-            if self:getPos():dist(self.moveGoal) < 1 then
+            if #self.movePath == 0 or self:getPos():dist(self.movePath[1]) < 1 then
                 stop = true
             else
-                local movePoints = WORLD:getLineMovePath(self:getPos(), self.moveGoal)
-                if #movePoints >= 2 then
-                    local nextCell = WORLD:getCell(movePoints[2])
-                    if nextCell:traversableTest(self) then
-                        self:setPos(movePoints[2])
-                        if nextCell:illuminated() then
-                            self.stage = VampireStage.Dying
-                            self.stageChangeTime = GAMETIME
-                        end
-                    else
-                        stop = true
+                local nextPos = table.remove(self.movePath, 1)
+                local nextCell = WORLD:getCell(nextPos)
+                if nextCell:traversableTest(self) then
+                    self:setPos(nextPos)
+                    if nextCell:illuminated() then
+                        self.stage = VampireStage.Dying
+                        self.stageChangeTime = GAMETIME
                     end
                 else
                     stop = true
@@ -83,13 +84,13 @@ function Vampire:update(time, dt)
                     self.stage = VampireStage.Idle
                     self.stageChangeTime = GAMETIME
                     print('-> IDLE')
-                    self.moveGoal = nil
+                    self.movePath = nil
                 end
             end
         end
     end
     if self.stage == VampireStage.Dying then
-        --
+        self.renderDepth = -9
     end
 end
 
@@ -112,5 +113,4 @@ function Vampire:render()
         end
     end
 end
-
 

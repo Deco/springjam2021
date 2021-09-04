@@ -3,8 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "basic_map.tmx",
+    "activeFile": "back_and_forth.tmx",
     "expandedProjectPaths": [
+        ".",
+        "tileset",
+        "C:/why/folders/springjam2021"
     ],
     "fileStates": {
         "": {
@@ -31,12 +34,20 @@
         "C:/Users/Luke/Documents/sample.tmx#2dpixel": {
             "scaleInDock": 3
         },
+        "back_and_forth.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 204.5,
+                "y": 137.5
+            }
+        },
         "basic_map.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 108.25,
-                "y": 206.5
+                "x": -133,
+                "y": 76.75
             }
         },
         "basic_map.tmx#dungeon-tileset": {
@@ -47,8 +58,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 163.16666666666666,
-                "y": 41
+                "x": 224,
+                "y": 127.83333333333334
             }
         },
         "tileset/dungeon-tileset.tsx": {
@@ -56,9 +67,10 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "E:/Programming/JAM/springjam2021/mapping/built",
+    "last.exportedFilePath": "C:/why/folders/springjam2021/game/src/maps",
     "last.externalTilesetPath": "E:/Programming/JAM/springjam2021/mapping/tileset",
     "last.imagePath": "E:/Programming/JAM/springjam2021/game/art/tilesets",
+    "map.fixedSize": false,
     "map.height": 16,
     "map.lastUsedExportFilter": "Lua files (*.lua)",
     "map.lastUsedFormat": "tmx",
@@ -66,13 +78,18 @@
     "map.tileWidth": 16,
     "map.width": 28,
     "openFiles": [
-        "basic_map.tmx"
+        "basic_map.tmx",
+        "hand_fucking_coded.tmx",
+        "back_and_forth.tmx",
+        "tileset/dungeon-tileset.tsx"
     ],
     "project": "dungeons.tiled-project",
     "property.type": "color",
     "recentFiles": [
-        "tileset/dungeon-tileset.tsx",
         "basic_map.tmx",
+        "hand_fucking_coded.tmx",
+        "tileset/dungeon-tileset.tsx",
+        "back_and_forth.tmx",
         "C:/Users/Luke/Documents/sample.tmx",
         "C:/Users/Luke/Documents/pixelpoempack.tsx",
         "C:/Users/Luke/Documents/2dpixeldungeon.tsx"

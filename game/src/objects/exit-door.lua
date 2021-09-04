@@ -4,6 +4,7 @@ function ExitDoor:setup(data)
     self.imageClosed = Engine:getAsset('art/gate.png')
     self.imageOpen = Engine:getAsset('art/gate_open.png')
     self.blocksTraversal = true
+    self.blocksLight = true
 
     self._isLocked = true
 
