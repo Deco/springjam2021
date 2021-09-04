@@ -24,6 +24,7 @@ local entityBasicStuff = {
                     if rawget(other, 'onTouch') then other:onTouch(self) end
                 end
             end
+            self._posChangeTime = GAMETIME
         end
     end,
     getRot = function(self)
@@ -56,6 +57,7 @@ function _G.BasicEntSetup(self, data)
     self._cellIn = self._cellIn or nil
     self:setPos(self._pos or assert(data.pos))
     self._lastPos = self._lastPos or self._pos
+    self._posChangeTime = self._posChangeTime or GAMETIME
     self:setRot(self._rot or data.rot or Cardinal.Up)
     self._lastRot = self._lastRot or self._rot
 end

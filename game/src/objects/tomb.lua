@@ -35,9 +35,9 @@ end
 function Tomb:getUsePrompt()
     if self.stage == TombStage.Closed then
         if GAMESTATE.player.inventory.coffee.count == 0 then
-            return "The lid of the tomb is too heavy to move."
+            return "It's a KOFFEEN. The lid is too heavy to move."
         else
-            return "Press SPACE to OPEN TOMB"
+            return "Press SPACE to KOFFEEN"
         end
     end
 end

@@ -4,11 +4,11 @@ local playerSize = 0.4
 
 function Player:setup(data)
     self.renderDepth = 20
-    self.image_dir_set = {
-        [Cardinal.Up] = Engine:getAsset('art/player/idle_up.png'),
-        [Cardinal.Right] = Engine:getAsset('art/player/idle_right.png'),
-        [Cardinal.Down] = Engine:getAsset('art/player/idle_down.png'),
-        [Cardinal.Left] = Engine:getAsset('art/player/idle_left.png'),
+    self.imageMap = {
+        [Cardinal.Up] = { idle = Engine:getAsset('art/player/idle_up.png'), moving = Engine:getAsset('art/player/walking_up-sheet.png'), },
+        [Cardinal.Right] = { idle = Engine:getAsset('art/player/idle_right.png'), moving = Engine:getAsset('art/player/walking_right-sheet.png'), },
+        [Cardinal.Down] = { idle = Engine:getAsset('art/player/idle_down.png'), moving = Engine:getAsset('art/player/walking_right-sheet.png'), },
+        [Cardinal.Left] = { idle = Engine:getAsset('art/player/idle_left.png'), moving = Engine:getAsset('art/player/walking_left-sheet.png'), },
     }
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
@@ -75,19 +75,6 @@ function Player:onTouch(other)
     end
 end
 
-function Player:render()
-    if self.alive then
-        love.graphics.setColor(1, 1, 1, 1)
-    else
-        love.graphics.setColor(0.3, 0, 0, 1)
-    end
-    DrawSimpleEntImage(self, self.image_dir_set[self.lastMoveDir], playerSize)
-
-    --love.graphics.setColor(1, 1, 0, 1)
-    --love.graphics.line(-10, 0, 10, 0)
-    --love.graphics.line(0, -10, 0, 10)
-end
-
 function Player:getUseCandidates()
     local facingPos = self:getPos() + math.cardinalToOffset(self.lastMoveDir)
     local facingCell = WORLD:getCell(facingPos)
@@ -120,11 +107,29 @@ function Player:showTopPrompt(msg, color, duration)
     table.insert(self.topPrompts, { t = GAMETIME, d = duration, c = color or { 1, 1, 1 }, msg = msg })
 end
 
+function Player:render(dt, isMoving)
+    if self.alive then
+        love.graphics.setColor(1, 1, 1, 1)
+    else
+        love.graphics.setColor(0.3, 0, 0, 1)
+    end
+    local ass = self.imageMap[self.lastMoveDir]
+    if isMoving then
+        DrawSimpleEntAnim(self, ass.moving, 2 * GAMETIME)
+    else
+        DrawSimpleEntImage(self, ass.idle)
+    end
+
+    --love.graphics.setColor(1, 1, 0, 1)
+    --love.graphics.line(-10, 0, 10, 0)
+    --love.graphics.line(0, -10, 0, 10)
+end
+
 function Player:screenRender()
     local promptFont = Engine:getAsset('PromptFont')
     local text = ""
     for _, candidate in ipairs(self:getUseCandidates()) do
-        text = text .. (candidate:getUsePrompt() or "") .. "\n"
+        text = text .. (candidate:getUsePrompt(self) or "") .. "\n"
     end
     local textW = promptFont.handle:getWidth(text) * SCREENTEXTSCALE
     love.graphics.setColor(1, 1, 1, 1)
