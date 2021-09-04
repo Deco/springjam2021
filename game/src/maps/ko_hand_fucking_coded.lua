@@ -268,6 +268,14 @@ return {
         {
           id = 73,
           type = "floor"
+        },
+        {
+          id = 78,
+          type = "pit"
+        },
+        {
+          id = 100,
+          type = "pit"
         }
       }
     }
@@ -519,120 +527,6 @@ return {
           properties = {
             ["initialFacingDir"] = "UpRight"
           }
-        },
-        {
-          id = 30,
-          name = "ToggleSwitch-RED",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 31,
-          name = "Boulder",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 64,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 50,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 32,
-          name = "Gate-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 288,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {
-            ["color"] = "#ffff00ff"
-          }
-        },
-        {
-          id = 33,
-          name = "ToggleSwitch-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 288,
-          y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 87,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 34,
-          name = "Tomb",
-          type = "",
-          shape = "rectangle",
-          x = 384,
-          y = 192,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 83,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 35,
-          name = "Coffee",
-          type = "",
-          shape = "rectangle",
-          x = 416,
-          y = 96,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 98,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 36,
-          name = "Coffee",
-          type = "",
-          shape = "rectangle",
-          x = 416,
-          y = 80,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 98,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 31,
-          name = "ExitDoor",
-          type = "",
-          shape = "rectangle",
-          x = 352,
-          y = 16,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
         }
       }
     }
