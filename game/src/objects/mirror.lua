@@ -5,9 +5,9 @@ function Mirror:setup(data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
     self.isMovingMirror = util.default(data.isMovingMirror, true)
     if self.isMovingMirror then
-        self.image = Engine:getAsset( 'art/mirror_dynamic.png')
+        self.image = Engine:getAsset( 'art/Mirror.png')
     else
-        self.image = Engine:getAsset('art/mirror_static.png')
+        self.image = Engine:getAsset('art/Mirror.png')
     end
 end
 

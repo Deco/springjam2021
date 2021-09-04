@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 340,
+  nextobjectid = 347,
   properties = {},
   tilesets = {
     {
@@ -268,14 +268,6 @@ return {
         {
           id = 73,
           type = "floor"
-        },
-        {
-          id = 78,
-          type = "pit"
-        },
-        {
-          id = 100,
-          type = "pit"
         }
       }
     }
@@ -485,11 +477,11 @@ return {
           name = "Mirror",
           type = "",
           shape = "rectangle",
-          x = 128,
-          y = 192,
+          x = 83.6667,
+          y = 167.667,
           width = 16,
           height = 16,
-          rotation = 0,
+          rotation = 90,
           gid = 78,
           visible = true,
           properties = {
@@ -526,6 +518,70 @@ return {
           visible = true,
           properties = {
             ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 342,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483750,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
+        },
+        {
+          id = 344,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 102,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 345,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 3221225574,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownLeft"
+          }
+        },
+        {
+          id = 346,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 1073741926,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownRight"
           }
         }
       }
