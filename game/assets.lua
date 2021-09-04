@@ -16,7 +16,6 @@ local assets = {
 
     ['art/wall.png'] = { type = 'image' },
 
-    ['art/bomb.png'] = { type = 'image' },
     ['art/flashlight.png'] = { type = 'image' },
     ['art/coffee.png'] = { type = 'image', scale = 0.6 },
     ['art/crate.png'] = { type = 'image' },
@@ -28,6 +27,7 @@ local assets = {
     ['art/toggle-switch-off.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
+    ['art/Boulder.png'] = { type = 'image' },
 
     ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
     ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
