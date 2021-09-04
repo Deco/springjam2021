@@ -73,10 +73,12 @@ function Player:processInput(time, dt)
     if not self.alive then return end
 
     if GAMETIME >= self.lastMoveTime + 10 * ONETICK then
+        local someMoveDir = nil
         local possibleDirs = {}
         for dir, dirInfo in pairs(self.directionInfo) do
             local isDown = dirInfo.desired or util.some(dirInfo.keys, function(key) return love.keyboard.isDown(key) end)
             if isDown then
+                someMoveDir = dir
                 local canMove = self:tryMove(dir, true)
                 if canMove then
                     table.insert(possibleDirs, dir)
@@ -91,6 +93,8 @@ function Player:processInput(time, dt)
             self.lastMoveTime = GAMETIME
             self:tryMove(moveDir)
             self.lastMoveDir = moveDir
+        elseif someMoveDir then
+            self.lastMoveDir = someMoveDir
         end
 
         for dir, dirInfo in pairs(self.directionInfo) do
