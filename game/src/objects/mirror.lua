@@ -24,6 +24,7 @@ end
 function Mirror:blocksTraversal() return true end
 function Mirror:blocksLight() return true end
 function Mirror:isMovable() return true end
+function Mirror:activatesPlates() return true end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
