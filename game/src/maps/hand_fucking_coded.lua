@@ -22,7 +22,7 @@ return {
       columns = 10,
       image = "../../art/tilesets/dungeon.png",
       imagewidth = 160,
-      imageheight = 160,
+      imageheight = 176,
       objectalignment = "topleft",
       tileoffset = {
         x = 0,
@@ -35,7 +35,7 @@ return {
       },
       properties = {},
       wangsets = {},
-      tilecount = 100,
+      tilecount = 110,
       tiles = {
         {
           id = 0,
@@ -268,6 +268,14 @@ return {
         {
           id = 73,
           type = "floor"
+        },
+        {
+          id = 78,
+          type = "pit"
+        },
+        {
+          id = 100,
+          type = "pit"
         }
       }
     }

@@ -22,16 +22,16 @@ end
 
 function Mirror:redirectLight()
     local lightFromDir = nil
-    if WORLD:getCell(self:getPos() + Vec(-1, 0)):illuminated() then
+    if WORLD:getCell(self:getPos() + Vec(-1, 0)):isIlluminated() then
         lightFromDir = Cardinal.Left
     end
-    if WORLD:getCell(self:getPos() + Vec(1, 0)):illuminated() then
+    if WORLD:getCell(self:getPos() + Vec(1, 0)):isIlluminated() then
         lightFromDir = Cardinal.Right
     end
-    if WORLD:getCell(self:getPos() + Vec(0, -1)):illuminated() then
+    if WORLD:getCell(self:getPos() + Vec(0, -1)):isIlluminated() then
         lightFromDir = Cardinal.Up
     end
-    if WORLD:getCell(self:getPos() + Vec(0, 1)):illuminated() then
+    if WORLD:getCell(self:getPos() + Vec(0, 1)):isIlluminated() then
         lightFromDir = Cardinal.Down
     end
 

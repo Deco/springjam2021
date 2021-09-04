@@ -32,7 +32,7 @@ function Vampire:update(time, dt)
         self.stage = VampireStage.Dying
         self.stageChangeTime = GAMETIME
     end
-    
+
     local updateMoveGoal = function()
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
             local moveGoal = GAMESTATE.player:getPos()

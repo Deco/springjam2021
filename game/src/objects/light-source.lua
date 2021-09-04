@@ -4,7 +4,7 @@ function LightSource:setup(data)
     self.image = Engine:getAsset('art/flashlight.png')
     self.dir = self.dir or Cardinal.Right
     self.initialDir = self.initialDir or Cardinal.Right
-    self.illuminatedCellsSet = self.illuminatedCellsSet or { }
+    self.illuminatedCellsList = self.illuminatedCellsList or { }
     self.firstRun = util.default(self.firstRun, false)
 
     BasicEntSetup(self, data)
@@ -28,28 +28,35 @@ function LightSource:update()
 end
 
 function LightSource:updateLight()
-    for _, pos in ipairs(self.illuminatedCellsSet) do
-        WORLD:getCell(pos.pos).litBySet[self] = nil
+    for _, illuminatedCell in ipairs(self.illuminatedCellsList) do
+        illuminatedCell.litBySet[self] = nil
+        for mirror, source in pairs(illuminatedCell.directlyLitBySet) do
+            if source == self then
+                illuminatedCell.directlyLitBySet[mirror] = nil
+            end
+        end
     end
-    self.illuminatedCellsSet = {}
+    self.illuminatedCellsList = {}
     self.dir = self.initialDir
 
     local currPos = self:getPos() + math.cardinalToOffset(self.dir)
+    local currDirectLighter = self
     for loopIdx = 1, 1000 do
         local currCell = WORLD:getCell(currPos)
-        table.insert(self.illuminatedCellsSet, { pos = currPos })
+        table.insert(self.illuminatedCellsList, currCell)
         local mirrors = currCell:findEntsOfClass(Mirror)
         if #mirrors > 0 then
             local newDir = mirrors[1]:redirectLight()
             if newDir == nil then
                 break
             end
-            print("Im in a mirror" .. mirrors[1].facingDiagDir )
+            print("Im in a mirror" .. mirrors[1].facingDiagDir)
             print("Light From: " .. self.dir .. " -> " .. newDir)
             self.dir = newDir
+            currDirectLighter = mirrors[1]
         end
         currCell.litBySet[self] = true
-        loop_c = loop_c + 1
+        currCell.directlyLitBySet[currDirectLighter] = self
         print("adding" .. currPos.x .. ", " .. currPos.y)
         if not currCell:lightPassTest(self) and #currCell:findEntsOfClass(Mirror) < 1 then
             break

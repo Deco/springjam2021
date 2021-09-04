@@ -15,7 +15,8 @@ function World:setup(data)
     self.playerStartPos = self.playerStartPos or nil
 
     self.wallImage = Engine:getAsset('art/wall.png')
-    self.litBlitImage = Engine:getAsset('art/lit.png')
+    self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
+    self.lightVertImage = Engine:getAsset('art/light_beam-vert.png')
     self.lightSources = self.lightSources or { }
 
     self.debugPath = nil
@@ -138,18 +139,34 @@ end
 
 function World:specialRenderAfter()
     -- temp
+    love.graphics.setColor(1, 1, 1, 1.0)
+    local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
+    love.graphics.setBlendMode('add')
     local sixteenToOne = 1 / 16
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
             if cell:isIlluminated() and cell:lightPassTest() then
-                love.graphics.draw(self.litBlitImage.handle, x, y, 0, 1 / 32, 1 / 32)
+                local hasHoriz, hasVert = false, false
+                for lighter in pairs(cell.directlyLitBySet) do
+                    local lighterPos = lighter:getPos()
+                    if lighterPos.x == x then hasVert = true end
+                    if lighterPos.y == y then hasHoriz = true end
+                end
+                if hasHoriz and hasVert then
+                    -- do cross
+                elseif hasHoriz then
+                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
+                elseif hasVert then
+                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                end
             end
 
             --love.graphics.setColor(1,1,0,1)
             --love.graphics.rectangle("fill", x, y, 1, 1)
         end
     end
+    love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
 
     if self.debugPath then
         love.graphics.setColor(0.7, 0.7, 1, 1)
@@ -323,6 +340,7 @@ function Cell:setup(data)
     self.isPit = util.default(self.isPit, data.isPit)
     self.entsSet = self.entsSet or {}
     self.litBySet = self.litBySet or { }
+    self.directlyLitBySet = self.directlyLitBySet or { }
 end
 
 function Cell:getPos()
