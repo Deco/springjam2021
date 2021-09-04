@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="13">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="17" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="31">
  <editorsettings>
   <export target="../game/src/maps/laser_push.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
- <layer id="1" name="map" width="16" height="16">
+ <layer id="1" name="map" width="16" height="17">
   <data encoding="csv">
-1,2,3,4,5,2,3,4,5,2,3,4,5,2,3,6,
-11,12,13,14,13,14,13,14,13,14,13,14,13,14,15,6,
-21,22,9,18,8,17,29,29,10,18,9,28,20,10,20,16,
-31,22,19,19,17,27,19,17,20,10,29,30,10,7,9,26,
-11,22,20,20,7,30,17,28,9,18,30,8,8,10,30,36,
-21,22,10,20,18,27,19,29,28,30,20,8,27,7,8,16,
-31,22,20,18,17,28,17,28,29,28,30,7,10,10,8,26,
-11,22,9,20,20,19,8,7,9,8,19,28,27,17,19,36,
-21,22,19,10,7,18,19,27,18,27,10,28,3,28,3,16,
-31,22,8,8,20,10,18,30,18,27,19,17,3,7,3,26,
-11,22,20,29,27,17,19,18,28,23,27,8,3,7,3,36,
-21,22,19,27,18,7,18,9,30,23,19,18,3,9,3,16,
-31,22,18,29,29,30,27,8,27,23,24,24,3,23,24,26,
-11,22,27,20,18,20,10,18,28,20,28,19,23,23,20,36,
-1,32,33,34,33,34,33,34,33,34,3,3,3,18,7,16,
-41,42,43,44,45,42,43,44,45,42,43,44,45,42,43,46
+79,79,79,11,5,2,3,4,5,2,3,4,5,24,3,6,
+79,79,79,1,13,14,13,14,13,14,13,14,13,25,101,6,
+79,79,79,31,8,17,29,23,10,18,9,28,20,51,79,16,
+79,79,79,11,17,27,19,55,54,101,101,101,101,16,79,26,
+79,79,79,31,101,101,17,6,1,18,30,8,8,6,79,36,
+79,79,79,31,18,27,19,36,31,30,20,8,27,16,79,16,
+79,79,79,11,17,101,101,3,2,24,24,24,24,3,79,26,
+79,79,79,11,20,19,8,7,9,8,19,28,24,15,79,36,
+79,79,79,41,45,43,42,45,45,54,10,55,56,28,51,46,
+79,79,79,79,79,79,79,79,79,11,19,36,31,7,16,79,
+79,79,79,79,79,79,79,79,79,11,27,16,11,7,16,79,
+79,79,79,79,79,79,11,70,16,11,19,16,11,9,2,26,
+79,79,79,79,79,1,2,37,2,2,24,3,4,23,14,26,
+79,79,79,79,79,1,10,18,28,20,28,19,23,23,20,36,
+79,79,79,79,79,1,33,34,33,34,24,51,54,18,7,16,
+79,79,79,79,79,41,43,44,45,42,43,46,21,18,19,26,
+79,79,79,79,79,79,79,79,79,79,79,79,41,45,42,46
 </data>
  </layer>
- <layer id="3" name="scatter" width="16" height="16">
+ <layer id="3" name="scatter" width="16" height="17">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,78,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,69,0,0,65,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -45,9 +47,16 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="7" template="templates/Mirror_UpLeft.tx" x="192" y="208"/>
   <object id="8" template="templates/ExitDoor.tx" x="208" y="0"/>
   <object id="9" template="templates/PlayerStart.tx" x="112" y="208"/>
-  <object id="12" template="templates/Crate.tx" x="208" y="176"/>
+  <object id="13" template="templates/Light.tx" x="208" y="192"/>
+  <object id="15" template="templates/Mirror_DownLeft.tx" x="208" y="176"/>
+  <object id="22" template="templates/Mirror_UpLeft.tx" x="224" y="240"/>
+  <object id="23" template="templates/Mirror_UpRight.tx" x="208" y="240"/>
+  <object id="26" template="templates/Mirror_UpLeft.tx" x="224" y="112"/>
+  <object id="27" template="templates/Mirror_DownRight.tx" x="192" y="208"/>
+  <object id="28" template="templates/Mirror_DownLeft.tx" x="224" y="16"/>
+  <object id="29" template="templates/Tomb-GoldenKey.tx" x="80" y="32"/>
+  <object id="30" template="templates/Coffee.tx" x="224" y="208"/>
  </objectgroup>
 </map>
