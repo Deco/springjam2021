@@ -3,6 +3,8 @@ local assets = {
     ['src/maps/pits.lua'] = { type = 'tiledmap' },
     ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
     ['src/maps/hallway_escape.lua'] = { type = 'tiledmap' },
+    ['src/maps/ko_hand_fucking_coded.lua'] = { type = 'tiledmap' },
+
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
