@@ -119,9 +119,13 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
     },
     {
+        label = "Sea Floor Cavern",
+        tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
+    },
+    {
         label = "Lose 'em!",
         tiledmap = Engine:getAsset('src/maps/lose_em.lua'),
-    },
+    }
 }
 
 function TheMenu:gotoStage(newStage)
