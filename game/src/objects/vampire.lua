@@ -19,14 +19,16 @@ function Vampire:setup(data)
 
     BasicEntSetup(self, data)
 
-    self.stage = util.default(self.stage, VampireStage.Wakeup)
+    self.stage = util.default(self.stage, data.startIdle and VampireStage.Idle or VampireStage.Wakeup)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.movePath = self.movePath or nil
 end
 
-function Vampire:blocksLight() return true end
-function Vampire:activatesPlates() return true end
+function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dying end
+function Vampire:blocksVision() return false end
+function Vampire:blocksLight() return self.stage ~= VampireStage.Dying end
+function Vampire:activatesFloorSensors() return self.stage ~= VampireStage.Dying end
 
 function Vampire:update(time, dt)
     if self.stage ~= VampireStage.Dying and WORLD:getCell(self:getPos()):isIlluminated() then
@@ -37,12 +39,14 @@ function Vampire:update(time, dt)
     local updateMoveGoal = function()
         if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
             local moveGoal = GAMESTATE.player:getPos()
-            local path = WORLD:pathFind(self:getPos(), moveGoal, self)
+            local path = WORLD:pathFind(self:getPos(), moveGoal, self, function(me, targetCell)
+                if #targetCell:getBreakables(me) > 0 then return true end
+            end)
             if path then
                 path = util.map(path, function(cell) return cell.pos end)
                 table.remove(path, 1)
             else
-                path = WORLD:getLineMovePath(self:getPos(), moveGoal)
+                path = WORLD:getLineMovePath(self:getPos(), moveGoal, self)
                 table.remove(path, 1)
             end
             self.movePath = path
@@ -78,6 +82,9 @@ function Vampire:update(time, dt)
             else
                 local nextPos = table.remove(self.movePath, 1)
                 local nextCell = WORLD:getCell(nextPos)
+                for _, breakable in ipairs(nextCell:getBreakables(self)) do
+                    breakable:makeBroke()
+                end
                 if nextCell:traversalPassTest(self) then
                     self:setPos(nextPos)
                 else

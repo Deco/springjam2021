@@ -88,6 +88,10 @@ end
 
 local levels = {
     {
+        label = "Zig Zag",
+        tiledmap = Engine:getAsset('src/maps/zigzag.lua'),
+    },
+    {
         label = "Pits",
         tiledmap = Engine:getAsset('src/maps/pits.lua'),
     },

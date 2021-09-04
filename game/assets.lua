@@ -4,6 +4,7 @@ local assets = {
     ['src/maps/hand_fucking_coded.lua'] = { type = 'tiledmap' },
     ['src/maps/hallway_escape.lua'] = { type = 'tiledmap' },
     ['src/maps/ko_hand_fucking_coded.lua'] = { type = 'tiledmap' },
+    ['src/maps/zigzag.lua'] = { type = 'tiledmap' },
     ['src/maps/laser_push.lua'] = { type = 'tiledmap' },
 
 
@@ -30,7 +31,8 @@ local assets = {
     ['art/gate.png'] = { type = 'image' },
     ['art/gate_open.png'] = { type = 'image' },
     ['art/golden-key.png'] = { type = 'image' },
-    ['art/pressure-plate.png'] = { type = 'image' },
+    ['art/pressure-plate-on.png'] = { type = 'image', scale = 1.1 },
+    ['art/pressure-plate-off.png'] = { type = 'image', scale = 1.1 },
     ['art/toggle-switch-on.png'] = { type = 'image', scale = 1.4 },
     ['art/toggle-switch-off.png'] = { type = 'image', scale = 1.4 },
     ['art/spikes.png'] = { type = 'image' },

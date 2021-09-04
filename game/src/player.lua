@@ -56,7 +56,7 @@ function Player:setup(data)
 end
 
 function Player:blocksLight() return true end
-function Player:activatesPlates() return true end
+function Player:activatesFloorSensors() return true end
 
 function Player:spawned()
     --
