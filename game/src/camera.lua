@@ -74,6 +74,8 @@ function TheCamera:specialRender(dt)
             love.graphics.pop()
             Engine.DP:popEvent()
         end
+
+        WORLD:specialRenderAfter()
     end
 
     love.graphics.pop()

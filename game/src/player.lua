@@ -29,6 +29,7 @@ function Player:setup(data)
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
     BasicEntSetup(self, data)
+    self.blocksLight = true
 
     self.lastMoveTime = self.lastMoveTime or 0
 
@@ -123,7 +124,8 @@ end
 
 function Player:render(dt, isMoving)
     if self.alive then
-        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.getBlendMode("lighten")
+        love.graphics.setColor(5, 5, 1, 1)
     else
         love.graphics.setColor(0.3, 0, 0, 1)
     end

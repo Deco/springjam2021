@@ -38,6 +38,7 @@ local assets = {
     ['art/light_beam-vert.png'] = { type = 'image' },
 
     ['art/tree.png'] = { type = 'image' },
+    ['art/lit.png'] = { type = 'image' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(95, 90) },
 

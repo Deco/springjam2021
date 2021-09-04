@@ -20,6 +20,7 @@ function Vampire:setup(data)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.moveGoal = self.moveGoal or nil
+    self.blocksLight = true
 end
 
 function Vampire:update(time, dt)

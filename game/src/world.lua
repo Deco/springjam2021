@@ -4,6 +4,29 @@
 World = Engine:EntityClass('World')
 
 function World:setup(data)
+    self.levelData = self.levelData or {
+        '################',
+        '#              #',
+        '#              #',
+        'S    #####     #',
+        '#    #   #     #',
+        '# C  @ 1 @   T #',
+        '# c  #   #     #',
+        '# c  #####     #',
+        '#              #',
+        '# L            #',
+        '#          #####',
+        '#          2   E',
+        '#          #####',
+        '################',
+    }
+    self.logicGroups = self.logicGroups or {
+        [1] = { color = { 0.00, 1.00, 0.00, 1 }, inputsList = {}, outputsList = {}, }
+    }
+    self.levelStuff = self.levelStuff or {
+        [1] = { type = "ToggleSwitch", group = 1, },
+        [2] = { type = "Gate", group = 1, }
+    }
 
     self.renderDepth = 0
     self.level = data.level
@@ -15,6 +38,8 @@ function World:setup(data)
     self.startDoorPos = self.startDoorPos or nil
 
     self.wallImage = Engine:getAsset('art/wall.png')
+    self.litBlitImage = Engine:getAsset('art/lit.png')
+    self.lightSources = self.lightSources or { }
 end
 
 function World:initLevel()
@@ -45,6 +70,10 @@ function World:initLevel()
                     ExitDoor.new(self, { pos = cell.pos })
                 elseif cellChar == 'c' then
                     Crate.new(self, { pos = cell.pos })
+                elseif cellChar == 'L' then
+                    local ent = LightSource.new(self, { pos = cell.pos })
+                    table.insert(self.lightSources, ent)
+
                 elseif tonumber(cellChar, 10) ~= nil then
                     local thing = self.level.stuff[tonumber(cellChar, 10)]
                     if thing.type == 'PressurePlate' then
@@ -72,8 +101,30 @@ function World:specialRender()
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
             if cell.isWall then
+                love.graphics.setColor(1, 1, 1, 1)
                 love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
+
             end
+        end
+    end
+end
+
+function World:specialRenderAfter()
+    -- temp
+    local sixteenToOne = 1 / 16
+    local illuminated = false
+    local blocksLight = false
+    for x = self.bounds.x0, self.bounds.x1 do
+        for y = self.bounds.y0, self.bounds.y1 do
+            local cell = self:getCell(Vec(x, y))
+            blocksLight = cell:blocksLight()
+            illuminated = cell:illuminated()
+            if  illuminated and (not blocksLight) then
+                love.graphics.draw(self.litBlitImage.handle, x, y, 0, 1 / 32, 1 / 32)
+            end
+
+            --love.graphics.setColor(1,1,0,1)
+            --love.graphics.rectangle("fill", x, y, 1, 1)
         end
     end
 end
@@ -128,7 +179,8 @@ function World:canSee(v0, v1)
 
     local err, e2 = dx - dy, nil
 
-    if not visionTest(x0, y0) then return false end
+    if not visionTest(x0, y0) then
+        return false end
 
     while not (x0 == x1 and y0 == y1) do
         e2 = err + err
@@ -140,7 +192,8 @@ function World:canSee(v0, v1)
             err = err + dx
             y0 = y0 + sy
         end
-        if not visionTest(x0, y0) then return false end
+        if not visionTest(x0, y0) then return false
+        end
     end
 
     return true
@@ -173,7 +226,9 @@ function World:getLineMovePath(v0, v1)
 
     local err, e2 = dx - dy, nil
 
-    if not traversableTest(x0, y0) then return points, false end
+    if not traversableTest(x0, y0) then
+        return points, false
+    end
     table.insert(points, Vec(x0, y0))
 
     while not (x0 == x1 and y0 == y1) do
@@ -186,7 +241,9 @@ function World:getLineMovePath(v0, v1)
             err = err + dx
             y0 = y0 + sy
         end
-        if not traversableTest(x0, y0) then return points, false end
+        if not traversableTest(x0, y0) then
+            return points, false
+        end
         table.insert(points, Vec(x0, y0))
     end
 
@@ -199,7 +256,7 @@ function Cell:setup(data)
     self.pos = self.pos or data.pos
     self.isWall = util.default(self.isWall, data.isWall)
     self.entsSet = self.entsSet or {}
-    self.isMovable = self.isMovable
+    self.litBySet = self.litBySet or { }
 end
 
 function Cell:getPos()
@@ -207,7 +264,9 @@ function Cell:getPos()
 end
 
 function Cell:traversableTest(entOrNil)
-    if self.isWall then return false end
+    if self.isWall then
+        return false
+    end
     for other in pairs(self.entsSet) do
         if other ~= entOrNil and rawget(other, 'blocksTraversal') then
             if other.class == Gate then
@@ -223,8 +282,32 @@ function Cell:traversableTest(entOrNil)
 end
 
 function Cell:visionTest(entOrNil)
-    if self.isWall then return false end
-    return true
+    if self.isWall then
+        return false end
+    for other in pairs(self.entsSet) do
+        if other ~= entOrNil then
+            if other.class == Crate then
+                return false
+            end
+        end
+        return true
+    end
+
 end
 
+function Cell:blocksLight(entOrNil)
+    if self.isWall then
+        return true
+    end
+    for other in pairs(self.entsSet) do
+        if rawget(other, 'blocksLight') then
+            return true
+        end
+    end
+    return false
+end
 
+function Cell:illuminated(entOrNil)
+    --if next(self.litBySet) ~= nil then print("illuminated") end
+    return next(self.litBySet) ~= nil
+end
