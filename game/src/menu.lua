@@ -105,6 +105,10 @@ local levels = {
         logicGroups = {},
         stuff = {},
     },
+    {
+        label = "Keg",
+        tiledmap = Engine:getAsset('src/maps/ko_hand_fucking_coded.lua'),
+    },
 }
 
 function TheMenu:gotoStage(newStage)

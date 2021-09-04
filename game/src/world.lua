@@ -56,7 +56,7 @@ function World:initLevel()
         elseif name == 'Light' then
             local ent = LightSource.new(self, { pos = pos })
         elseif name == 'Mirror' then
-            local ent = Mirror.new(self, { pos = pos, facingDiagDir = object.properties["initialFacingDir"] })
+            local ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]] })
         elseif name == 'ExitDoor' then
             ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then

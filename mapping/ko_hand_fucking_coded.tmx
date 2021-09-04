@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="35">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="28" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="347">
  <editorsettings>
-  <export target="../game/src/maps/hand_fucking_coded.lua" format="lua"/>
+  <export target="../game/src/maps/ko_hand_fucking_coded.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
  <layer id="1" name="map" width="28" height="16">
@@ -15,13 +15,13 @@
 31,22,27,18,17,28,25,26,79,79,79,79,21,22,20,17,17,10,19,17,7,9,20,9,9,18,25,36,
 21,22,8,17,29,29,25,2,3,4,5,2,3,22,19,17,27,19,17,20,10,29,30,10,7,9,25,36,
 1,22,20,20,7,30,17,28,9,18,30,8,8,10,30,10,20,18,27,19,29,28,30,20,8,27,25,36,
-11,22,7,8,20,18,17,7,8,9,10,7,8,7,10,10,51,42,43,44,45,56,22,9,8,19,25,36,
-1,22,28,27,17,19,19,17,18,19,20,17,18,27,10,28,16,79,79,79,79,21,22,18,30,18,25,36,
-11,22,27,19,17,19,7,27,28,29,30,27,28,18,28,28,26,79,79,79,79,31,22,18,7,18,25,36,
-1,22,9,30,10,19,18,7,8,9,10,7,8,30,27,8,36,79,79,79,79,11,22,27,20,18,25,36,
-21,22,20,10,18,28,20,17,18,19,20,17,18,19,17,9,16,79,79,79,79,21,22,18,27,29,25,36,
-11,32,34,33,34,33,33,34,33,33,34,34,33,34,34,34,26,79,79,79,79,31,32,33,33,34,35,36,
-41,42,45,44,42,42,43,42,45,42,44,43,45,43,42,43,46,79,79,79,79,41,43,43,42,45,44,46
+11,22,7,8,20,18,17,7,8,9,10,7,8,7,10,10,51,56,22,2,101,101,101,101,101,101,101,36,
+1,22,28,27,17,19,19,17,18,19,20,17,18,27,10,28,16,21,22,10,19,18,9,18,30,18,25,36,
+11,22,27,19,17,19,7,27,28,29,30,27,28,18,28,28,26,11,22,27,7,8,20,18,7,18,25,36,
+1,22,9,30,10,19,18,7,8,9,10,7,8,30,27,8,36,31,22,19,10,9,20,27,20,18,25,36,
+21,22,20,10,18,28,20,17,18,19,20,17,18,19,17,9,16,31,22,20,10,30,20,18,27,29,25,36,
+11,32,34,33,34,33,33,34,33,33,34,34,33,34,34,34,26,31,32,34,34,33,33,33,33,34,35,36,
+41,42,45,44,42,42,43,42,45,42,44,43,45,43,42,43,46,41,45,44,43,43,43,43,42,45,44,46
 </data>
  </layer>
  <layer id="3" name="scatter" width="28" height="16">
@@ -46,14 +46,18 @@
  </layer>
  <objectgroup id="2" name="entities">
   <object id="6" name="PlayerStart" gid="76" x="64" y="48" width="16" height="16"/>
-  <object id="11" name="Crate" gid="84" x="64" y="160" width="16" height="16"/>
   <object id="16" name="Spikes" gid="93" x="96" y="144" width="16" height="16"/>
+  <object id="18" name="Gate-RED" gid="37" x="192" y="160" width="16" height="16">
+   <properties>
+    <property name="color" type="color" value="#ffff00ff"/>
+   </properties>
+  </object>
   <object id="19" name="Tomb" gid="83" x="352" y="80" width="16" height="16"/>
   <object id="20" name="Coffee" gid="98" x="256" y="80" width="16" height="16"/>
   <object id="21" name="Light" gid="87" x="112" y="208" width="16" height="16"/>
   <object id="28" template="templates/Light.tx" x="176" y="128"/>
   <object id="30" template="templates/Mirror.tx" x="208" y="208"/>
-  <object id="31" template="templates/Mirror.tx" x="128" y="192">
+  <object id="31" template="templates/Mirror.tx" x="83.6667" y="167.667" rotation="90">
    <properties>
     <property name="initialFacingDir" value="DownRight"/>
    </properties>
@@ -68,5 +72,9 @@
     <property name="initialFacingDir" value="UpRight"/>
    </properties>
   </object>
+  <object id="342" template="Mirror_UpLeft.tx" x="48" y="112"/>
+  <object id="344" template="templates/Mirror_UpRight.tx" x="32" y="112"/>
+  <object id="345" template="templates/Mirror_DownLeft.tx" x="48" y="80"/>
+  <object id="346" template="templates/Mirror_DownRight.tx" x="32" y="80"/>
  </objectgroup>
 </map>
