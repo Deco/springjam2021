@@ -1,6 +1,7 @@
 *.log
 *.pyc
-mapping/dungeons.tiled-session
+./mapping/dungeons.tiled-session
+*.tiled-session
 
 /local-only/
 .vscode/launch.json

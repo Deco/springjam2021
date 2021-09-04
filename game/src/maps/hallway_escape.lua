@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 12,
+  nextobjectid = 13,
   properties = {},
   tilesets = {
     {
@@ -401,8 +401,8 @@ return {
           name = "Light",
           type = "",
           shape = "rectangle",
-          x = 48,
-          y = 256,
+          x = 16,
+          y = 368,
           width = 16,
           height = 16,
           rotation = 0,
@@ -429,14 +429,30 @@ return {
           name = "Coffee",
           type = "",
           shape = "rectangle",
-          x = 96,
-          y = 144,
+          x = 112,
+          y = 320,
           width = 16,
           height = 16,
           rotation = 0,
           gid = 90,
           visible = true,
           properties = {}
+        },
+        {
+          id = 12,
+          name = "Mirror",
+          type = "",
+          shape = "rectangle",
+          x = 176,
+          y = 368,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 78,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
         }
       }
     }

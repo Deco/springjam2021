@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 34,
+  nextobjectid = 35,
   properties = {},
   tilesets = {
     {
@@ -268,6 +268,14 @@ return {
         {
           id = 73,
           type = "floor"
+        },
+        {
+          id = 78,
+          type = "pit"
+        },
+        {
+          id = 100,
+          type = "pit"
         }
       }
     }
@@ -397,22 +405,6 @@ return {
           gid = 93,
           visible = true,
           properties = {}
-        },
-        {
-          id = 18,
-          name = "Gate",
-          type = "",
-          shape = "rectangle",
-          x = 133.333,
-          y = 130.667,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {
-            ["color"] = "#ffff00ff"
-          }
         },
         {
           id = 19,
