@@ -3,11 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "back_and_forth.tmx",
+    "activeFile": "hand_fucking_coded.tmx",
     "expandedProjectPaths": [
         ".",
         "tileset",
-        "C:/why/folders/springjam2021"
+        "templates",
+        "E:/Programming/JAM/springjam2021"
     ],
     "fileStates": {
         "": {
@@ -34,20 +35,12 @@
         "C:/Users/Luke/Documents/sample.tmx#2dpixel": {
             "scaleInDock": 3
         },
-        "back_and_forth.tmx": {
-            "scale": 2,
-            "selectedLayer": 1,
-            "viewCenter": {
-                "x": 202.5,
-                "y": 137
-            }
-        },
         "basic_map.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -133,
-                "y": 77
+                "x": 108.5,
+                "y": 206.5
             }
         },
         "basic_map.tmx#dungeon-tileset": {
@@ -55,32 +48,32 @@
             "scaleInEditor": 8
         },
         "declan.tmx": {
-            "scale": 4.8390625,
+            "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 128.12399095899258,
-                "y": 128.12399095899258
+                "x": 128,
+                "y": 127.83333333333334
+            }
+        },
+        "hallway_escape.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 96.5,
+                "y": 390.5
             }
         },
         "hand_fucking_coded.tmx": {
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 224,
-                "y": 127.99999999999997
-            }
-        },
-        "pits.tmx": {
-            "scale": 2.927801724137931,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 231.23150533676852,
-                "y": 175.89988958410012
+                "x": 162.66666666666666,
+                "y": 120.99999999999997
             }
         },
         "tileset/dungeon-tileset.tsx": {
-            "scaleInDock": 5.5,
-            "scaleInEditor": 1
+            "scaleInDock": 3,
+            "scaleInEditor": 5.5
         }
     },
     "last.exportedFilePath": "C:/why/folders/springjam2021/game/src/maps",
@@ -95,10 +88,9 @@
     "map.tileWidth": 16,
     "map.width": 28,
     "openFiles": [
-        "basic_map.tmx",
         "hand_fucking_coded.tmx",
-        "back_and_forth.tmx",
-        "tileset/dungeon-tileset.tsx"
+        "tileset/dungeon-tileset.tsx",
+        "declan.tmx"
     ],
     "project": "dungeons.tiled-project",
     "property.type": "color",
