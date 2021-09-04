@@ -1,5 +1,6 @@
 local assets = {
     ['src/maps/entrance.lua'] = { type = 'tiledmap' },
+    ['src/maps/riseandshine.lua'] = { type = 'tiledmap' },
     ['src/maps/back_and_forth.lua'] = { type = 'tiledmap' },
     ['src/maps/pits.lua'] = { type = 'tiledmap' },
     ['src/maps/spikes.lua'] = { type = 'tiledmap' },
@@ -10,7 +11,7 @@ local assets = {
     ['src/maps/laser_push.lua'] = { type = 'tiledmap' },
     ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
     ['src/maps/lighty_mcLightface.lua'] = { type = 'tiledmap' },
-    ['src/maps/pipework.lua'] = { type = 'tiledmap' },
+    --['src/maps/pipework.lua'] = { type = 'tiledmap' },
 
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },

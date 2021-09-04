@@ -93,6 +93,10 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/entrance.lua'),
     },
     {
+        label = "Rise and Shine",
+        tiledmap = Engine:getAsset('src/maps/riseandshine.lua'),
+    },
+    {
         label = "Spikes",
         tiledmap = Engine:getAsset('src/maps/spikes.lua'),
     },

@@ -72,7 +72,7 @@ do
         local vol = math.remapClamp(offset:mag(), 8, 20, 1.0, 0.12)
         vol = vol * (self.asset.volume or 1)
         self.source:setVolume(vol)
-        SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
+        --SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
     end
     function SFX:render()
         self:updateAudioSource() -- done in render, not update, to ensure maximum update rate

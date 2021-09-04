@@ -5,6 +5,7 @@ _G.VampireStage = {
     Idle = 2,
     Alerted = 3,
     Dying = 4,
+    Dust = 5,
 }
 
 local vampireWakeupDelay = 1.0
@@ -26,17 +27,15 @@ function Vampire:setup(data)
     self.lastPathingTime = self.lastPathingTime or GAMETIME
 end
 
-function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dying end
+function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust end
 function Vampire:blocksVision() return false end
-function Vampire:blocksLight() return self.stage ~= VampireStage.Dying end
-function Vampire:activatesFloorSensors() return self.stage ~= VampireStage.Dying end
+function Vampire:blocksLight() return self.stage ~= VampireStage.Dust end
+function Vampire:activatesFloorSensors() return self.stage ~= VampireStage.Dust end
 
 function Vampire:update(time, dt)
-    if self.stage ~= VampireStage.Dying and WORLD:getCell(self:getPos()):isIlluminated() then
+    if self.stage ~= VampireStage.Dying and self.stage ~= VampireStage.Dust and WORLD:getCell(self:getPos()):isIlluminated() then
         self.stage = VampireStage.Dying
         self.stageChangeTime = GAMETIME
-        WORLD:refreshLight()
-        self:retouchy(WORLD:getCell(self:getPos()), WORLD:getCell(self:getPos()))
     end
 
     local updateMoveGoal = function(force)
@@ -111,16 +110,20 @@ function Vampire:update(time, dt)
             end
         end
     end
-    if self.stage == VampireStage.Dying then
+    if self.stage == VampireStage.Dying and GAMETIME > self.stageChangeTime + vampireDyingDelay then
+        self.stage = VampireStage.Dust
+        self.stageChangeTime = GAMETIME
         self.renderDepth = RenderingDepth.VampireDead
+        WORLD:refreshLight()
+        self:retouchy(WORLD:getCell(self:getPos()), WORLD:getCell(self:getPos()))
     end
 end
 
 function Vampire:render()
-    if self.stage == VampireStage.Dying and GAMETIME > self.stageChangeTime + vampireDyingDelay then
+    love.graphics.setColor(1, 1, 1, 1)
+    if self.stage == VampireStage.Dust then
         DrawSimpleEntImage(self, self.dustImage)
     else
-        love.graphics.setColor(1, 1, 1, 1)
         DrawSimpleEntImage(self, self.image)
 
         if self.stage == VampireStage.Wakeup then

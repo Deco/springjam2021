@@ -123,6 +123,12 @@ function World:specialRenderAfter()
     love.graphics.setBlendMode('add')
     local sixteenToOne = 1 / 16
     local viewBounds = Engine.camera:getViewBounds()
+
+    --love.graphics.setColor(1, 1, 1, 1)
+    --love.graphics.setLineWidth(0.05)
+    --love.graphics.rectangle('line', viewBounds.x0 + 6, viewBounds.y0 + 6, (viewBounds:size() - 2 * Vec(6, 6)):xy())
+
+    SCREENTEXT(viewBounds)
     for x = viewBounds.x0, viewBounds.x1 do
         for y = viewBounds.y0, viewBounds.y1 do
             local cell = self:getCell(Vec(x, y))

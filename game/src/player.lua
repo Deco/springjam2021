@@ -142,7 +142,7 @@ function Player:onTouch(other)
     elseif other.class == Spikes then
         self.alive = false
         print('DEAD')
-    elseif other.class == Vampire and other.stage ~= VampireStage.Dying then
+    elseif other.class == Vampire and other.stage ~= VampireStage.Dust then
         self.alive = false
         print('DEAD')
     end

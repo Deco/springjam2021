@@ -106,7 +106,7 @@ function TheCamera:getTransform()
     end
     scale = math.floorTo(scale, 1)
     trans:scale(scale)
-    SCREENTEXT(scale)
+    --SCREENTEXT(scale)
 
     --love.graphics.setColor(1, 0, 0, 1)
     --love.graphics.setLineWidth(0.02)
@@ -124,8 +124,8 @@ function TheCamera:getViewBounds()
     return AABBfromXYWH(
         math.floor(self:getPos().x - self._worldSize.x / 2) - extra,
         math.floor(self:getPos().y - self._worldSize.y / 2) - extra,
-        self._worldSize.x + 2 * extra,
-        self._worldSize.y + 2 * extra
+        math.floor(self._worldSize.x + 2 * extra),
+        math.floor(self._worldSize.y + 2 * extra)
     )
 end
 

@@ -17,7 +17,7 @@ end
 function LightSource:render()
     local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
     love.graphics.setBlendMode('add')
-    love.graphics.setColor(1, 1, 1, 0.5)
+    love.graphics.setColor(1, 1, 1, 0.65)
     DrawSimpleEntImage(self, self.image)
     love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
 end
