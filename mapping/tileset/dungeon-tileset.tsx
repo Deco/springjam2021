@@ -37,6 +37,8 @@
  <tile id="33" type="floor"/>
  <tile id="34" type="floor"/>
  <tile id="35" type="wall"/>
+ <tile id="36" type="wall"/>
+ <tile id="37" type="wall"/>
  <tile id="40" type="wall"/>
  <tile id="41" type="wall"/>
  <tile id="42" type="wall"/>

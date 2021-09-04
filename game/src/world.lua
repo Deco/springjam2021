@@ -1,10 +1,8 @@
 -- Mostly solid walls and stuff
 
-
 World = Engine:EntityClass('World')
 
 function World:setup(data)
-
     self.renderDepth = 0
     self.level = data.level
     self.logicGroups = self.logicGroups or {}
@@ -14,18 +12,7 @@ function World:setup(data)
 
     self.startDoorPos = self.startDoorPos or nil
 
-    self.level = Engine:getAsset('src/maps/hand_fucking_coded.lua')
     self.wallImage = Engine:getAsset('art/wall.png')
-
-    for _,layer in ipairs(self.level.handle.layers) do
-        if layer.name == "map" then
-            for y, row in ipairs(layer.data) do
-                for x, cell in ipairs(row) do
-
-                end
-            end
-        end
-    end
 end
 
 function World:initLevel()
@@ -34,73 +21,94 @@ function World:initLevel()
         self.logicGroups[logicGroupIdx] = util.mergeTables(logicGroupInfo, { inputsList = {}, outputsList = {}, })
     end
 
-    local levelMap = {}
-    for _, layer in ipairs(self.level.handle.layers) do
-        if layer.name == 'map' then
-            levelMap = layer.data
-            break
-        end
-    end
+    for rowIdx, row in ipairs(self.level.tiledmap.handle.layers.map.data) do
+        for colIdx, tile in ipairs(row) do
+            local cell = self:getCell(Vec(colIdx-1, rowIdx-1))
 
-    for rowIdx, rowStr in ipairs(self.level.data) do
-        for colIdx = 1, #rowStr do
-            local cellChar = rowStr:sub(colIdx, colIdx)
-            local cell = self:getCell(Vec(colIdx, rowIdx))
-
-            if cellChar == '#' then
+            if tile.type == "wall" then
                 cell.isWall = true
             else
                 cell.isWall = false
-
-                if cellChar == 'S' then
-                    self.startDoorPos = cell.pos
-                elseif cellChar == 'C' then
-                    Coffee.new(self, { pos = cell.pos })
-                elseif cellChar == '@' then
-                    Spikes.new(self, { pos = cell.pos })
-                elseif cellChar == 'T' then
-                    Tomb.new(self, { pos = cell.pos })
-                    --Vampire.new(self, { pos = cell.pos })
-                elseif cellChar == 'E' then
-                    --ExitDoor.new(self, { pos = cell.pos })
-                elseif cellChar == 'c' then
-                    Crate.new(self, { pos = cell.pos })
-                elseif tonumber(cellChar, 10) ~= nil then
-                    local thing = self.level.stuff[tonumber(cellChar, 10)]
-                    if thing.type == 'PressurePlate' then
-                        local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-                    elseif thing.type == 'ToggleSwitch' then
-                        local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).inputsList, ent)
-                    elseif thing.type == 'Gate' then
-                        local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
-                        table.insert(self:getLogicGroup(thing.group).outputsList, ent)
-                    end
-                end
             end
         end
+    end
+
+    for _,object in pairs(self.level.tiledmap.handle.objects) do
+        local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
+
+        if object.name == 'start' then
+            self.startDoorPos = pos
+        elseif object.name == 'crate' then
+            Crate.new(self, { pos = pos })
+        elseif object.name == 'tomb' then
+            Tomb.new(self, { pos = pos })
+        elseif object.name == 'spikes' then
+            Spikes.new(self, { pos = pos })
+        end
+    end
+
+    --for rowIdx, rowStr in ipairs({}) do
+    --    for colIdx = 1, #rowStr do
+    --        local cellChar = rowStr:sub(colIdx, colIdx)
+    --        local cell = self:getCell(Vec(colIdx, rowIdx))
+    --
+    --        if cellChar == '#' then
+    --            cell.isWall = false
+    --        else
+    --            cell.isWall = false
+    --
+    --            if cellChar == 'S' then
+    --                self.startDoorPos = cell.pos
+    --            elseif cellChar == 'C' then
+    --                Coffee.new(self, { pos = cell.pos })
+    --            elseif cellChar == '@' then
+    --                Spikes.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'T' then
+    --                Tomb.new(self, { pos = cell.pos })
+    --                --Vampire.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'E' then
+    --                --ExitDoor.new(self, { pos = cell.pos })
+    --            elseif cellChar == 'c' then
+    --                Crate.new(self, { pos = cell.pos })
+    --            elseif tonumber(cellChar, 10) ~= nil then
+    --                local thing = self.level.stuff[tonumber(cellChar, 10)]
+    --                if thing.type == 'PressurePlate' then
+    --                    local ent = PressurePlate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+    --                elseif thing.type == 'ToggleSwitch' then
+    --                    local ent = ToggleSwitch.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).inputsList, ent)
+    --                elseif thing.type == 'Gate' then
+    --                    local ent = Gate.new(self, { pos = cell.pos, logicGroupIdx = thing.group })
+    --                    table.insert(self:getLogicGroup(thing.group).outputsList, ent)
+    --                end
+    --            end
+    --        end
+    --    end
     end
 
     GAMESTATE.player:setPos(WORLD.startDoorPos)
 end
 
 function World:specialRender()
-    -- temp
     local sixteenToOne = 1 / 16
+
+    love.graphics.push()
+    love.graphics.scale(sixteenToOne)
+    for _,layer in ipairs(self.level.tiledmap.handle.layers) do
+        if layer.name == "map" or layer.name == "scatter" then
+            layer:draw()
+        end
+    end
+    love.graphics.pop()
+
+    -- temp
     for x = self.bounds.x0, self.bounds.x1 do
         for y = self.bounds.y0, self.bounds.y1 do
             local cell = self:getCell(Vec(x, y))
             if cell.isWall then
                 love.graphics.draw(self.wallImage.handle, x, y, 0, sixteenToOne, sixteenToOne)
             end
-        end
-    end
-
-    love.graphics.scale(sixteenToOne)
-    for _,layer in ipairs(self.level.handle.layers) do
-        if layer.name == "map" or layer.name == "scatter" then
-            layer:draw()
         end
     end
 end

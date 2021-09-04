@@ -98,6 +98,7 @@ local levels = {
             '#          #####',
             '################',
         },
+        tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
         logicGroups = {
             [1] = { color = { 0.00, 1.00, 0.00, 1 }, }
         },

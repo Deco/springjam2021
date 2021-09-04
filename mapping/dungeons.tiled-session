@@ -58,7 +58,7 @@
     },
     "last.exportedFilePath": "E:/Programming/JAM/springjam2021/mapping/built",
     "last.externalTilesetPath": "E:/Programming/JAM/springjam2021/mapping/tileset",
-    "last.imagePath": "E:/Programming/JAM/springjam2021/art-src/2D Pixel Dungeon Asset Pack/character and tileset",
+    "last.imagePath": "E:/Programming/JAM/springjam2021/game/art/tilesets",
     "map.height": 16,
     "map.lastUsedExportFilter": "Lua files (*.lua)",
     "map.lastUsedFormat": "tmx",
@@ -69,6 +69,7 @@
         "basic_map.tmx"
     ],
     "project": "dungeons.tiled-project",
+    "property.type": "color",
     "recentFiles": [
         "tileset/dungeon-tileset.tsx",
         "basic_map.tmx",
