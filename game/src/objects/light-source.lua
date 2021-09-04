@@ -32,7 +32,8 @@ end
 function LightSource:updateLight()
     local lastLitTimeMap = {}
     for _, illuminatedCell in ipairs(self.illuminatedCellsList) do
-        lastLitTimeMap[illuminatedCell] = illuminatedCell.litBySet[self].time
+        local litInfo = illuminatedCell.litBySet[self]
+        if litInfo then lastLitTimeMap[illuminatedCell] = litInfo.time end
         illuminatedCell.litBySet[self] = nil
         for mirror, source in pairs(illuminatedCell.directlyLitBySet) do
             if source == self then
