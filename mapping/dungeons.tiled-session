@@ -34,20 +34,12 @@
         "C:/Users/Luke/Documents/sample.tmx#2dpixel": {
             "scaleInDock": 3
         },
-        "back_and_forth.tmx": {
-            "scale": 2,
-            "selectedLayer": 1,
-            "viewCenter": {
-                "x": 202.5,
-                "y": 137
-            }
-        },
         "basic_map.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -133,
-                "y": 77
+                "x": 108.5,
+                "y": 206.5
             }
         },
         "basic_map.tmx#dungeon-tileset": {
@@ -58,7 +50,7 @@
             "scale": 4.8390625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 128.12399095899258,
+                "x": 128.02066515983208,
                 "y": 128.12399095899258
             }
         },
@@ -66,16 +58,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 224,
-                "y": 127.99999999999997
-            }
-        },
-        "pits.tmx": {
-            "scale": 2.927801724137931,
-            "selectedLayer": 1,
-            "viewCenter": {
-                "x": 231.23150533676852,
-                "y": 175.55833640044168
+                "x": 198.83333333333334,
+                "y": 169
             }
         },
         "tileset/dungeon-tileset.tsx": {
@@ -103,10 +87,9 @@
     "project": "dungeons.tiled-project",
     "property.type": "color",
     "recentFiles": [
-        "declan.tmx",
-        "tileset/dungeon-tileset.tsx",
         "hand_fucking_coded.tmx",
         "basic_map.tmx",
+        "tileset/dungeon-tileset.tsx",
         "back_and_forth.tmx",
         "C:/Users/Luke/Documents/sample.tmx",
         "C:/Users/Luke/Documents/pixelpoempack.tsx",
