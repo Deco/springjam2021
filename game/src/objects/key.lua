@@ -1,7 +1,7 @@
 Key = Engine:EntityClass('Key')
 
 function Key:setup(data)
-    self.image = Engine:getAsset('art/key.png')
+    self.image = Engine:getAsset('art/golden-key.png')
 
     self.kind = data.kind -- 'golden' or 'silver'
 

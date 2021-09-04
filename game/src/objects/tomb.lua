@@ -6,8 +6,12 @@ _G.TombStage = {
     Opened = 3,
 }
 
+local tombOpeningDuration = 2.5
+
 function Tomb:setup(data)
-    self.image = Engine:getAsset('art/tomb.png')
+    self.openedImage = Engine:getAsset('art/Koffeen_open.png')
+    self.closedImage = Engine:getAsset('art/koffeen.png')
+    self.openingAnim = Engine:getAsset('art/Koffeen_open-Sheet.png')
     self.blocksTraversal = true
 
     BasicEntSetup(self, data)
@@ -37,30 +41,30 @@ function Tomb:getUsePrompt()
         if GAMESTATE.player.inventory.coffee.count == 0 then
             return "It's a KOFFEEN. The lid is too heavy to move."
         else
-            return "Press SPACE to KOFFEEN"
+            return "Press SPACE to pour VAMPIRE COFEEE into KOFFEEN"
         end
     end
 end
 
 function Tomb:update(time, dt)
-    if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + 2.5 then
+    if self.stage == TombStage.Opening and GAMETIME > self.stageChangeTime + tombOpeningDuration then
         self.stage = TombStage.Opened
         self.blocksTraversal = false
-        Vampire.new(WORLD, { pos = self:getPos(), })
         Key.new(WORLD, { pos = self:getPos(), })
+        Vampire.new(WORLD, { pos = self:getPos(), })
     end
 end
 
 function Tomb:render()
+    love.graphics.setColor(1, 1, 1, 1)
     if self.stage == TombStage.Opening then
-        local pulse = math.remap(math.sin(10 * GAMETIME), -1, 1, 0.5, 1.0)
-        love.graphics.setColor(1, pulse, 0.6 * pulse, 0.6 * pulse)
+        local frac = math.remapClamp(GAMETIME - self.stageChangeTime, 0, tombOpeningDuration, 0, 1)
+        DrawSimpleEntAnim(self, self.openingAnim, frac)
     elseif self.stage == TombStage.Opened then
-        love.graphics.setColor(0.3, 0.3, 0.3, 1)
+        DrawSimpleEntImage(self, self.openedImage)
     else
-        love.graphics.setColor(1, 1, 1, 1)
+        DrawSimpleEntImage(self, self.closedImage)
     end
-    DrawSimpleEntImage(self, self.image)
 end
 
 

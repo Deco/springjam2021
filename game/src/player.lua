@@ -3,12 +3,28 @@ Player = Engine:EntityClass('Player')
 local playerSize = 0.4
 
 function Player:setup(data)
-    self.renderDepth = 20
-    self.imageMap = {
-        [Cardinal.Up] = { idle = Engine:getAsset('art/player/idle_up.png'), moving = Engine:getAsset('art/player/walking_up-sheet.png'), },
-        [Cardinal.Right] = { idle = Engine:getAsset('art/player/idle_right.png'), moving = Engine:getAsset('art/player/walking_right-sheet.png'), },
-        [Cardinal.Down] = { idle = Engine:getAsset('art/player/idle_down.png'), moving = Engine:getAsset('art/player/walking_down-sheet.png'), },
-        [Cardinal.Left] = { idle = Engine:getAsset('art/player/idle_left.png'), moving = Engine:getAsset('art/player/walking_left-sheet.png'), },
+    --self.renderDepth = 20
+    self.directionInfo = {
+        [Cardinal.Up] = {
+            desired = false,
+            idle = Engine:getAsset('art/player/idle_up.png'),
+            moving = Engine:getAsset('art/player/walking_up-sheet.png'),
+        },
+        [Cardinal.Right] = {
+            desired = false,
+            idle = Engine:getAsset('art/player/idle_right.png'),
+            moving = Engine:getAsset('art/player/walking_right-sheet.png'),
+        },
+        [Cardinal.Down] = {
+            desired = false,
+            idle = Engine:getAsset('art/player/idle_down.png'),
+            moving = Engine:getAsset('art/player/walking_down-sheet.png'),
+        },
+        [Cardinal.Left] = {
+            desired = false,
+            idle = Engine:getAsset('art/player/idle_left.png'),
+            moving = Engine:getAsset('art/player/walking_left-sheet.png'),
+        },
     }
     self.inputActive = false
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
@@ -20,19 +36,18 @@ function Player:setup(data)
 
     self.topPrompts = {}
 
-    self.inventory = {
-        coffee = {
-            order = 0,
-            niceName = "VAMPIRE COFFEE",
-            image = Engine:getAsset('art/coffee.png'),
-            count = 0,
-        },
-        goldenKey = {
-            order = 1,
-            niceName = "GOLDEN KEY",
-            image = Engine:getAsset('art/key.png'),
-            count = 0,
-        },
+    self.inventory = self.inventory or {}
+    self.inventory.coffee = self.inventory.coffee or {
+        order = 0,
+        niceName = "VAMPIRE COFFEE",
+        image = Engine:getAsset('art/coffee.png'),
+        count = 0,
+    }
+    self.inventory.goldenKey = self.inventory.goldenKey or {
+        order = 1,
+        niceName = "GOLDEN KEY",
+        image = Engine:getAsset('art/golden-key.png'),
+        count = 0,
     }
 end
 
@@ -57,7 +72,6 @@ function Player:processInput(time, dt)
     if moveDir ~= nil and GAMETIME >= self.lastMoveTime + 10 * ONETICK then
         self.lastMoveTime = GAMETIME
         self:tryMove(moveDir)
-        --self:setRot(moveDir)
         self.lastMoveDir = moveDir
     end
 end
@@ -113,8 +127,8 @@ function Player:render(dt, isMoving)
     else
         love.graphics.setColor(0.3, 0, 0, 1)
     end
-    local ass = self.imageMap[self.lastMoveDir]
-    if isMoving then
+    local ass = self.directionInfo[self.lastMoveDir]
+    if self.alive then
         DrawSimpleEntAnim(self, ass.moving, 2 * GAMETIME)
     else
         DrawSimpleEntImage(self, ass.idle)
@@ -162,6 +176,11 @@ function Player:screenRender()
 end
 
 function Player:onKeyPressed(key, scancode)
+
+    if key == 'up' or key == 'w' then self.directionInfo[Cardinal.Up].desired = true end
+    if key == 'left' or key == 'a' then self.directionInfo[Cardinal.Left].desired = true end
+    if key == 'down' or key == 's' then self.directionInfo[Cardinal.Down].desired = true end
+    if key == 'right' or key == 'd' then self.directionInfo[Cardinal.Right].desired = true end
     --if key == 'p' then
     --    local source = love.audio.newSource('sfx/explosion1.wav', 'static')
     --    source:play()

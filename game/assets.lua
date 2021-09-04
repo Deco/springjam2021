@@ -9,10 +9,10 @@ local assets = {
     ['art/player/idle_right.png'] = { type = 'image' },
     ['art/player/idle_down.png'] = { type = 'image' },
     ['art/player/idle_left.png'] = { type = 'image' },
-    ['art/player/walking_up-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
-    ['art/player/walking_right-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
-    ['art/player/walking_down-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
-    ['art/player/walking_left-sheet.png'] = { type = 'anim', frames = 4, duration = 0.3, loop = true, },
+    ['art/player/walking_up-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
+    ['art/player/walking_right-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
+    ['art/player/walking_down-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
+    ['art/player/walking_left-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
 
     ['art/wall.png'] = { type = 'image' },
 
@@ -22,12 +22,16 @@ local assets = {
     ['art/crate.png'] = { type = 'image' },
     ['art/gate.png'] = { type = 'image' },
     ['art/gate_open.png'] = { type = 'image' },
-    ['art/key.png'] = { type = 'image' },
+    ['art/golden-key.png'] = { type = 'image' },
     ['art/pressure-plate.png'] = { type = 'image' },
     ['art/toggle-switch.png'] = { type = 'image' },
     ['art/spikes.png'] = { type = 'image' },
     ['art/tomb.png'] = { type = 'image' },
-    ['art/koffeen.png'] = { type = 'image' },
+
+    ['art/Koffeen_open.png'] = { type = 'image', scale = 1.5, },
+    ['art/koffeen.png'] = { type = 'image', scale = 1.5, },
+    ['art/Koffeen_open-Sheet.png'] = { type = 'anim', scale = 1.5, frames = 12, loop = true, },
+
     ['art/vampire.png'] = { type = 'image' },
     ['art/vampire_left.png'] = { type = 'image' },
 

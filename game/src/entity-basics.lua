@@ -27,13 +27,6 @@ local entityBasicStuff = {
             self._posChangeTime = GAMETIME
         end
     end,
-    getRot = function(self)
-        return self._rot
-    end,
-    setRot = function(self, rot)
-        self._lastRot = rot
-        self._rot = rot
-    end,
     tryMove = function(self, dir)
         local destPos = self:getPos() + math.cardinalToOffset(dir)
         local destCell = WORLD:getCell(destPos)
@@ -58,8 +51,6 @@ function _G.BasicEntSetup(self, data)
     self:setPos(self._pos or assert(data.pos))
     self._lastPos = self._lastPos or self._pos
     self._posChangeTime = self._posChangeTime or GAMETIME
-    self:setRot(self._rot or data.rot or Cardinal.Up)
-    self._lastRot = self._lastRot or self._rot
 end
 
 

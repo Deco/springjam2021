@@ -28,6 +28,10 @@ function math.cardinalToAng(dir)
     return (dir - 1) * 0.25 * math.tau
 end
 
+function math.turnCardinal(dir, turns)
+    return math.indexWrap(dir + turns, 4)
+end
+
 function math.cardinalToOffset(dir)
     if dir == Cardinal.Up then return Vec(0, -1) end
     if dir == Cardinal.Right then return Vec(1, 0) end
