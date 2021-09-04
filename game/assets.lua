@@ -40,6 +40,7 @@ local assets = {
     ['art/mirror_static.png'] = { type = 'image' },
     ['art/mirror_dynamic.png'] = { type = 'image' },
     ['art/Boulder.png'] = { type = 'image' },
+    ['art/boulder_round.png'] = { type = 'image' },
     ['art/Mirror.png'] = { type = 'image' },
     ['art/Mirror_active.png'] = { type = 'image' },
 
