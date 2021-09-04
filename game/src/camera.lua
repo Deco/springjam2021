@@ -82,7 +82,9 @@ function TheCamera:getTransform()
     else
         scale = pixelSize.x / self._worldSize.x
     end
+    scale = math.floorTo(scale, 1)
     trans:scale(scale)
+    SCREENTEXT(scale)
 
     --love.graphics.setColor(1, 0, 0, 1)
     --love.graphics.setLineWidth(0.02)

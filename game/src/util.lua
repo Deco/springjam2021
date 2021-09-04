@@ -234,6 +234,14 @@ function util.mapListToKeys(list, valFunc)
     return out
 end
 
+function util.tablePairs(tbl)
+    local out = {}
+    for key, val in pairs(tbl) do
+        table.insert(out, { key = key, val = val })
+    end
+    return out
+end
+
 function util.default(val, default)
     if val == nil then return default end
     return val
