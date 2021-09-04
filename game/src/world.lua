@@ -7,8 +7,8 @@ function World:setup(data)
     self.logicGroups = self.logicGroups or {
         GREEN = { color = { 0, 1, 0, 1 }, satisfied = false, },
         RED = { color = { 1, 0, 0, 1 }, satisfied = false, },
-        BLUE = { color = { 0, 0, 1, 1 }, satisfied = false, },
-        PINK = { color = { 1, 0, 1, 1 }, satisfied = false, },
+        BLUE = { color = { 0.1, 0.3, 1, 1 }, satisfied = false, },
+        PINK = { color = { 0.7, 0, 1, 1 }, satisfied = false, },
     }
 
     self.grid = self.grid or {}
