@@ -26,6 +26,9 @@ function TheMenu:setup()
     self.gameState = self.gameState or nil
 
     love.window.setTitle(self.gameTitle)
+
+    self.ambientSound = Engine:getAsset('sfx/Dark_Amb.mp3')
+    self.ambientSoundSource = self.ambientSound.handle:clone()
 end
 
 function TheMenu:specialUpdate(time, dt)
@@ -50,7 +53,18 @@ function TheMenu:specialUpdate(time, dt)
             self:gotoStage(MenuStage.Playing)
         end
 
+        if suit.Button('Toggle Fullscreen', suit.layout:row(menuW, menuButtonH)).hit then
+            love.window.setFullscreen(not love.window.getFullscreen())
+        end
+
     elseif self.stage == MenuStage.Playing then
+
+        if not self.ambientSoundSource:isPlaying() then
+            self.ambientSoundSource:setVolume(0.1)
+            self.ambientSoundSource:play()
+            self.ambientSoundSource:setLooping(true)
+        end
+
         if self.isPaused then
             if not self.wasPaused then
                 Engine:onPause()

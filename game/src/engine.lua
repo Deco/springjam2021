@@ -282,6 +282,10 @@ function Engine:onKeyPressed(key, scancode, isrepeat)
             self.UP:enable(self.profileMode == ProfileMode.Running)
         elseif key == 'f3' then
             self.debugDraw = not self.debugDraw
+        elseif key == 'c' then
+            GAMESTATE.player.inventory.coffee.count = GAMESTATE.player.inventory.coffee.count + 1
+        elseif key == 'k' then
+            GAMESTATE.player.inventory.goldenKey.count = GAMESTATE.player.inventory.goldenKey.count + 1
         end
 
         if tonumber(key, 10) ~= nil then
@@ -383,7 +387,7 @@ local AssetTypes = {
     },
     sfx = {
         extensions = { "wav", "mp3", "ogg" },
-        create = function(info) info.handle = love.audio.newSource(info.path, 'static') end,
+        create = function(info) info.handle = love.audio.newSource(info.path, info.sourceType or 'static') end,
         destroy = function(info) info.handle = info.handle:release() end,
         fallback = { handle = love.audio.newSource('sfx/missing.mp3', 'static'), },
     },

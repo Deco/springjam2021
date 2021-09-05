@@ -212,6 +212,9 @@ function World:refreshLogicGroup(name)
             if cb then cb(outputEnt, considerSatisfied) end
         end
         logicGroup.satisfied = considerSatisfied
+        if GAMETIME > 1.0 then
+            EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, self)
+        end
     end
 end
 

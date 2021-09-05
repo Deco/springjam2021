@@ -11,7 +11,7 @@ local assets = {
     ['src/maps/laser_push.lua'] = { type = 'tiledmap' },
     ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
     ['src/maps/lighty_mcLightface.lua'] = { type = 'tiledmap' },
-    --['src/maps/pipework.lua'] = { type = 'tiledmap' },
+    ['src/maps/pipework.lua'] = { type = 'tiledmap' },
 
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
@@ -70,9 +70,38 @@ local assets = {
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 
-    ['sfx/explosion1.wav'] = { type = 'sfx', volume = 0.6 },
-    ['sfx/explosion2.wav'] = { type = 'sfx', volume = 0.8 },
-    ['sfx/fuse.wav'] = { type = 'sfx', looping = true },
+    ['sfx/Beans.ogg'] = { type = 'sfx', trim = 2.8, duration = 1.4, pitch = 0.5, volume = 0.1, },
+    ['sfx/Boulder_Move_00.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
+    ['sfx/Boulder_Move_01.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
+    ['sfx/Boulder_Move_02.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
+    ['sfx/Burn_to_Ash.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Key_Get_00.ogg'] = { type = 'sfx', volume = 0.4, },
+    ['sfx/Key_Get_01.ogg'] = { type = 'sfx', volume = 0.4, },
+    ['sfx/Pickup_Cup_maybe.ogg'] = { type = 'sfx', volume = 0.4, },
+    ['sfx/Pickup_Cup_maybe2.ogg'] = { type = 'sfx', volume = 0.4, },
+    ['sfx/Vampire_Death.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Vamp_Alert-00.ogg'] = { type = 'sfx', trim = 0.7, duration = 0.45, pitch = 0.5, volume = 0.1, },
+    ['sfx/Vamp_chase_00.ogg'] = { type = 'sfx', looping = true, pitch = 2.1, volume = 0.05, },
+    ['sfx/Vamp_Drink.ogg'] = { type = 'sfx', trim = 0.4, pitch = 1.3, duraton = 2.0, volume = 0.1, },
+
+    ['sfx/Pickup_Gold_00.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Pickup_Gold_01.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Pickup_Gold_02.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Pickup_Gold_03.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Pickup_Gold_04.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Dragon_Growl_00.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Dragon_Growl_01.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Trap_00.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Trap_01.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/Trap_02.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/bottle.wav'] = { type = 'sfx', volume = 0.6, },
+    ['sfx/door.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.15, },
+    ['sfx/burp.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.05, },
+    ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
+    ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
+
+    ['sfx/Dark_Amb.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3 },
+
 }
 
 for assetKey, assetDescription in pairs(assets) do

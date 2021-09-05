@@ -25,6 +25,7 @@ function Vampire:setup(data)
     self.lastMoveTime = self.lastMoveTime or GAMETIME
     self.movePath = self.movePath or nil
     self.lastPathingTime = self.lastPathingTime or GAMETIME
+    --self.nextBurpTime = self.nextBurpTime or GAMETIME + math.random(30, 45)
 end
 
 function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust end
@@ -36,10 +37,14 @@ function Vampire:update(time, dt)
     if self.stage ~= VampireStage.Dying and self.stage ~= VampireStage.Dust and WORLD:getCell(self:getPos()):isIlluminated() then
         self.stage = VampireStage.Dying
         self.stageChangeTime = GAMETIME
+        EmitSound('sfx/Beans.ogg', self)
+        EmitSound('sfx/Vampire_Death.ogg', self)
     end
 
     local updateMoveGoal = function(force)
-        if not force and GAMETIME < self.lastPathingTime + 0.22 then return nil end
+        if not force and GAMETIME < self.lastPathingTime + 0.22 and self:getPos():dist(GAMESTATE.player:getPos()) > 6 then
+            return nil
+        end
         self.lastPathingTime = GAMETIME
 
         if GAMESTATE.player.alive then
@@ -67,6 +72,7 @@ function Vampire:update(time, dt)
     if self.stage == VampireStage.Wakeup then
         if GAMETIME > self.stageChangeTime + vampireWakeupDelay then
             self.stage = VampireStage.Idle
+            --self.nextBurpTime = GAMETIME + math.random(9.0, 15.0)
         end
     end
     if self.stage == VampireStage.Idle then
@@ -75,8 +81,14 @@ function Vampire:update(time, dt)
                 self.stage = VampireStage.Alerted
                 self.stageChangeTime = GAMETIME
                 print('-> ALERT')
+                EmitSound('sfx/Beans.ogg', self)
+                EmitSound('sfx/Vamp_Alert-00.ogg', self)
             end
         end
+        --if not self.nextBurpTime or GAMETIME > self.nextBurpTime then
+        --    self.nextBurpTime = GAMETIME + math.random(7.0, 11.0)
+        --    EmitSound('sfx/burp.wav', self, { pitch = math.random(0.45, 1.0) })
+        --end
     end
     if self.stage == VampireStage.Alerted then
         updateMoveGoal()
@@ -102,6 +114,7 @@ function Vampire:update(time, dt)
             end
             if stop then
                 if updateMoveGoal(true) == false then
+                    --self.nextBurpTime = GAMETIME + math.random(9.0, 15.0)
                     self.stage = VampireStage.Idle
                     self.stageChangeTime = GAMETIME
                     print('-> IDLE')

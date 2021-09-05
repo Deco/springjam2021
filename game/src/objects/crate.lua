@@ -17,6 +17,10 @@ function Crate:makeBroke()
     self.isBroke = true
 end
 
+function Crate:onShoved()
+    EmitSound({ 'sfx/Inventory_Open_00.mp3', 'sfx/Inventory_Open_01.mp3' }, self)
+end
+
 function Crate:render()
     local f = self.isBroke and 0.1 or 1
     love.graphics.setColor(f, f, f, 1)

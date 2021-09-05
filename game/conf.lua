@@ -23,8 +23,8 @@ function love.conf(t)
     t.window.title = "Untitled"         -- The window title (string)
     t.window.icon = nil                 -- Filepath to an image to use as the window's icon (string)
     if isDebug then
-        t.window.width = 1280
-        t.window.height = 720
+        t.window.width = 1536
+        t.window.height = 864
         t.window.borderless = false
         t.window.resizable = true
         t.window.minwidth = 1280

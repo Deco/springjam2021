@@ -21,6 +21,7 @@ function ExitDoor:onUse(player)
     if self._isLocked and player:hasItem('goldenKey') then
         player:takeItem('goldenKey')
         self._isLocked = false
+        EmitSound('sfx/door.wav', self)
     end
 end
 

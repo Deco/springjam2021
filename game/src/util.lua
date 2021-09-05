@@ -219,8 +219,10 @@ function util.mergeTables(...)
     local out = {}
     for tblIdx = 1, select('#', ...) do
         local tbl = select(tblIdx, ...)
-        for key, val in pairs(tbl) do
-            out[key] = val
+        if tbl ~= nil then
+            for key, val in pairs(tbl) do
+                out[key] = val
+            end
         end
     end
     return out
@@ -299,3 +301,6 @@ function util.some(list, func)
     return false
 end
 
+function util.random(list)
+    return list[math.random(#list)]
+end

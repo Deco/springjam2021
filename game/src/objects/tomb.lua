@@ -36,6 +36,8 @@ function Tomb:onUse(player)
         player:takeItem('coffee')
         self.stage = TombStage.Opening
         self.stageChangeTime = GAMETIME
+        EmitSound({ 'sfx/Dragon_Growl_00.mp3', 'sfx/Dragon_Growl_01.mp3' }, self)
+        EmitSound('sfx/Vamp_Drink.ogg', self)
     end
 end
 

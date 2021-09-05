@@ -41,7 +41,7 @@ do
         if type(posOrEnt) == "cdata" then
             vfx = VFX.new(WORLD, { solid = true, pos = posOrEnt, asset = Engine:getAsset(assetKey), })
         else
-            vfx = VFX.new(posOrEnt, { attachTo = posOrEnt, asset = Engine:getAsset(assetKey), })
+            vfx = VFX.new(posOrEnt, { pos = posOrEnt:getPos(), asset = Engine:getAsset(assetKey), })
         end
         return vfx
     end
@@ -50,16 +50,20 @@ end
 do
     _G.SFX = Engine:EntityClass('SFX')
     function SFX:setup(data)
-        BasicEntSetup(self, data)
+        --BasicEntSetup(self, data)
         self.asset = assert(data.asset)
         self.source = self.source or self.asset.handle:clone()
         self.birth = self.birth or GAMETIME
         self.didPause = util.default(self.didPause, false)
+        self.overridePitch = data.pitch
     end
     function SFX:spawned()
         self:updateAudioSource()
         --self.source:stop()
         self.source:setLooping(not not self.asset.looping)
+        self.source:seek(self.asset.trim or 0)
+        self.source:setPitch(self.overridePitch or self.asset.pitch or 1.0)
+        self.source:setVolume(self.asset.volume or 1.0)
         self.source:play()
     end
     function SFX:removed()
@@ -67,11 +71,13 @@ do
         self.source:release()
     end
     function SFX:updateAudioSource()
-        local offset = self:getPos() - Engine.camera:getPos()
-        --self.source:setPosition(offset.x, offset.y, 0)
-        local vol = math.remapClamp(offset:mag(), 8, 20, 1.0, 0.12)
-        vol = vol * (self.asset.volume or 1)
-        self.source:setVolume(vol)
+        --if self.owner ~= WORLD then
+        --    local offset = self.owner:getPos() - Engine.camera:getPos()
+        --    self.source:setPosition(offset.x, offset.y, 0)
+        --    local vol = math.remapClamp(offset:mag(), 8, 20, 1.0, 0.12)
+        --    vol = vol * (self.asset.volume or 1)
+        --    self.source:setVolume(vol)
+        --end
         --SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
     end
     function SFX:render()
@@ -93,18 +99,18 @@ do
             self.source:play()
         end
     end
+    function SFX:getDuration()
+        return math.min(self.source:getDuration() / self.source:getPitch(), self.asset.duration or 500.0)
+    end
     function SFX:update(time, dt)
-        if not self.asset.looping and time > self.birth + self.source:getDuration() then
+        if not self.asset.looping and time > self.birth + self:getDuration() then
             Engine:Remove(self)
         end
     end
-    _G.EmitSound = function(assetKey, posOrEnt)
+    _G.EmitSound = function(assetKeyOrKeys, owner, extraData)
+        local asset = Engine:getAsset(type(assetKeyOrKeys) == 'table' and util.random(assetKeyOrKeys) or assetKeyOrKeys)
         local sfx
-        if type(posOrEnt) == "cdata" then
-            sfx = SFX.new(WORLD, { solid = true, pos = posOrEnt, asset = Engine:getAsset(assetKey), })
-        else
-            sfx = SFX.new(posOrEnt, { attachTo = posOrEnt, asset = Engine:getAsset(assetKey), })
-        end
+        sfx = SFX.new(owner or WORLD, util.mergeTables({ asset = asset }, extraData))
         return sfx
     end
 end

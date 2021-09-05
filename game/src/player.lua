@@ -125,18 +125,22 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
-    --if key == 'l' then
-    --    --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
-    --    --SpawnVFX('art/fx/explosion.png', self:getPos())
-    --    WORLD:pathFind(self:getPos(), Vec(3, 3))
-    --end
+    if IS_DEBUG and key == 'l' then
+        --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
+        --SpawnVFX('art/fx/explosion.png', self:getPos())
+        --WORLD:pathFind(self:getPos(), Vec(3, 3))
+        --EmitSound('sfx/Beans.ogg', self)
+        EmitSound('sfx/Dragon_Growl_01.mp3', self)
+    end
 end
 
 function Player:onTouch(other)
     if other.class == Key then
         self:giveItem('goldenKey')
+        EmitSound({ 'sfx/Key_Get_00.ogg', 'sfx/Key_Get_01.ogg' }, self)
         Engine:Remove(other)
     elseif other.class == Coffee then
+        EmitSound('sfx/bottle.wav', self)
         self:giveItem('coffee')
         Engine:Remove(other)
     elseif other.class == Spikes then
