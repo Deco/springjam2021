@@ -5,10 +5,10 @@ World = Engine:EntityClass('World')
 function World:setup(data)
     self.level = data.level
     self.logicGroups = self.logicGroups or {
-        GREEN = { color = { 0, 1, 0, 1 }, allSatisfied = false, anySatisfied = false },
-        RED = { color = { 1, 0, 0, 1 }, allSatisfied = false, anySatisfied = false },
-        BLUE = { color = { 0.1, 0.3, 1, 1 }, allSatisfied = false, anySatisfied = false },
-        PINK = { color = { 0.7, 0, 1, 1 }, allSatisfied = false, anySatisfied = false },
+        GREEN = { color = { 0, 1, 0, 1 }, allSatisfied = nil, anySatisfied = nil },
+        RED = { color = { 1, 0, 0, 1 }, allSatisfied = nil, anySatisfied = nil },
+        BLUE = { color = { 0.1, 0.3, 1, 1 }, allSatisfied = nil, anySatisfied = nil },
+        PINK = { color = { 0.7, 0, 1, 1 }, allSatisfied = nil, anySatisfied = nil },
     }
 
     self.grid = self.grid or {}
@@ -92,6 +92,10 @@ function World:initLevel()
         if retouchy then
             retouchy(ent, nil, WORLD:getCell(ent:getPos()))
         end
+    end
+
+    for logicGroupName, logicGroup in pairs(self.logicGroups) do
+        self:refreshLogicGroup(logicGroupName)
     end
 end
 
