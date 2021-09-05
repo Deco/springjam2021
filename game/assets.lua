@@ -12,6 +12,7 @@ local assets = {
     ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
     ['src/maps/lighty_mcLightface.lua'] = { type = 'tiledmap' },
     ['src/maps/pipework.lua'] = { type = 'tiledmap' },
+    ['src/maps/tubular.lua'] = { type = 'tiledmap' },
     ['src/maps/hide_and_seek.lua'] = { type = 'tiledmap' },
 
 

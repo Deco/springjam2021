@@ -116,7 +116,11 @@ local levels = {
     { tiledmap = Engine:getAsset('src/maps/pits.lua'), label = "Pits", },
     { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
     { tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'), label = "Lighty McLightface", },
-    { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Pipework", }
+    { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Pipework", },
+    {
+        label = "Tubular",
+        tiledmap = Engine:getAsset('src/maps/tubular.lua'),
+    }
 }
 
 function TheMenu:gotoStage(newStage)
