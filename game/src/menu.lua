@@ -29,6 +29,8 @@ function TheMenu:setup()
 
     self.ambientSound = Engine:getAsset('sfx/Dark_Amb.mp3')
     self.ambientSoundSource = self.ambientSound.handle:clone()
+
+    self.fadeFrac = 0.0
 end
 
 function TheMenu:specialUpdate(time, dt)
@@ -54,7 +56,7 @@ function TheMenu:specialUpdate(time, dt)
         end
 
         if suit.Button('Toggle Fullscreen', suit.layout:row(menuW, menuButtonH)).hit then
-            love.window.setFullscreen(not love.window.getFullscreen())
+            love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
         end
 
     elseif self.stage == MenuStage.Playing then
@@ -102,60 +104,20 @@ function TheMenu:specialUpdate(time, dt)
 end
 
 local levels = {
-    {
-        label = "Morning Gory",
-        tiledmap = Engine:getAsset('src/maps/entrance.lua'),
-    },
-    {
-        label = "Rise and Shine",
-        tiledmap = Engine:getAsset('src/maps/riseandshine.lua'),
-    },
-    {
-        label = "Spikes",
-        tiledmap = Engine:getAsset('src/maps/spikes.lua'),
-    },
-    {
-        label = "Zig Zag",
-        tiledmap = Engine:getAsset('src/maps/zigzag.lua'),
-    },
-    {
-        label = "Pits",
-        tiledmap = Engine:getAsset('src/maps/pits.lua'),
-    },
-    {
-        label = "Back and Forth",
-        tiledmap = Engine:getAsset('src/maps/back_and_forth.lua'),
-    },
-    {
-        label = "Bloody Blood Blood",
-        tiledmap = Engine:getAsset('src/maps/hand_fucking_coded.lua'),
-    },
-    {
-        label = "Hallway Escape",
-        tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'),
-        logicGroups = {},
-        stuff = {},
-    },
-    {
-        label = "Keg",
-        tiledmap = Engine:getAsset('src/maps/ko_hand_fucking_coded.lua'),
-    },
-    {
-        label = "Light Grid",
-        tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
-    },
-    {
-        label = "Sea Floor Cavern",
-        tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
-    },
-    {
-        label = "Lighty McLightface",
-        tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
-    },
-    {
-        label = "Mission Probable",
-        tiledmap = Engine:getAsset('src/maps/pipework.lua'),
-    }
+    { tiledmap = Engine:getAsset('src/maps/entrance.lua'), label = "Morning Gory", },
+    { tiledmap = Engine:getAsset('src/maps/riseandshine.lua'), label = "Rise and Shine", },
+    { tiledmap = Engine:getAsset('src/maps/spikes.lua'), label = "Spikes", },
+    { tiledmap = Engine:getAsset('src/maps/back_and_forth.lua'), label = "Back and Forth", },
+    { tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'), label = "Hallway Escape", },
+    { tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
+
+    { tiledmap = Engine:getAsset('src/maps/laser_push.lua'), label = "Light Grid", },
+    { tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
+    { tiledmap = Engine:getAsset('src/maps/pits.lua'), label = "Pits", },
+    { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+    { tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'), label = "Lighty McLightface", },
+    { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Mission Probable", },
+    { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", }
 }
 
 function TheMenu:gotoStage(newStage)
@@ -175,6 +137,7 @@ function TheMenu:gotoStage(newStage)
 end
 
 function TheMenu:loadLevel(targetIdx, isRestart)
+    self.fadeFrac = 1.0
     self.wasRestart = isRestart
     if targetIdx == 'curr' then
         targetIdx = self.targetLevelIdx
@@ -188,8 +151,19 @@ function TheMenu:loadLevel(targetIdx, isRestart)
     end
 end
 
+function TheMenu:setFade(frac)
+    self.fadeFrac = frac
+end
+
 function TheMenu:specialRender()
     local winW, winH = love.graphics.getDimensions()
+
+    if GAMETIME < 10.0 then
+        self.fadeFrac = math.remapClamp(GAMETIME, 0, 1, 1, 0)
+    end
+
+    love.graphics.setColor(0, 0, 0, self.fadeFrac)
+    love.graphics.rectangle('fill', 0, 0, winW, winH)
 
     if self.isPaused then
         love.graphics.setColor(0, 0, 0, 0.7)

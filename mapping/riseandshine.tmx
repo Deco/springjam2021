@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="57">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="69">
  <editorsettings>
   <export target="../game/src/maps/riseandshine.lua" format="lua"/>
  </editorsettings>
@@ -57,5 +57,13 @@
   <object id="51" template="templates/MovableMirror_UL.tx" x="192" y="448"/>
   <object id="54" template="templates/RotatingMirror_DR.tx" x="192" y="256" width="16" height="16"/>
   <object id="56" template="templates/Tomb-GoldenKey.tx" x="96" y="160"/>
+  <object id="58" template="templates/MovableMirror_UR.tx" x="112" y="304"/>
+  <object id="59" template="templates/Salt.tx" x="48" y="224"/>
+  <object id="60" template="templates/Salt.tx" x="64" y="224"/>
+  <object id="61" template="templates/Salt.tx" x="80" y="224"/>
+  <object id="62" template="templates/Salt.tx" x="96" y="224"/>
+  <object id="63" template="templates/Salt.tx" x="112" y="224"/>
+  <object id="64" template="templates/Salt.tx" x="128" y="224"/>
+  <object id="68" template="templates/Salt.tx" x="144" y="224"/>
  </objectgroup>
 </map>

@@ -144,11 +144,18 @@ function Player:onTouch(other)
         self:giveItem('coffee')
         Engine:Remove(other)
     elseif other.class == Spikes then
-        self.alive = false
+        self:youAreDead()
         print('DEAD')
     elseif other.class == Vampire and other.stage ~= VampireStage.Dust then
-        self.alive = false
+        self:youAreDead()
         print('DEAD')
+    end
+end
+
+function Player:youAreDead()
+    if self.alive then
+        self.alive = false
+        EmitSound('sfx/death.wav', self, { pitch = util.randomRange(0.6, 0.66), })
     end
 end
 

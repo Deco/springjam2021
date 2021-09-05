@@ -42,7 +42,8 @@ function Vampire:update(time, dt)
     end
 
     local updateMoveGoal = function(force)
-        if not force and GAMETIME < self.lastPathingTime + 0.22 and self:getPos():dist(GAMESTATE.player:getPos()) > 6 then
+        local fuckingSlow = self:getPos():dist(GAMESTATE.player:getPos()) > 6 and 0.25 or 0.1
+        if not force and GAMETIME < self.lastPathingTime + fuckingSlow then
             return nil
         end
         self.lastPathingTime = GAMETIME
