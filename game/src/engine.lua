@@ -230,26 +230,28 @@ function Engine:draw()
     self.menu:specialRender()
     love.graphics.pop()
 
-    love.graphics.push()
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.setFont(Engine:getAsset('devfont').handle)
-    --love.graphics.print(string.format("FT (ms): %3.3f", love.timer.getAverageDelta()), 10, 10)
-    local screenTextIdx = 0
-    for _, text in ipairs(self.updateDebugScreenText) do
-        love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
-        screenTextIdx = screenTextIdx + 1
+    if IS_DEBUG then
+        love.graphics.push()
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setFont(Engine:getAsset('devfont').handle)
+        --love.graphics.print(string.format("FT (ms): %3.3f", love.timer.getAverageDelta()), 10, 10)
+        local screenTextIdx = 0
+        for _, text in ipairs(self.updateDebugScreenText) do
+            love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
+            screenTextIdx = screenTextIdx + 1
+        end
+        for _, text in ipairs(self.drawDebugScreenText) do
+            love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
+            screenTextIdx = screenTextIdx + 1
+        end
+        self.drawDebugScreenText = {}
+        self.currDebugScreenText = nil
+        love.graphics.pop()
     end
-    for _, text in ipairs(self.drawDebugScreenText) do
-        love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
-        screenTextIdx = screenTextIdx + 1
-    end
-    self.drawDebugScreenText = {}
-    self.currDebugScreenText = nil
-    love.graphics.pop()
 
     self.DP:endCycle()
     local winW, winH = love.graphics.getDimensions()
-    if self.profileMode ~= ProfileMode.Off then
+    if IS_DEBUG and self.profileMode ~= ProfileMode.Off then
         love.graphics.setColor(255, 255, 255)
         self.DP:draw(20, 20, 200, winH - 20 - 20, "DRAW CYCLE")
         self.UP:draw(winW - 20 - 200, 20, 200, winH - 40, "UPDATE CYCLE")

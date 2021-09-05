@@ -112,15 +112,15 @@ local levels = {
     { tiledmap = Engine:getAsset('src/maps/spikes.lua'), label = "Spikes", },
     { tiledmap = Engine:getAsset('src/maps/back_and_forth.lua'), label = "Back and Forth", },
     { tiledmap = Engine:getAsset('src/maps/hallway_escape.lua'), label = "Hallway Escape", },
-    { tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
-
     { tiledmap = Engine:getAsset('src/maps/laser_push.lua'), label = "Light Grid", },
-    { tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
     { tiledmap = Engine:getAsset('src/maps/pits.lua'), label = "Pits", },
-    { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
     { tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'), label = "Lighty McLightface", },
     { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Mission Probable", },
-    { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", }
+    { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
+    { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+
+    --{ tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
+    --{ tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
 }
 
 function TheMenu:gotoStage(newStage)
@@ -166,6 +166,8 @@ function TheMenu:specialRender()
         self.fadeFrac = math.remapClamp(GAMETIME, 0, 1, 1, 0)
     end
 
+    love.mouse.setVisible(self.stage == MenuStage.Playing and not self.isPaused)
+
     love.graphics.setColor(0, 0, 0, self.fadeFrac)
     love.graphics.rectangle('fill', 0, 0, winW, winH)
 
@@ -174,7 +176,7 @@ function TheMenu:specialRender()
     love.graphics.setFont(promptFont.handle)
     local text = ""
     if self.stage == MenuStage.MainMenu then
-        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nEscape to pause.\n\nF to toggle fullscreen.\nR to start game now."
+        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
     elseif self.thanksForPlaying then
         text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
     end

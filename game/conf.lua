@@ -22,17 +22,16 @@ function love.conf(t)
 
     t.window.title = "Morning Gory"         -- The window title (string)
     t.window.icon = nil                 -- Filepath to an image to use as the window's icon (string)
-    if isDebug then
-        t.window.width = 1536
-        t.window.height = 864
-        t.window.borderless = false
-        t.window.resizable = true
-        t.window.minwidth = 1280
-        t.window.minheight = 720
-    else
-        t.window.width = 0                  -- The window width (number) (0 = size to monitor)
-        t.window.height = 0                 -- The window height (number) (0 = size to monitor)
-        t.window.borderless = true          -- Remove all border visuals from the window (boolean)
+    --if isDebug then
+    t.window.width = 1536
+    t.window.height = 864
+    t.window.borderless = false
+    t.window.resizable = true
+    t.window.minwidth = 1280
+    t.window.minheight = 720
+    if not isDebug then
+        t.window.fullscreen = true         -- Enable fullscreen (boolean)
+        t.window.fullscreentype = "desktop" -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
     end
     --t.window.resizable = false          -- Let the window be user-resizable (boolean)
     --t.window.minwidth = 1               -- Minimum window width if the window is resizable (number)

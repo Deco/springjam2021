@@ -25,7 +25,7 @@ function TheCamera:specialRender(dt)
     end
 
     local viewDiff = self:getPos() - self.viewPos
-    local viewSpeed = math.remapClamp(viewDiff:mag(), 3, 7, 10, 25)
+    local viewSpeed = math.remapClamp(viewDiff:mag(), 3, 7, 7.5, 25)
     self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * viewSpeed, 0, viewDiff:mag())
 
     love.graphics.push()

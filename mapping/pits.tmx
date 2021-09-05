@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="15">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="17">
  <editorsettings>
   <export target="../game/src/maps/pits.lua" format="lua"/>
  </editorsettings>
@@ -38,5 +38,6 @@
   <object id="10" name="Gate-GREEN" gid="37" x="160" y="304" width="16" height="16"/>
   <object id="13" template="templates/ToggleSwitch-COLOR.tx" name="ToggleSwitch-GREEN" x="80" y="208"/>
   <object id="14" name="Gate-GREEN" gid="37" x="160" y="224" width="16" height="16"/>
+  <object id="16" template="templates/Spikes.tx" x="160" y="32"/>
  </objectgroup>
 </map>

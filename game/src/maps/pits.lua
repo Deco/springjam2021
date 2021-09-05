@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 3,
-  nextobjectid = 15,
+  nextobjectid = 17,
   properties = {},
   tilesets = {
     {
@@ -430,6 +430,20 @@ return {
           height = 16,
           rotation = 0,
           gid = 37,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 16,
+          name = "Spikes",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 40,
           visible = true,
           properties = {}
         }
