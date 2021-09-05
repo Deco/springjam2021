@@ -20,7 +20,7 @@ function love.conf(t)
     --t.audio.mic = false                 -- Request and use microphone capabilities in Android (boolean)
     --t.audio.mixwithsystem = true        -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
 
-    t.window.title = "Untitled"         -- The window title (string)
+    t.window.title = "Morning Gory"         -- The window title (string)
     t.window.icon = nil                 -- Filepath to an image to use as the window's icon (string)
     if isDebug then
         t.window.width = 1536

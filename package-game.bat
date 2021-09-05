@@ -1,5 +1,5 @@
 
-set GAMENAME=Untitled
+set GAMENAME=MorningGory
 
 set THIS_DIR=%~dp0
 set GAME_DIR=%THIS_DIR%\game

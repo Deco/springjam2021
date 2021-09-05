@@ -36,7 +36,8 @@ function Gate:isLocked() return self._isLocked end
 
 function Gate:render()
     love.graphics.setColor(unpack(WORLD:getLogicGroup(self.logicGroupName).color))
-    DrawSimpleEntImage(self, self:isLocked() and self.imageClosed or self.imageOpen)
+    local showClosed = self:isLocked() and self:getPos() ~= GAMESTATE.player:getPos()
+    DrawSimpleEntImage(self, showClosed and self.imageClosed or self.imageOpen)
 end
 
 

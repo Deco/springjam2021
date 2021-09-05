@@ -13,15 +13,25 @@ end
 function PressurePlate:onTouch(other)
     local checkFunc = rawget(other, 'activatesFloorSensors')
     if checkFunc and checkFunc(other) then
+        local wasSatisfied = self:shouldConsiderSatisfied()
         self.touchersSet[other] = true
         WORLD:refreshLogicGroup(self.logicGroupName)
+        local isSatisfied = self:shouldConsiderSatisfied()
+        if isSatisfied and not wasSatisfied then
+            EmitSound('sfx/input.wav', self)
+        end
     end
 end
 
 function PressurePlate:onUnTouch(other)
     if self.touchersSet[other] then
+        local wasSatisfied = self:shouldConsiderSatisfied()
         self.touchersSet[other] = nil
         WORLD:refreshLogicGroup(self.logicGroupName)
+        local isSatisfied = self:shouldConsiderSatisfied()
+        if not isSatisfied and wasSatisfied then
+            EmitSound('sfx/input-off.wav', self)
+        end
     end
 end
 

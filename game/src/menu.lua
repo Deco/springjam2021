@@ -14,7 +14,7 @@ function TheMenu:setup()
     --self.bigFont = Engine:getAsset('fonts/HelvetiPixel.ttf:60').handle
     self.jfcFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 24)
     self.jfcBigFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 60)
-    self.gameTitle = "Untitled!"
+    self.gameTitle = "Morning Gory"
 
     self.stage = self.stage or MenuStage.Loading
     self.isPaused = util.default(self.isPaused, false)
@@ -31,6 +31,8 @@ function TheMenu:setup()
     self.ambientSoundSource = self.ambientSound.handle:clone()
 
     self.fadeFrac = 0.0
+
+    self.thanksForPlaying = false
 end
 
 function TheMenu:specialUpdate(time, dt)
@@ -47,17 +49,18 @@ function TheMenu:specialUpdate(time, dt)
         self:gotoStage(MenuStage.MainMenu)
 
     elseif self.stage == MenuStage.MainMenu then
-        suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
-
-        suit.Label(self.gameTitle, { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
-
-        if suit.Button('Play', suit.layout:row(menuW, menuButtonH)).hit then
-            self:gotoStage(MenuStage.Playing)
-        end
-
-        if suit.Button('Toggle Fullscreen', suit.layout:row(menuW, menuButtonH)).hit then
-            love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
-        end
+        --suit.layout:reset(winW / 2 - menuW / 2, 0.3 * winH - 100, 5, 5) -- /* offX, offY, padX, padY */
+        --
+        ----suit.Label(self.gameTitle, { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
+        --suit.Label("", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
+        --
+        --if suit.Button('Play', suit.layout:row(menuW, menuButtonH)).hit then
+        --    self:gotoStage(MenuStage.Playing)
+        --end
+        --
+        --if suit.Button('Toggle Fullscreen', suit.layout:row(menuW, menuButtonH)).hit then
+        --    love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
+        --end
 
     elseif self.stage == MenuStage.Playing then
 
@@ -146,6 +149,7 @@ function TheMenu:loadLevel(targetIdx, isRestart)
         targetIdx = self.targetLevelIdx
     elseif targetIdx == 'next' then
         targetIdx = math.indexWrap(self.targetLevelIdx + 1, #levels)
+        self.thanksForPlaying = (targetIdx < self.targetLevelIdx)
     end
     if levels[targetIdx] then
         self.targetLevelIdx = targetIdx
@@ -167,6 +171,22 @@ function TheMenu:specialRender()
 
     love.graphics.setColor(0, 0, 0, self.fadeFrac)
     love.graphics.rectangle('fill', 0, 0, winW, winH)
+
+    local promptFont = Engine:getAsset('PromptFont')
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setFont(promptFont.handle)
+    local text = ""
+    if self.stage == MenuStage.MainMenu then
+        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nEscape to pause.\n\nF to toggle fullscreen.\nR to start game now."
+    elseif self.thanksForPlaying then
+        text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
+    end
+    local textW, textH = promptFont.handle:getWidth(text), promptFont.handle:getHeight(text)
+    love.graphics.printf(text, winW / 2 - 1200 / 2, winH / 2 - 130, 1200, 'center')
+    if text ~= "" then
+        local img = Engine:getAsset('art/Morning_Gory.png').handle
+        love.graphics.draw(img, winW / 2 - img:getWidth() / 2, winH / 2 - img:getHeight() / 2 - 240)
+    end
 
     if self.isPaused then
         love.graphics.setColor(0, 0, 0, 0.7)
@@ -200,9 +220,21 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
         return
     end
 
+    if key == 'r' and self.stage == MenuStage.MainMenu then
+        self:gotoStage(MenuStage.Playing)
+    end
+
+    if key == 'f' then
+        love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
+    end
+
     if IS_DEBUG and key == 'f1' then
         self:gotoStage(MenuStage.Loading)
         return
+    end
+
+    if IS_DEBUG and key == 'f5' then
+        self:loadLevel('next')
     end
 
     if self.gameState and self.gameState.player then

@@ -70,6 +70,7 @@ local assets = {
 
     ['art/tree.png'] = { type = 'image' },
     ['art/lit.png'] = { type = 'image' },
+    ['art/Morning_Gory.png'] = { type = 'image' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 
@@ -97,6 +98,8 @@ local assets = {
     ['sfx/Trap_00.mp3'] = { type = 'sfx', volume = 0.2, },
     ['sfx/Trap_01.mp3'] = { type = 'sfx', volume = 0.2, },
     ['sfx/Trap_02.mp3'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/input.wav'] = { type = 'sfx', volume = 0.4, },
+    ['sfx/input-off.wav'] = { type = 'sfx', volume = 0.45, },
     ['sfx/bottle.wav'] = { type = 'sfx', volume = 0.6, },
     ['sfx/door.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.15, },
     ['sfx/burp.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.05, },

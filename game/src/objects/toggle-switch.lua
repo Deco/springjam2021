@@ -14,8 +14,15 @@ end
 function ToggleSwitch:onTouch(other)
     local checkFunc = rawget(other, 'activatesFloorSensors')
     if checkFunc and checkFunc(other) then
+        local wasSatisfied = self:shouldConsiderSatisfied()
         self.isActivated = not self.isActivated
         WORLD:refreshLogicGroup(self.logicGroupName)
+        local isSatisfied = self:shouldConsiderSatisfied()
+        if isSatisfied and not wasSatisfied then
+            EmitSound('sfx/input.wav', self)
+        elseif not isSatisfied and wasSatisfied then
+            EmitSound('sfx/input-off.wav', self)
+        end
     end
 end
 
