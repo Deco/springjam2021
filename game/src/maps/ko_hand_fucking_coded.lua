@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 347,
+  nextobjectid = 349,
   properties = {},
   tilesets = {
     {
@@ -583,6 +583,34 @@ return {
           properties = {
             ["initialFacingDir"] = "DownRight"
           }
+        },
+        {
+          id = 347,
+          name = "Boulder",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 50,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 348,
+          name = "BoulderRound",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 176,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 60,
+          visible = true,
+          properties = {}
         }
       }
     }

@@ -1,12 +1,11 @@
 LightSource = Engine:EntityClass('LightSource')
 
 function LightSource:setup(data)
-    self.image = Engine:getAsset('art/flashlight.png')
-    self.dir = self.dir or Cardinal.Right
-    self.initialDir = self.initialDir or Cardinal.Right
+    self.renderDepth = RenderingDepth.God
+    self.image = Engine:getAsset('art/godbeam.png')
     self.illuminatedCellsList = self.illuminatedCellsList or { }
-    self.firstRun = util.default(self.firstRun, false)
-    self.illuminatedMirrors = {}
+    self.firstRun = false--util.default(self.firstRun, false)
+    self.illuminatedMirrors = self.illuminatedMirrors or {}
 
     BasicEntSetup(self, data)
 end
@@ -16,20 +15,25 @@ function LightSource:spawned()
 end
 
 function LightSource:render()
-    love.graphics.setColor(1, 1, 1, 1)
+    local storedBlendMode, storedBlendAlphaMode = love.graphics.getBlendMode()
+    love.graphics.setBlendMode('add')
+    love.graphics.setColor(1, 1, 1, 0.65)
     DrawSimpleEntImage(self, self.image)
+    love.graphics.setBlendMode(storedBlendMode, storedBlendAlphaMode)
 end
 
 function LightSource:update()
     if not self.firstRun then
-        self.initialDir = self.dir
         self.firstRun = true
         self:updateLight()
     end
 end
 
 function LightSource:updateLight()
+    local lastLitTimeMap = {}
     for _, illuminatedCell in ipairs(self.illuminatedCellsList) do
+        local litInfo = illuminatedCell.litBySet[self]
+        if litInfo then lastLitTimeMap[illuminatedCell] = litInfo.time end
         illuminatedCell.litBySet[self] = nil
         for mirror, source in pairs(illuminatedCell.directlyLitBySet) do
             if source == self then
@@ -39,39 +43,45 @@ function LightSource:updateLight()
     end
     for _, mirror in ipairs(self.illuminatedMirrors) do
         mirror.isReflecting = false
+        mirror.isReflectingGod = false
     end
 
     self.illuminatedCellsList = {}
     self.illuminatedMirrors = {}
-    self.dir = self.initialDir
 
-    local currPos = self:getPos() + math.cardinalToOffset(self.dir)
+    local currDir = 'from above!!'
+    local currPos = self:getPos()
     local currDirectLighter = self
-    for loopIdx = 1, 600 do
+    local animStepCounter = 0
+    for stepIdx = 1, 600 do
         local currCell = WORLD:getCell(currPos)
         table.insert(self.illuminatedCellsList, currCell)
-        currCell.litBySet[self] = true
+        currCell.litBySet[self] = { idx = animStepCounter, time = lastLitTimeMap[currCell] or GAMETIME }
+        if not lastLitTimeMap[currCell] then animStepCounter = animStepCounter + 1 end
         currCell.directlyLitBySet[currDirectLighter] = self
         local mirrors = currCell:findEntsOfClass(Mirror)
         if #mirrors > 0 then
-            local lightFromDir = math.indexWrap(self.dir + 2, 4)
+            local lightFromDir = type(currDir) == "number" and math.indexWrap(currDir + 2, 4) or currDir
             local newDir = mirrors[1]:redirectLight(lightFromDir)
             if newDir == nil then
                 break
             end
-            print("Im in a mirror" .. mirrors[1].facingDiagDir)
 
-            print("Light From: " .. self.dir .. " -> " .. newDir)
-            self.dir = newDir
+            currDir = newDir
             mirrors[1].isReflecting = true
+            mirrors[1].isReflectingGod = (stepIdx == 1)
             table.insert(self.illuminatedMirrors, mirrors[1])
             currDirectLighter = mirrors[1]
         end
-        print("adding" .. currPos.x .. ", " .. currPos.y)
+        --print("adding" .. currPos.x .. ", " .. currPos.y)
         if not currCell:lightPassTest(self) and #currCell:findEntsOfClass(Mirror) < 1 then
             break
         end
-        currPos = currPos + math.cardinalToOffset(self.dir)
+        if type(currDir) == "number" then
+            currPos = currPos + math.cardinalToOffset(currDir)
+        else
+            break
+        end
     end
 end
 

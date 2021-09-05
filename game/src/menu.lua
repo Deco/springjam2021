@@ -17,8 +17,9 @@ function TheMenu:setup()
     self.gameTitle = "Untitled!"
 
     self.stage = self.stage or MenuStage.Loading
-    self.isPaused = self.isPaused or false
-    self.wasPaused = self.wasPaused or false
+    self.isPaused = util.default(self.isPaused, false)
+    self.wasPaused = util.default(self.wasPaused, false)
+    self.wasRestart = util.default(self.wasRestart, false)
 
     self.targetLevel = self.targetLevel or nil
     self.targetLevelIdx = self.targetLevelIdx or nil
@@ -88,6 +89,22 @@ end
 
 local levels = {
     {
+        label = "Morning Gory",
+        tiledmap = Engine:getAsset('src/maps/entrance.lua'),
+    },
+    {
+        label = "Rise and Shine",
+        tiledmap = Engine:getAsset('src/maps/riseandshine.lua'),
+    },
+    {
+        label = "Spikes",
+        tiledmap = Engine:getAsset('src/maps/spikes.lua'),
+    },
+    {
+        label = "Zig Zag",
+        tiledmap = Engine:getAsset('src/maps/zigzag.lua'),
+    },
+    {
         label = "Pits",
         tiledmap = Engine:getAsset('src/maps/pits.lua'),
     },
@@ -109,6 +126,22 @@ local levels = {
         label = "Keg",
         tiledmap = Engine:getAsset('src/maps/ko_hand_fucking_coded.lua'),
     },
+    {
+        label = "Light Grid",
+        tiledmap = Engine:getAsset('src/maps/laser_push.lua'),
+    },
+    {
+        label = "Sea Floor Cavern",
+        tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'),
+    },
+    {
+        label = "Lighty McLightface",
+        tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
+    },
+    {
+        label = "Pipework",
+        tiledmap = Engine:getAsset('src/maps/pipework.lua'),
+    }
 }
 
 function TheMenu:gotoStage(newStage)
@@ -127,7 +160,8 @@ function TheMenu:gotoStage(newStage)
     self.stage = newStage
 end
 
-function TheMenu:loadLevel(targetIdx)
+function TheMenu:loadLevel(targetIdx, isRestart)
+    self.wasRestart = isRestart
     if targetIdx == 'curr' then
         targetIdx = self.targetLevelIdx
     elseif targetIdx == 'next' then
@@ -171,7 +205,7 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
     end
 
     if key == 'r' and self.stage == MenuStage.Playing then
-        self:loadLevel('curr')
+        self:loadLevel('curr', true)
         return
     end
 

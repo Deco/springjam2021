@@ -20,7 +20,7 @@ function TheCamera:specialRender(dt)
     end
 
     local dist = self:getPos():dist(self.viewPos)
-    if dist > 10.0 then
+    if dist > 10.0 or GAMETIME < 0.1 then
         self.viewPos = self:getPos()
     end
 
@@ -106,7 +106,7 @@ function TheCamera:getTransform()
     end
     scale = math.floorTo(scale, 1)
     trans:scale(scale)
-    SCREENTEXT(scale)
+    --SCREENTEXT(scale)
 
     --love.graphics.setColor(1, 0, 0, 1)
     --love.graphics.setLineWidth(0.02)
@@ -117,6 +117,16 @@ function TheCamera:getTransform()
     trans:translate((-self.viewPos):xy())
 
     return trans
+end
+
+function TheCamera:getViewBounds()
+    local extra = 5
+    return AABBfromXYWH(
+        math.floor(self:getPos().x - self._worldSize.x / 2) - extra,
+        math.floor(self:getPos().y - self._worldSize.y / 2) - extra,
+        math.floor(self._worldSize.x + 2 * extra),
+        math.floor(self._worldSize.y + 2 * extra)
+    )
 end
 
 function TheCamera:screenRender()

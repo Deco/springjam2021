@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <tileset firstgid="1" source="../tileset/dungeon-tileset.tsx"/>
+ <object name="MovableMirror-DR" gid="1073741929" width="16" height="16">
+  <properties>
+   <property name="initialFacingDir" value="DownRight"/>
+  </properties>
+ </object>
+</template>

@@ -56,7 +56,7 @@ function Player:setup(data)
 end
 
 function Player:blocksLight() return true end
-function Player:activatesPlates() return true end
+function Player:activatesFloorSensors() return true end
 
 function Player:spawned()
     --
@@ -72,6 +72,12 @@ end
 function Player:processInput(time, dt)
     if not self.alive then return end
 
+    if Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and GAMETIME < 1.5 then
+        for dir, dirInfo in pairs(self.directionInfo) do
+            dirInfo.desired = false
+        end
+        return
+    end
     if GAMETIME >= self.lastMoveTime + 10 * ONETICK then
         local someMoveDir = nil
         local possibleDirs = {}
@@ -136,7 +142,7 @@ function Player:onTouch(other)
     elseif other.class == Spikes then
         self.alive = false
         print('DEAD')
-    elseif other.class == Vampire and other.stage ~= VampireStage.Dying then
+    elseif other.class == Vampire and other.stage ~= VampireStage.Dust then
         self.alive = false
         print('DEAD')
     end

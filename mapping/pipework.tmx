@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="17">
+ <editorsettings>
+  <export target="../game/src/maps/pipework.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
+ <layer id="1" name="map" width="16" height="16">
+  <data encoding="csv">
+1,2,3,4,5,2,3,4,5,2,3,4,5,2,3,6,
+11,18,9,28,13,14,13,14,13,14,13,14,17,8,28,6,
+21,22,10,17,19,8,27,20,10,30,27,28,17,8,25,16,
+31,22,30,29,19,30,29,9,18,20,30,20,28,8,25,26,
+11,22,29,7,30,29,30,7,7,20,28,10,9,8,25,36,
+21,22,9,30,7,8,20,10,27,20,9,29,28,18,25,16,
+31,22,7,20,27,28,7,8,29,30,8,19,9,30,25,26,
+11,22,30,28,18,8,17,20,29,10,27,20,28,8,19,36,
+21,22,29,9,9,18,27,9,10,10,28,10,29,7,19,16,
+31,22,28,8,18,20,19,17,8,18,28,30,20,19,27,26,
+11,22,7,27,9,29,7,28,10,8,28,19,28,27,30,36,
+21,22,27,7,29,8,27,9,19,20,17,19,19,10,20,16,
+31,22,7,8,8,17,18,18,27,17,20,10,18,18,19,26,
+11,28,29,27,10,7,19,9,9,9,17,10,20,29,17,36,
+1,19,7,29,27,34,33,29,29,18,10,19,7,8,27,16,
+41,42,43,44,45,42,43,44,45,42,43,44,45,42,43,46
+</data>
+ </layer>
+ <layer id="3" name="scatter" width="16" height="16" locked="1">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="7" template="templates/PlayerStart.tx" x="128" y="192"/>
+  <object id="8" template="templates/MovableMirror_DL.tx" x="224" y="16"/>
+  <object id="9" template="templates/MovableMirror_DR.tx" x="16" y="16"/>
+  <object id="10" template="templates/MovableMirror_UL.tx" x="224" y="224"/>
+  <object id="12" template="templates/MovableMirror_UR.tx" x="16" y="224"/>
+  <object id="13" template="templates/Light.tx" x="128" y="224"/>
+  <object id="14" template="templates/MovableMirror_UL.tx" x="128" y="224"/>
+  <object id="15" template="templates/MovableMirror_DR.tx" x="128" y="160"/>
+  <object id="16" template="templates/MovableMirror_DL.tx" x="128" y="176"/>
+ </objectgroup>
+</map>

@@ -7,8 +7,8 @@ local entityBasicStuff = {
     setPos = function(self, pos)
         assert(pos, 'pos is nil')
         local oldCell = self._cellIn
-        if self._cellIn ~= nil then
-            self._cellIn.entsSet[self] = nil
+        if oldCell ~= nil then
+            oldCell.entsSet[self] = nil
         end
         local newCell = WORLD:getCell(pos)
         newCell.entsSet[self] = true
@@ -17,19 +17,34 @@ local entityBasicStuff = {
         self._pos = Vec(math.floor(pos.x), math.floor(pos.y))
 
         if self._pos ~= self._lastPos then
-            for other in pairs(newCell.entsSet) do
+            self:retouchy(oldCell, newCell)
+            self._posChangeTime = GAMETIME
+        end
+    end,
+    retouchy = function(self, oldCell, newCell)
+        if WORLD.haltRetouchy then return end
+        if oldCell ~= nil then
+            for other in pairs(oldCell.entsSet) do
                 if other ~= self then
                     if self.class ~= TheCamera and other.class ~= TheCamera then
-                        print('touch', self, other)
+                        print('untouch', self, other)
                     end
-                    if rawget(self, 'onTouch') then self:onTouch(other) end
-                    if rawget(other, 'onTouch') then other:onTouch(self) end
+                    if rawget(self, 'onUnTouch') then self:onUnTouch(other) end
+                    if rawget(other, 'onUnTouch') then other:onUnTouch(self) end
                 end
             end
-            if rawget(self, 'blocksLight') and self:blocksLight() and (newCell:isIlluminated() or (oldCell and oldCell:isIlluminated())) then
-                WORLD:refreshLight()
+        end
+        for other in pairs(newCell.entsSet) do
+            if other ~= self then
+                if self.class ~= TheCamera and other.class ~= TheCamera then
+                    print('touch', self, other)
+                end
+                if rawget(self, 'onTouch') then self:onTouch(other) end
+                if rawget(other, 'onTouch') then other:onTouch(self) end
             end
-            self._posChangeTime = GAMETIME
+        end
+        if rawget(self, 'blocksLight') and self:blocksLight() and (newCell:isIlluminated() or (oldCell and oldCell:isIlluminated())) then
+            WORLD:refreshLight()
         end
     end,
     tryMove = function(self, dir, dontActuallyMove)
@@ -47,6 +62,8 @@ local entityBasicStuff = {
                         ignoreEnt = ent
                     else
                         ent:setPos(entDestPos)
+                        local onShovedFunc = rawget(ent, "onShoved")
+                        if onShovedFunc then onShovedFunc(ent, dir, self) end
                     end
                 end
             end

@@ -331,7 +331,7 @@ do
         return ffi.new(new, center.x - halfSize.x, center.y - halfSize.y, center.x + halfSize.x, center.y + halfSize.y)
     end
     _G.AABBfromXYWH = function(x, y, w, h)
-        return ffi.new(new, x, y, w, h)
+        return ffi.new(new, x, y, x + w, y + h)
     end
 
     function aabb.__new(ct, tl, br)

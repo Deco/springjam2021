@@ -12,7 +12,7 @@ function ToggleSwitch:setup(data)
 end
 
 function ToggleSwitch:onTouch(other)
-    local checkFunc = rawget(other, 'activatesPlates')
+    local checkFunc = rawget(other, 'activatesFloorSensors')
     if checkFunc and checkFunc(other) then
         self.isActivated = not self.isActivated
         WORLD:refreshLogicGroup(self.logicGroupName)

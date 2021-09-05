@@ -7,6 +7,7 @@ _G.RenderingDepth = {
     Player = 220,
     Key = 240,
     VampireAlive = 250,
+    God = 9001,
 
     -- over
 }

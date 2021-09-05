@@ -17,7 +17,7 @@ function Tomb:setup(data)
 
     BasicEntSetup(self, data)
 
-    self.stage = self.stage or TombStage.Closed
+    self.stage = self.stage or (data.alreadyOpen and TombStage.Opened or TombStage.Closed)
     self.stageChangeTime = self.stageChangeTime or 0
 end
 

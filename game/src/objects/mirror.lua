@@ -1,51 +1,61 @@
 Mirror = Engine:EntityClass('Mirror')
 
+_G.MirrorKind = {
+    Moving = 1,
+    Rotating = 2,
+}
+
 function Mirror:setup(data)
     BasicEntSetup(self, data)
     self.facingDiagDir = util.default(data.facingDiagDir, Diagonal.UpRight)
-    self.isMovingMirror = util.default(data.isMovingMirror, true)
+    self.kind = self.kind or data.kind or MirrorKind.Moving
     self.isReflecting = util.default(self.isReflecting, false)
+    self.isReflecting = util.default(self.isReflectingGod, false)
 
+    self.movingGodImage = Engine:getAsset('art/Mirror_god.png')
+    self.movingActiveImage = Engine:getAsset('art/Mirror_active.png')
+    self.movingIdleImage = Engine:getAsset('art/Mirror.png')
+    self.rotatingGodImage = Engine:getAsset('art/RotatingMirror_god.png')
+    self.rotatingActiveImage = Engine:getAsset('art/RotatingMirror_active.png')
+    self.rotatingIdleImage = Engine:getAsset('art/RotatingMirror.png')
 end
 
 function Mirror:blocksTraversal() return true end
 function Mirror:blocksLight() return true end
-function Mirror:isMovable() return true end
+function Mirror:isMovable() return self.kind == MirrorKind.Moving end
+function Mirror:activatesFloorSensors() return true end
+
+function Mirror:onUse(player)
+    if self.kind == MirrorKind.Rotating then
+        self.facingDiagDir = math.indexWrap(self.facingDiagDir + 2, 8)
+        WORLD:refreshLight()
+    end
+end
+
+function Mirror:getUsePrompt(player)
+    if self.kind == MirrorKind.Rotating then return "Press SPACE to rotate MIRROR" end
+end
 
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.translate(0.5, 0.5)
     if self.facingDiagDir == Diagonal.UpRight then end
-    if self.facingDiagDir == Diagonal.UpLeft then
-        love.graphics.translate(1, 0)
-        love.graphics.scale(-1, 1)
-    end
-    --
     if self.facingDiagDir == Diagonal.DownRight then
-        love.graphics.translate(0, 1)
-        love.graphics.scale(1, -1)
+        love.graphics.rotate(math.pi / 2)
     end
     if self.facingDiagDir == Diagonal.DownLeft then
-        love.graphics.translate(1, 1)
-        love.graphics.scale(-1, -1)
+        love.graphics.rotate(math.pi / 2 * 2)
     end
+    if self.facingDiagDir == Diagonal.UpLeft then
+        love.graphics.rotate(math.pi / 2 * 3)
+    end
+    love.graphics.translate(-0.5, -0.5)
     local image
-    if self.isMovingMirror then
-        if self.isReflecting then
-            image = Engine:getAsset('art/Mirror_active.png')
-        else
-            image = Engine:getAsset('art/Mirror.png')
-        end
-
+    if self.kind == MirrorKind.Moving then
+        image = self.isReflectingGod and self.movingGodImage or self.isReflecting and self.movingActiveImage or self.movingIdleImage
     else
-        if self.isReflecting then
-            image = Engine:getAsset('art/Mirror_active.png')
-        else
-            image = Engine:getAsset('art/Mirror.png')
-        end
+        image = self.isReflectingGod and self.rotatingGodImage or self.isReflecting and self.rotatingActiveImage or self.rotatingIdleImage
     end
-    --
-    --love.graphics.setLineWidth(0.1)
-    --love.graphics.rectangle('line', 0, 0, 1, 1)
     DrawSimpleEntImage(self, image)
 end
 
@@ -85,7 +95,7 @@ function Mirror:redirectLight(lightFromDir)
         return Cardinal.Down
     end
 
-    if lightFromDir == 'up' then
+    if lightFromDir == 'from above!!' then
         if self.facingDiagDir == Diagonal.UpRight then
             return Cardinal.Right
         elseif self.facingDiagDir == Diagonal.DownRight then
