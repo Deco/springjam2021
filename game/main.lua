@@ -114,6 +114,7 @@ for idx, path in ipairs({
     --'src/objects/bomb.lua',
     'src/objects/boulder.lua',
     'src/objects/boulder_round.lua',
+    'src/objects/salt.lua',
     'src/objects/coffee.lua',
     'src/objects/crate.lua',
     'src/objects/mirror.lua',

@@ -5,6 +5,7 @@ function ExitDoor:setup(data)
     self.imageOpen = Engine:getAsset('art/gate_open.png')
 
     self._isLocked = true
+    self.activateTime = nil
 
     BasicEntSetup(self, data)
 end
@@ -37,7 +38,16 @@ end
 
 function ExitDoor:onTouch(other)
     if other.class == Player then
-        Engine.menu:loadLevel('next')
+        self.activateTime = self.activateTime or GAMETIME
+    end
+end
+
+function ExitDoor:update()
+    if self.activateTime then
+        Engine.menu:setFade(math.remapClamp(GAMETIME - self.activateTime, 0, 1.2, 0, 1))
+        if GAMETIME > self.activateTime + 2.0 then
+            Engine.menu:loadLevel('next')
+        end
     end
 end
 

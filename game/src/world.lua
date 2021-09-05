@@ -5,10 +5,10 @@ World = Engine:EntityClass('World')
 function World:setup(data)
     self.level = data.level
     self.logicGroups = self.logicGroups or {
-        GREEN = { color = { 0, 1, 0, 1 }, satisfied = false, },
-        RED = { color = { 1, 0, 0, 1 }, satisfied = false, },
-        BLUE = { color = { 0.1, 0.3, 1, 1 }, satisfied = false, },
-        PINK = { color = { 0.7, 0, 1, 1 }, satisfied = false, },
+        GREEN = { color = { 0, 1, 0, 1 }, allSatisfied = false, anySatisfied = false },
+        RED = { color = { 1, 0, 0, 1 }, allSatisfied = false, anySatisfied = false },
+        BLUE = { color = { 0.1, 0.3, 1, 1 }, allSatisfied = false, anySatisfied = false },
+        PINK = { color = { 0.7, 0, 1, 1 }, allSatisfied = false, anySatisfied = false },
     }
 
     self.grid = self.grid or {}
@@ -41,7 +41,7 @@ function World:initLevel()
 
     for _, object in pairs(self.level.tiledmap.handle.objects) do
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
-        local name, extraData = unpack(util.splitString(object.name, '-'))
+        local name, extraData, extraData2 = unpack(util.splitString(object.name, '-'))
 
         if name == 'PlayerStart' then
             self.playerStartPos = pos
@@ -53,6 +53,8 @@ function World:initLevel()
             Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
             Coffee.new(self, { pos = pos })
+        elseif name == 'Salt' then
+            Salt.new(self, { pos = pos })
         elseif name == 'GoldenKey' then
             Key.new(self, { pos = pos })
         elseif name == 'Tomb' then
@@ -76,7 +78,7 @@ function World:initLevel()
             local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = extraData })
             table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'Gate' then
-            local ent = Gate.new(self, { pos = pos, logicGroupName = extraData })
+            local ent = Gate.new(self, { pos = pos, logicGroupName = extraData, mode = extraData2 or "AND" })
             table.insert(self:getLogicGroup(extraData).outputsList, ent)
         end
     end
@@ -200,19 +202,26 @@ end
 function World:refreshLogicGroup(name)
     local logicGroup = WORLD:getLogicGroup(name)
     local anyUnsatisfied = false
+    local anySatisfied = false
     for _, inputEnt in ipairs(logicGroup.inputsList) do
-        if not inputEnt:shouldConsiderSatisfied() then
+        if inputEnt:shouldConsiderSatisfied() then
+            anySatisfied = true
+        else
             anyUnsatisfied = true
         end
     end
-    local considerSatisfied = not anyUnsatisfied
-    if considerSatisfied ~= logicGroup.satisfied then
+    local allSatisfied = not anyUnsatisfied
+    if logicGroup.allSatisfied ~= allSatisfied or logicGroup.anySatisfied ~= anySatisfied then
+        local anyOutputChanged = false
         for _, outputEnt in ipairs(logicGroup.outputsList) do
             local cb = rawget(outputEnt, 'onLogicGroupUpdate')
-            if cb then cb(outputEnt, considerSatisfied) end
+            if cb and cb(outputEnt, allSatisfied, anySatisfied) then
+                anyOutputChanged = true
+            end
         end
-        logicGroup.satisfied = considerSatisfied
-        if GAMETIME > 1.0 then
+        logicGroup.allSatisfied = allSatisfied
+        logicGroup.anySatisfied = anySatisfied
+        if anyOutputChanged and GAMETIME > 1.0 then
             EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, self)
         end
     end

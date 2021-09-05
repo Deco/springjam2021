@@ -12,6 +12,7 @@ local assets = {
     ['src/maps/seafloor_cavern.lua'] = { type = 'tiledmap' },
     ['src/maps/lighty_mcLightface.lua'] = { type = 'tiledmap' },
     ['src/maps/pipework.lua'] = { type = 'tiledmap' },
+    ['src/maps/hide_and_seek.lua'] = { type = 'tiledmap' },
 
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
@@ -45,6 +46,7 @@ local assets = {
     ['art/tomb.png'] = { type = 'image' },
     --['art/mirror_static.png'] = { type = 'image' },
     --['art/mirror_dynamic.png'] = { type = 'image' },
+    ['art/salt.png'] = { type = 'image' },
     ['art/Boulder.png'] = { type = 'image' },
     ['art/boulder_round.png'] = { type = 'image' },
     ['art/Mirror.png'] = { type = 'image' },
@@ -82,7 +84,7 @@ local assets = {
     ['sfx/Vampire_Death.ogg'] = { type = 'sfx', volume = 0.2, },
     ['sfx/Vamp_Alert-00.ogg'] = { type = 'sfx', trim = 0.7, duration = 0.45, pitch = 0.5, volume = 0.1, },
     ['sfx/Vamp_chase_00.ogg'] = { type = 'sfx', looping = true, pitch = 2.1, volume = 0.05, },
-    ['sfx/Vamp_Drink.ogg'] = { type = 'sfx', trim = 0.4, pitch = 1.3, duraton = 2.0, volume = 0.1, },
+    ['sfx/Vamp_Drink.ogg'] = { type = 'sfx', trim = 0.4, pitch = 1.3, duration = 2.0, volume = 0.1, },
 
     ['sfx/Pickup_Gold_00.mp3'] = { type = 'sfx', volume = 0.2, },
     ['sfx/Pickup_Gold_01.mp3'] = { type = 'sfx', volume = 0.2, },
@@ -97,6 +99,7 @@ local assets = {
     ['sfx/bottle.wav'] = { type = 'sfx', volume = 0.6, },
     ['sfx/door.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.15, },
     ['sfx/burp.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.05, },
+    ['sfx/death.wav'] = { type = 'sfx', volume = 0.7, pitch = 0.8, },
     ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
     ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
 

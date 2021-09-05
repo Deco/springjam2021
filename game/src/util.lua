@@ -304,3 +304,9 @@ end
 function util.random(list)
     return list[math.random(#list)]
 end
+
+function util.randomRange(min, max)
+    return math.random() * (max - min) + min
+end
+
+
