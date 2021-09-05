@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 41,
+  nextobjectid = 44,
   properties = {},
   tilesets = {
     {
@@ -310,8 +310,8 @@ return {
         31, 27, 29, 8, 27, 8, 17, 9, 18, 8, 19, 8, 29, 19, 21, 7, 26,
         11, 17, 9, 7, 7, 29, 29, 29, 18, 10, 28, 7, 18, 19, 31, 7, 36,
         21, 18, 29, 28, 28, 8, 27, 28, 29, 19, 19, 28, 27, 29, 11, 9, 16,
-        31, 8, 27, 27, 18, 27, 19, 28, 27, 17, 9, 9, 29, 19, 31, 19, 26,
-        11, 27, 19, 17, 27, 17, 28, 18, 18, 17, 29, 9, 7, 17, 31, 9, 36,
+        31, 8, 27, 27, 18, 27, 19, 28, 27, 17, 9, 9, 29, 19, 27, 19, 26,
+        11, 27, 19, 17, 27, 17, 28, 18, 18, 17, 29, 9, 7, 17, 27, 9, 36,
         1, 19, 9, 8, 29, 28, 7, 18, 7, 17, 17, 19, 19, 27, 29, 29, 16,
         41, 42, 43, 44, 45, 42, 42, 44, 45, 42, 43, 44, 45, 42, 45, 43, 46
       }
@@ -370,7 +370,7 @@ return {
           type = "",
           shape = "rectangle",
           x = 240,
-          y = 208,
+          y = 192,
           width = 16,
           height = 16,
           rotation = 0,
@@ -412,11 +412,53 @@ return {
           type = "",
           shape = "rectangle",
           x = 240,
-          y = 96,
+          y = 48,
           width = 16,
           height = 16,
           rotation = 0,
           gid = 37,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 41,
+          name = "PlayerStart",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 76,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 42,
+          name = "BoulderRound",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 60,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 43,
+          name = "PressurePlate-GREEN",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 104,
           visible = true,
           properties = {}
         }

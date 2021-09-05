@@ -23,7 +23,7 @@ function BoulderRound:render()
     DrawSimpleEntImage(self, self.image)
 end
 function BoulderRound:update()
-    if self.rollingDir ~= nil and GAMETIME > self.lastMoveTime + 2 * ONETICK then
+    if self.rollingDir ~= nil and GAMETIME > self.lastMoveTime + 4 * ONETICK then
         if not self:tryMove(self.rollingDir) then self.rollingDir = nil end
         self.lastMoveTime = GAMETIME
     end
