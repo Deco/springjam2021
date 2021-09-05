@@ -17,15 +17,17 @@ function Gate:blocksLight() return self:isLocked() end
 
 function Gate:onLogicGroupUpdate(allSatisfied, anySatisfied)
     local wasLocked = self._isLocked
+    local shouldBeOpen
     if self.mode == "AND" then
-        self._isLocked = allSatisfied
+        shouldBeOpen = allSatisfied
     elseif self.mode == "NAND" then
-        self._isLocked = not allSatisfied
+        shouldBeOpen = not allSatisfied
     elseif self.mode == "OR" then
-        self._isLocked = anySatisfied
+        shouldBeOpen = anySatisfied
     elseif self.mode == "NAND" then
-        self._isLocked = not anySatisfied
+        shouldBeOpen = not anySatisfied
     end
+    self._isLocked = not shouldBeOpen
     WORLD:refreshLight()
     return self._isLocked ~= wasLocked
 end
