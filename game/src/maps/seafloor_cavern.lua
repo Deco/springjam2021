@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 38,
+  nextobjectid = 41,
   properties = {},
   tilesets = {
     {
@@ -575,22 +575,6 @@ return {
           properties = {}
         },
         {
-          id = 34,
-          name = "Mirror",
-          type = "",
-          shape = "rectangle",
-          x = 112,
-          y = 160,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483750,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
           id = 36,
           name = "Tomb-GoldenKey",
           type = "",
@@ -617,6 +601,38 @@ return {
           gid = 37,
           visible = true,
           properties = {}
+        },
+        {
+          id = 39,
+          name = "MovableMirror-UR",
+          type = "",
+          shape = "rectangle",
+          x = 80,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 105,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 40,
+          name = "MovableMirror-UL",
+          type = "",
+          shape = "rectangle",
+          x = 112,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483753,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
         }
       }
     }
