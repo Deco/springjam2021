@@ -153,7 +153,7 @@ local levels = {
         tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'),
     },
     {
-        label = "Pipework",
+        label = "Mission Probable",
         tiledmap = Engine:getAsset('src/maps/pipework.lua'),
     }
 }

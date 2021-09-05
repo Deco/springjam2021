@@ -30,8 +30,8 @@ end
 
 function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust end
 function Vampire:blocksVision() return false end
-function Vampire:blocksLight() return self.stage ~= VampireStage.Dust end
-function Vampire:activatesFloorSensors() return self.stage ~= VampireStage.Dust end
+function Vampire:blocksLight() return true end
+function Vampire:activatesFloorSensors() return true end
 
 function Vampire:update(time, dt)
     if self.stage ~= VampireStage.Dying and self.stage ~= VampireStage.Dust and WORLD:getCell(self:getPos()):isIlluminated() then
