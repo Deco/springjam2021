@@ -27,7 +27,7 @@ function TheMenu:setup()
 
     love.window.setTitle(self.gameTitle)
 
-    self.ambientSound = Engine:getAsset('sfx/Dark_Amb.mp3')
+    self.ambientSound = Engine:getAsset('sfx/ambience.mp3')
     self.ambientSoundSource = self.ambientSound.handle:clone()
 
     self.fadeFrac = 0.0

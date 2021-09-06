@@ -107,7 +107,7 @@ local assets = {
     ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
     ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
 
-    ['sfx/Dark_Amb.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3 },
+    ['sfx/ambience.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3 },
 
 }
 
