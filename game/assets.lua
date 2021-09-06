@@ -14,7 +14,7 @@ local assets = {
     ['src/maps/pipework.lua'] = { type = 'tiledmap' },
     ['src/maps/tubular.lua'] = { type = 'tiledmap' },
     ['src/maps/hide_and_seek.lua'] = { type = 'tiledmap' },
-
+    --['src/maps/kaffeine withdrawal.lua'] = { type = 'tiledmap' },
 
     ['devfont'] = { type = 'font', path = false, size = 24, create = function(info) info.handle = love.graphics.newFont() end },
     ['fonts/HelvetiPixel.ttf:24'] = { type = 'font', path = 'fonts/HelvetiPixel.ttf', size = 24 },
