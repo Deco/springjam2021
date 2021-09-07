@@ -125,11 +125,9 @@ function TheMenu:specialUpdate(time, dt)
             end
             suit.layout:pop()
 
-            --suit.layout:push(suit.layout:row())
             if suit.Button("Quit Game", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
                 love.event.quit()
             end
-            --suit.layout:pop()
         else
             if self.wasPaused then
                 Engine:onResume()
