@@ -117,13 +117,18 @@ function TheMenu:specialUpdate(time, dt)
             suit.layout:push(suit.layout:row(nil, 140))
             if suit.Button("Cancel", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
                 self:loadPreferences()
-                self.isPaused = not self.isPaused
+                self.isPaused = false
             end
             if suit.Button("Save", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
                 self:savePreferences()
-                self.isPaused = not self.isPaused
+                self.isPaused = false
             end
             suit.layout:pop()
+
+            if suit.Button("Restart Level", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
+                self:loadLevel('curr', true)
+                self.isPaused = false
+            end
 
             if suit.Button("Quit Game", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
                 love.event.quit()

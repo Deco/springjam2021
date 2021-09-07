@@ -2,7 +2,13 @@
 Spring Jam 2021
 
 
-(Morning Gory SOUND LIST)
+## TODO
+- Fullscreen menu option + persistence (see volume)
+- Walking sounds? 
+- Salt crunch?
+
+
+## (Morning Gory SOUND LIST)
 
 PLAYER SOUNDS
  
