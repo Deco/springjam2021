@@ -1,4 +1,5 @@
 local suit = require 'lib.suit'
+local bitser = require 'lib.bitser'
 
 TheMenu = Engine:EntityClass('TheMenu')
 
@@ -9,7 +10,32 @@ _G.MenuStage = {
     Gameover = 3,
 }
 
+local DEFAULT_SETTINGS = {
+    fullscreen = false,
+    volume = 1
+}
+
+function TheMenu:loadPreferences()
+    self.settings = DEFAULT_SETTINGS
+    if love.filesystem.getInfo('userpreferences.lua') ~= nil then
+        self.settings = util.mergeTables(self.settings, bitser.loadLoveFile('userpreferences.lua'))
+        print("Loaded preferences")
+
+        self.volumeSlider = { value = self.settings.volume, min = 0, max = 1 }
+        love.audio.setVolume(self.settings.volume)
+    end
+end
+
+function TheMenu:savePreferences()
+    if self.settings then
+        bitser.dumpLoveFile('userpreferences.lua', self.settings)
+        print("Saved preferences")
+    end
+end
+
 function TheMenu:setup()
+    self:loadPreferences()
+
     --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
     --self.bigFont = Engine:getAsset('fonts/HelvetiPixel.ttf:60').handle
     self.jfcFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 24)
@@ -29,7 +55,7 @@ function TheMenu:setup()
 
     self.ambientSound = Engine:getAsset('sfx/ambience.mp3')
     self.ambientSoundSource = self.ambientSound.handle:clone()
-
+    self.volumeSlider = { value = self.settings.volume, min = 0, max = 1 }
     self.fadeFrac = 0.0
 
     self.thanksForPlaying = false
@@ -74,9 +100,36 @@ function TheMenu:specialUpdate(time, dt)
             if not self.wasPaused then
                 Engine:onPause()
             end
+
             suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
 
             suit.Label("Paused", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
+
+            suit.layout:push(suit.layout:row(nil, 40))
+            suit.Label("Master Volume", {font = self.jfcFontForSuit }, suit.layout:col(200, 20))
+            if suit.Slider(self.volumeSlider, suit.layout:col(menuW - 240)).changed then
+                self.settings.volume = self.volumeSlider.value
+                love.audio.setVolume(self.settings.volume)
+            end
+            suit.Label(("%.02f"):format(self.volumeSlider.value), suit.layout:col(40))
+            suit.layout:pop()
+
+            suit.layout:push(suit.layout:row(nil, 140))
+            if suit.Button("Cancel", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
+                self:loadPreferences()
+                self.isPaused = not self.isPaused
+            end
+            if suit.Button("Save", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
+                self:savePreferences()
+                self.isPaused = not self.isPaused
+            end
+            suit.layout:pop()
+
+            --suit.layout:push(suit.layout:row())
+            if suit.Button("Quit Game", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
+                love.event.quit()
+            end
+            --suit.layout:pop()
         else
             if self.wasPaused then
                 Engine:onResume()
@@ -167,7 +220,7 @@ function TheMenu:specialRender()
         self.fadeFrac = math.remapClamp(GAMETIME, 0, 1, 1, 0)
     end
 
-    love.mouse.setVisible(self.stage == MenuStage.Playing and not self.isPaused)
+    love.mouse.setVisible(not (self.stage == MenuStage.Playing and not self.isPaused))
 
     love.graphics.setColor(0, 0, 0, self.fadeFrac)
     love.graphics.rectangle('fill', 0, 0, winW, winH)
@@ -175,12 +228,14 @@ function TheMenu:specialRender()
     local promptFont = Engine:getAsset('PromptFont')
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(promptFont.handle)
+
     local text = ""
     if self.stage == MenuStage.MainMenu then
         text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
     elseif self.thanksForPlaying then
         text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
     end
+
     local textW, textH = promptFont.handle:getWidth(text), promptFont.handle:getHeight(text)
     love.graphics.printf(text, winW / 2 - 1200 / 2, winH / 2 - 130, 1200, 'center')
     if text ~= "" then
