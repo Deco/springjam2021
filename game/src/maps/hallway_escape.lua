@@ -8,8 +8,8 @@ return {
   height = 35,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 6,
-  nextobjectid = 22,
+  nextlayerid = 7,
+  nextobjectid = 34,
   properties = {},
   tilesets = {
     {
@@ -517,6 +517,112 @@ return {
           height = 16,
           rotation = 0,
           gid = 85,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 6,
+      name = "reverb",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 25,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 464,
+          width = 240,
+          height = 80,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 28,
+          name = "corridor",
+          type = "",
+          shape = "rectangle",
+          x = 144,
+          y = 32,
+          width = 16,
+          height = 432,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 29,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 32,
+          width = 128,
+          height = 112,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 30,
+          name = "open",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 144,
+          width = 80,
+          height = 80,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 31,
+          name = "corridor",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 496,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 32,
+          name = "small_room",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 416,
+          width = 16,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 33,
+          name = "small_room",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 304,
+          width = 32,
+          height = 32,
+          rotation = 0,
           visible = true,
           properties = {}
         }
