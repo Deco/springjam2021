@@ -43,6 +43,7 @@ function Vampire:update(time, dt)
         self.stageChangeTime = GAMETIME
         EmitSound('sfx/Beans.ogg', self)
         EmitSound('sfx/Vampire_Death.ogg', self)
+        EmitSound('sfx/Burn_to_Ash.ogg', self, { pitch = util.randomRange(0.9, 1.1), })
     end
 
     local updateMoveGoal = function()
