@@ -85,7 +85,7 @@ function Vampire:update(time, dt)
         end
         --elseif not self.nextBurpTime or GAMETIME > self.nextBurpTime then
         --    self.nextBurpTime = GAMETIME + math.random(7.0, 11.0)
-        --    EmitSound('sfx/burp.wav', self, { pitch = math.random(0.45, 1.0) })
+        --    EmitSound('sfx/burp.ogg', self, { pitch = math.random(0.45, 1.0) })
         --end
     end
     if self.stage == VampireStage.Alerted then

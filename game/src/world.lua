@@ -348,7 +348,7 @@ function World:refreshLogicGroup(name)
             if not someOutputEnt then
                 someOutputEnt = self
             end
-            EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, someOutputEnt)
+            EmitSound({ 'sfx/Trap_00.ogg', 'sfx/Trap_01.ogg', 'sfx/Trap_02.ogg' }, someOutputEnt)
         end
     end
 end

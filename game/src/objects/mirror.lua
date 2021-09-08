@@ -29,7 +29,7 @@ function Mirror:onUse(player)
     if self.kind == MirrorKind.Rotating then
         self.facingDiagDir = math.indexWrap(self.facingDiagDir + 2, 8)
         WORLD:refreshLight()
-        EmitSound({ 'sfx/Inventory_Open_00.mp3', 'sfx/Inventory_Open_01.mp3' }, self)
+        EmitSound({ 'sfx/Inventory_Open_00.ogg', 'sfx/Inventory_Open_01.ogg' }, self)
     end
 end
 
