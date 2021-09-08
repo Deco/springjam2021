@@ -106,6 +106,12 @@ function Vampire:update(time, dt)
                         self.lastHorzMoveDir = nextPos.x < currPos.x and Cardinal.Left or Cardinal.Right
                     end
                     self:setPos(nextPos)
+                    EmitSound({
+                        'sfx/slap-01.ogg',
+                        'sfx/slap-02.ogg',
+                        'sfx/slap-03.ogg',
+                        'sfx/slap-04.ogg',
+                    }, self, { pitch = util.randomRange(0.9, 1.1), })
                     self.lastMoveTime = GAMETIME
                 end
             else

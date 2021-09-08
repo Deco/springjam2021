@@ -110,7 +110,7 @@ function Player:processInput(time, dt)
                 'sfx/robe_walk_09.ogg',
                 'sfx/robe_walk_10.ogg',
                 'sfx/robe_walk_11.ogg'
-            }, self)
+            }, self, { pitch = util.randomRange(0.9, 1.1), })
             self.lastMoveDir = moveDir
         elseif someMoveDir then
             self.lastMoveDir = someMoveDir

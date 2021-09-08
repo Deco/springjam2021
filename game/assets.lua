@@ -113,6 +113,11 @@ local assets = {
 
     ['sfx/beans-short.ogg'] = { type = 'sfx', volume = 0.2, },
 
+    ['sfx/slap-01.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/slap-02.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/slap-03.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/slap-04.ogg'] = { type = 'sfx', volume = 0.2, },
+
     ['sfx/salt_walk_01.ogg'] = { type = 'sfx', volume = 0.2, },
     ['sfx/salt_walk_02.ogg'] = { type = 'sfx', volume = 0.2, },
     ['sfx/salt_walk_03.ogg'] = { type = 'sfx', volume = 0.2, },
