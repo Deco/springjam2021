@@ -23,6 +23,8 @@ function World:setup(data)
     self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
     self.lightVertImage = Engine:getAsset('art/light_beam-vert.png')
 
+    self.lastChangedTime = GAMETIME
+
     self.debugPath = nil
 end
 
@@ -255,17 +257,29 @@ function World:refreshLogicGroup(name)
     end
     local allSatisfied = not anyUnsatisfied
     if logicGroup.allSatisfied ~= allSatisfied or logicGroup.anySatisfied ~= anySatisfied then
+        local playerPos = GAMESTATE.player:getPos()
+        local shortestDist = nil
         local anyOutputChanged = false
+        local someOutputEnt = nil
         for _, outputEnt in ipairs(logicGroup.outputsList) do
             local cb = rawget(outputEnt, 'onLogicGroupUpdate')
             if cb and cb(outputEnt, allSatisfied, anySatisfied) then
                 anyOutputChanged = true
+                local dist = playerPos:dist(outputEnt:getPos())
+                if not shortestDist or dist <= shortestDist then
+                    shortestDist = dist
+                    someOutputEnt = outputEnt
+                end
             end
         end
         logicGroup.allSatisfied = allSatisfied
         logicGroup.anySatisfied = anySatisfied
-        if anyOutputChanged and GAMETIME > 1.0 then
-            EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, self)
+        if anyOutputChanged and GAMETIME > 1.0 and self.lastChangedTime ~= GAMETIME then
+            if not someOutputEnt then
+                someOutputEnt = self
+            end
+            EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, someOutputEnt)
+            self.lastChangedTime = GAMETIME
         end
     end
 end
