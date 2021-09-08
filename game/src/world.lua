@@ -23,7 +23,7 @@ function World:setup(data)
     self.lightHoriImage = Engine:getAsset('art/light_beam-hori.png')
     self.lightVertImage = Engine:getAsset('art/light_beam-vert.png')
 
-    self.lastChangedTime = GAMETIME
+    self.lastLogicGroupSoundTime = GAMETIME
 
     self.debugPath = nil
 end
@@ -343,12 +343,12 @@ function World:refreshLogicGroup(name)
         end
         logicGroup.allSatisfied = allSatisfied
         logicGroup.anySatisfied = anySatisfied
-        if anyOutputChanged and GAMETIME > 0.1 and self.lastChangedTime ~= GAMETIME then
+        if anyOutputChanged and GAMETIME > 0.1 and self.lastLogicGroupSoundTime < GAMETIME then
+            self.lastLogicGroupSoundTime = GAMETIME
             if not someOutputEnt then
                 someOutputEnt = self
             end
             EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, someOutputEnt)
-            self.lastChangedTime = GAMETIME
         end
     end
 end
