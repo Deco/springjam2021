@@ -68,6 +68,8 @@ local assets = {
     ['art/dust.png'] = { type = 'image' },
     ['art/light_beam-hori.png'] = { type = 'image' },
     ['art/light_beam-vert.png'] = { type = 'image' },
+    ['art/light_beam-bounce.png'] = { type = 'image' },
+    ['art/light_beam-bouncemask.png'] = { type = 'image' },
     ['art/godbeam.png'] = { type = 'image', scale = 25, },
 
     ['art/tree.png'] = { type = 'image' },
@@ -117,6 +119,15 @@ local assets = {
     ['large_room'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_HALL', path = false },
     ['open'] = { type = 'reverb', presetName = 'REVERB_PRESET_MOUNTAINS', path = false },
 
+    ['shader:stencilMask'] = { type = 'shader', path = false, src = [[
+           vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
+              if (Texel(texture, texture_coords).rgb == vec3(0.0)) {
+                 // a discarded pixel wont be applied as the stencil.
+                 discard;
+              }
+              return vec4(1.0);
+           }
+    ]] },
 }
 
 for assetKey, assetDescription in pairs(assets) do

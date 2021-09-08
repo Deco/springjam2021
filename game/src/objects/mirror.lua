@@ -40,22 +40,25 @@ end
 function Mirror:render()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.translate(0.5, 0.5)
-    if self.facingDiagDir == Diagonal.UpRight then end
-    if self.facingDiagDir == Diagonal.DownRight then
-        love.graphics.rotate(math.pi / 2)
-    end
-    if self.facingDiagDir == Diagonal.DownLeft then
-        love.graphics.rotate(math.pi / 2 * 2)
-    end
-    if self.facingDiagDir == Diagonal.UpLeft then
-        love.graphics.rotate(math.pi / 2 * 3)
-    end
+    love.graphics.rotate(math.pi /2 * (self.facingDiagDir - 2)/2)
+    --if self.facingDiagDir == Diagonal.UpRight then end
+    --if self.facingDiagDir == Diagonal.DownRight then
+    --    love.graphics.rotate(math.pi / 2)
+    --end
+    --if self.facingDiagDir == Diagonal.DownLeft then
+    --    love.graphics.rotate(math.pi / 2 * 2)
+    --end
+    --if self.facingDiagDir == Diagonal.UpLeft then
+    --    love.graphics.rotate(math.pi / 2 * 3)
+    --end
     love.graphics.translate(-0.5, -0.5)
     local image
     if self.kind == MirrorKind.Moving then
-        image = self.isReflectingGod and self.movingGodImage or self.isReflecting and self.movingActiveImage or self.movingIdleImage
+        --image = self.isReflectingGod and self.movingGodImage or self.isReflecting and self.movingActiveImage or self.movingIdleImage
+        image = self.movingIdleImage
     else
-        image = self.isReflectingGod and self.rotatingGodImage or self.isReflecting and self.rotatingActiveImage or self.rotatingIdleImage
+        --image = self.isReflectingGod and self.rotatingGodImage or self.isReflecting and self.rotatingActiveImage or self.rotatingIdleImage
+        image = self.rotatingIdleImage
     end
     DrawSimpleEntImage(self, image)
 end

@@ -153,25 +153,94 @@ function World:specialRenderAfter()
     for x = viewBounds.x0, viewBounds.x1 do
         for y = viewBounds.y0, viewBounds.y1 do
             local cell = self:getCell(Vec(x, y))
-            if cell:isIlluminated() and cell:lightPassTest() and #cell:findEntsOfClass(LightSource) == 0 then
+            if cell:isIlluminated() then
+                local lightPassTest = cell:lightPassTest()
+
                 local horizFrac, vertFrac = 0, 0
+                local fromLeft, fromRight, fromUp, fromDown = false, false, false, false
                 for lighter, source in pairs(cell.directlyLitBySet) do
                     local lighterPos = lighter:getPos()
                     local litInfo = cell.litBySet[source]
-                    if lighterPos.x == x then
+                    if lighterPos.x == x and lighterPos.y ~= y then
                         vertFrac = math.remapClamp(GAMETIME - litInfo.time - 0.007 * litInfo.idx, 0, 0.3, 0.0, 1.0)
+                        fromUp = fromUp or lighterPos.y < y
+                        fromDown = fromDown or lighterPos.y > y
                     end
-                    if lighterPos.y == y then
+                    if lighterPos.y == y and lighterPos.x ~= x then
                         horizFrac = math.remapClamp(GAMETIME - litInfo.time - 0.007 * litInfo.idx, 0, 0.3, 0.0, 1.0)
+                        fromLeft = fromLeft or lighterPos.x < x
+                        fromRight = fromRight or lighterPos.x > x
                     end
                 end
+
+                local allowLeft, allowRight, allowUp, allowDown = true, true, true, true
+                local illuminatedMirrorFacingDir, firstBlockingEnt = nil, nil
+                if not lightPassTest then
+                    for ent in pairs(cell.entsSet) do
+                        local blocksLightFunc = rawget(ent, 'blocksLight')
+                        if blocksLightFunc and blocksLightFunc(ent) then
+                            firstBlockingEnt = ent
+                            if ent.class == Mirror then
+                                if ent.isReflecting then
+                                    illuminatedMirrorFacingDir = ent.facingDiagDir
+                                    if ent.isReflectingGod then
+                                        if ent.facingDiagDir == Diagonal.UpRight or ent.facingDiagDir == Diagonal.DownLeft then
+                                            horizFrac = 1.0
+                                        elseif ent.facingDiagDir == Diagonal.UpLeft or ent.facingDiagDir == Diagonal.DownRight then
+                                            vertFrac = 1.0
+                                        end
+                                    else
+                                        horizFrac = math.max(horizFrac, vertFrac)
+                                        vertFrac = horizFrac
+                                    end
+                                end
+                            else
+                                allowLeft, allowRight, allowUp, allowDown = fromLeft, fromRight, fromUp, fromDown
+                            end
+                            break
+                        end
+                    end
+                    if firstBlockingEnt ~= nil then
+                        local test = 0
+                        love.graphics.stencil(function()
+                            love.graphics.setShader(Engine:getAsset('shader:stencilMask').handle)
+                            love.graphics.push()
+                            if illuminatedMirrorFacingDir ~= nil then
+                                test = 1
+                                love.graphics.translate(x + 0.5, y + 0.5)
+                                love.graphics.rotate(math.pi / 2 * (illuminatedMirrorFacingDir - 2) / 2)
+                                --love.graphics.rotate(GAMETIME)
+                                love.graphics.translate(-0.5, -0.5)
+                                love.graphics.draw(Engine:getAsset('art/light_beam-bouncemask.png').handle, 0, 0, 0, 1 / 16, 1 / 16)
+                            elseif firstBlockingEnt then
+                                test = 0
+                                Engine.camera:_renderEnt(0, firstBlockingEnt)
+                            end
+                            love.graphics.pop()
+                            love.graphics.setShader(nil)
+                        end, 'increment', 1, false)
+                        love.graphics.setStencilTest('equal', test)
+                    else
+                        horizFrac, vertFrac = 0, 0
+                    end
+                end
+                local s = 0.5
                 if horizFrac > 0 then
                     love.graphics.setColor(1, 1, 1, horizFrac * alpha)
-                    love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
+                    love.graphics.draw(self.lightHoriImage.handle,
+                        x + (allowLeft and 0 or 1 / 2), y + 4 / 16, 0,
+                        1 / 16 * ((allowLeft and 0.5 or 0) + (allowRight and 0.5 or 0)), 1 / 16 / 2
+                    )
                 end
                 if vertFrac > 0 then
                     love.graphics.setColor(1, 1, 1, vertFrac * alpha)
-                    love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
+                    love.graphics.draw(self.lightVertImage.handle,
+                        x + 4 / 16, y + (allowUp and 0 or (1 / 2)), 0,
+                        1 / 16 / 2, 1 / 16 * ((allowUp and 0.5 or 0) + (allowDown and 0.5 or 0))
+                    )
+                end
+                if illuminatedMirrorFacingDir ~= nil or firstBlockingEnt ~= nil then
+                    love.graphics.setStencilTest('always', 0)
                 end
             end
 
@@ -264,7 +333,7 @@ function World:refreshLogicGroup(name)
         end
         logicGroup.allSatisfied = allSatisfied
         logicGroup.anySatisfied = anySatisfied
-        if anyOutputChanged and GAMETIME > 1.0 then
+        if anyOutputChanged and GAMETIME > 0.1 then
             EmitSound({ 'sfx/Trap_00.mp3', 'sfx/Trap_01.mp3', 'sfx/Trap_02.mp3' }, self)
         end
     end
@@ -423,7 +492,7 @@ function World:pathFind(v0, v1, entOrNil, extraTraversalPassTest)
 
     if found then
         return util.reverseList(path)
-    --elseif giveClosest and closestCell ~= nil then
+        --elseif giveClosest and closestCell ~= nil then
         --WORLDTEXT(closestCell.pos + Vec(0.5, 0.5), 'wtf', 5 * ONETICK)
         --return self:pathFind(v0, closestCell.pos, entOrNil, extraTraversalPassTest, false)
     end

@@ -15,7 +15,8 @@ local vampireDyingDelay = 1.0
 
 function Vampire:setup(data)
     self.renderDepth = RenderingDepth.VampireAlive
-    self.image = Engine:getAsset('art/vampire.png')
+    self.leftImage = Engine:getAsset('art/vampire_left.png')
+    self.rightImage = Engine:getAsset('art/vampire.png')
     self.dustImage = Engine:getAsset('art/dust.png')
 
     BasicEntSetup(self, data)
@@ -23,6 +24,7 @@ function Vampire:setup(data)
     self.stage = util.default(self.stage, data.startIdle and VampireStage.Idle or VampireStage.Wakeup)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
+    self.lastHorzMoveDir = self.lastHorzMoveDir or util.random({ Cardinal.Left, Cardinal.Right })
 
     self.movePath = self.movePath or nil
     self.lastUpdateMoveGoalTime = self.lastUpdateMoveGoalTime or GAMETIME
@@ -54,7 +56,7 @@ function Vampire:update(time, dt)
 
         if GAMESTATE.player.alive then
             if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
-                SCREENTEXT('pathing ' .. self.id .. ' ' .. self.pathingCount .. ' ' .. delta)
+                --SCREENTEXT('pathing ' .. self.id .. ' ' .. self.pathingCount .. ' ' .. delta)
                 self.pathingCount = self.pathingCount + 1
 
                 local moveGoal = GAMESTATE.player:getPos()
@@ -69,7 +71,7 @@ function Vampire:update(time, dt)
                     table.remove(path, 1)
                 end
                 self.movePath = path
-                return true
+                return true, moveGoal
             end
         else
 
@@ -85,7 +87,9 @@ function Vampire:update(time, dt)
     end
     if self.stage == VampireStage.Idle then
         if GAMETIME > self.stageChangeTime + vampireIdleDelay then
-            if updateMoveGoal() == true then
+            local didUpdateGoal, moveGoal = updateMoveGoal(true)
+            if didUpdateGoal == true then
+                self.lastHorzMoveDir = moveGoal.x < self:getPos().x and Cardinal.Left or Cardinal.Right
                 self.stage = VampireStage.Alerted
                 self.stageChangeTime = GAMETIME
                 print('-> ALERT')
@@ -115,6 +119,10 @@ function Vampire:update(time, dt)
                     breakable:makeBroke()
                 end
                 if nextCell:traversalPassTest(self) then
+                    local currPos = self:getPos()
+                    if nextPos.x ~= currPos.x then
+                        self.lastHorzMoveDir = nextPos.x < currPos.x and Cardinal.Left or Cardinal.Right
+                    end
                     self:setPos(nextPos)
                 else
                     stop = true
@@ -145,7 +153,7 @@ function Vampire:render()
     if self.stage == VampireStage.Dust then
         DrawSimpleEntImage(self, self.dustImage)
     else
-        DrawSimpleEntImage(self, self.image)
+        DrawSimpleEntImage(self, self.lastHorzMoveDir == Cardinal.Left and self.leftImage or self.rightImage)
 
         if self.stage == VampireStage.Wakeup then
             love.graphics.setColor(1, 0, 0, 1)
