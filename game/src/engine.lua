@@ -471,6 +471,12 @@ local AssetTypes = {
         end,
         fallback = { handle = {} },
     },
+    shader = {
+        extensions = {},
+        create = function(info) info.handle = love.graphics.newShader(info.src) end,
+        destroy = function(info) info.handle = info.handle:destroy() end,
+        fallback = { handle = love.graphics.newShader [[vec4 effect(vec4 c, Image t, vec2 tc, vec2 sc) { return vec4(1.0, 0.0, 0.0, 1.0); } ]], },
+    }
 }
 
 function Engine:_theseAreTheAssets(assetDescriptors)

@@ -34,7 +34,7 @@
   <object id="19" template="templates/Spikes.tx" x="48" y="96"/>
   <object id="20" template="templates/Spikes.tx" x="64" y="16"/>
  </objectgroup>
- <objectgroup id="3" name="reverb">
+ <objectgroup id="3" name="reverb" visible="0">
   <object id="21" template="templates/reverb_zones/large_room.tx" x="16" y="16" width="208" height="176"/>
  </objectgroup>
 </map>

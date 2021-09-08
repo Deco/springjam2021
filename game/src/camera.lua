@@ -59,19 +59,7 @@ function TheCamera:specialRender(dt)
             Engine.DP:pushEvent(string.format('render %s', tostring(ent)))
             love.graphics.push()
 
-            local pos = ent:getPos()
-            local lastPos = ent._lastPos
-            local shiftDuration = pos:dist(lastPos) / 12.0
-            local shiftFrac = math.remapClamp(GAMETIME - ent._posChangeTime, 0, shiftDuration, 0, 1)
-            local displayPos = math.remapClamp(shiftFrac, 0, 1, lastPos, pos)
-            local isMoving = shiftFrac < 1.0
-            love.graphics.translate(displayPos:xy())
-
-            --love.graphics.translate(0.5, 0.5)
-            --love.graphics.rotate(math.cardinalToAng(ent:getRot()))
-            --love.graphics.translate(-0.5, -0.5)
-
-            Engine:callEntMethod(ent, 'render', nil, dt, isMoving)
+            self:_renderEnt(dt, ent)
 
             love.graphics.pop()
             Engine.DP:popEvent()
@@ -96,6 +84,22 @@ function TheCamera:specialRender(dt)
     love.graphics.pop()
 
     Engine.DP:popEvent()
+end
+
+function TheCamera:_renderEnt(dt, ent)
+    local pos = ent:getPos()
+    local lastPos = ent._lastPos
+    local shiftDuration = pos:dist(lastPos) / 12.0
+    local shiftFrac = math.remapClamp(GAMETIME - ent._posChangeTime, 0, shiftDuration, 0, 1)
+    local displayPos = math.remapClamp(shiftFrac, 0, 1, lastPos, pos)
+    local isMoving = shiftFrac < 1.0
+    love.graphics.translate(displayPos:xy())
+
+    --love.graphics.translate(0.5, 0.5)
+    --love.graphics.rotate(math.cardinalToAng(ent:getRot()))
+    --love.graphics.translate(-0.5, -0.5)
+
+    Engine:callEntMethod(ent, 'render', nil, dt, isMoving)
 end
 
 function TheCamera:getTransform()

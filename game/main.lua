@@ -281,7 +281,7 @@ function love.update(dt)
     end
 end
 function love.draw()
-    --love.graphics.reset()
+    love.graphics.reset()
     if rawget(globalTable, 'Engine') and Engine.draw then
         wrap(Engine.draw, Engine)
     end
