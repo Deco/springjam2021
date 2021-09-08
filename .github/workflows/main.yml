@@ -24,7 +24,8 @@ jobs:
     - uses: nhartland/love-build@v1-beta2
       id: love-build
       with:
-        app_name: 'hello_world'
+        app_name: 'MorningGory'
+        source_dir: 'game'
         love_version: '11.3'
     - uses: actions/upload-artifact@v1
       with:
