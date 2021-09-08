@@ -67,7 +67,7 @@ do
         if not self.asset.global and love.audio.isEffectsSupported() and self.owner ~= WORLD then
             local pos = self.owner:getPos()
             local reverbType = WORLD:getReverbZone(pos)
-            print("REVERB", reverbType)
+            --print("REVERB", reverbType)
             if reverbType then
                 self.source:setEffect(reverbType)
             end
