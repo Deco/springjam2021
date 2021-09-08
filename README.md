@@ -6,6 +6,8 @@ Spring Jam 2021
 - Fullscreen menu option + persistence (see volume)
 - Walking sounds? 
 - Salt crunch?
+- Death Counter
+- Clear time counter
 
 
 ## (Morning Gory SOUND LIST)
