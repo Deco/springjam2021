@@ -195,6 +195,7 @@ local levels = {
     --{ tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
     { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
     { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+    { tiledmap = Engine:getAsset('src/maps/rolling_out.lua'), label = "Rolling Out", },
     { tiledmap = Engine:getAsset('src/maps/remote_control.lua'), label = "Remote Control", },
 
     --{ tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
