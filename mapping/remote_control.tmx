@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="100">
+ <editorsettings>
+  <export target="../game/src/maps/remote_control.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
+ <layer id="1" name="map" width="30" height="30">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,1,3,2,5,4,5,4,3,46,79,79,79,4,5,2,3,6,0,0,0,0,0,0,0,0,0,
+0,0,0,0,4,17,20,19,27,30,17,30,20,79,79,79,101,20,27,28,3,3,79,79,79,41,5,26,0,0,
+0,0,0,0,37,17,9,29,30,7,9,8,29,19,9,7,7,7,10,7,4,29,9,17,79,101,101,4,0,0,
+0,0,0,0,54,7,29,29,29,27,30,27,7,7,27,20,27,17,27,7,7,27,7,7,7,29,24,24,0,0,
+0,0,0,0,11,19,28,7,18,29,20,101,30,30,28,101,3,22,10,25,4,3,18,8,101,101,101,55,0,0,
+0,0,0,0,21,8,20,19,29,18,101,79,101,20,101,79,43,44,42,101,53,101,8,7,51,44,45,46,0,0,
+0,0,0,0,11,28,101,27,101,101,79,79,79,27,79,79,79,79,79,79,79,79,8,10,16,0,0,0,0,0,
+0,0,2,2,2,4,79,24,79,4,79,79,79,27,79,79,79,79,79,27,17,10,20,25,16,0,0,0,0,0,
+0,0,2,30,101,18,18,24,18,7,17,8,29,28,9,20,28,8,79,18,8,9,10,25,36,0,0,0,0,0,
+0,0,2,7,79,10,101,18,18,4,101,19,18,28,30,19,30,27,79,19,19,29,29,25,26,0,0,0,0,0,
+0,0,2,101,79,28,79,101,101,101,79,28,7,29,18,10,29,7,79,3,28,7,9,19,16,0,0,0,0,0,
+0,0,2,79,79,29,79,79,79,79,79,8,7,8,29,17,10,29,79,2,27,9,27,18,26,0,0,0,0,0,
+0,0,2,79,79,30,79,79,79,79,79,19,30,17,30,30,7,9,8,10,9,10,29,7,26,0,0,0,0,0,
+0,0,2,79,79,19,79,79,41,28,79,8,17,7,20,28,19,10,101,3,29,10,9,7,26,0,0,0,0,0,
+0,0,2,29,18,29,17,9,7,17,79,29,28,30,19,30,19,29,79,56,29,20,28,25,26,0,0,0,0,0,
+0,0,2,28,101,101,101,28,19,30,79,101,101,101,101,101,101,101,79,41,5,19,29,29,26,0,0,0,0,0,
+0,0,2,27,27,19,79,30,30,30,79,79,79,79,8,46,79,79,79,79,101,19,29,19,26,0,0,0,0,0,
+0,0,2,18,19,10,2,2,20,2,51,79,17,30,10,17,7,18,3,2,7,7,4,20,26,0,0,0,0,0,
+0,0,2,2,20,20,7,7,8,9,6,79,19,30,27,18,30,8,8,28,30,17,2,10,4,3,2,4,4,46,
+0,0,0,21,20,20,17,17,18,19,3,4,19,20,29,101,101,101,44,56,2,29,5,28,101,7,7,7,8,0,
+0,0,0,41,56,28,9,27,30,19,7,7,8,28,20,79,79,79,79,21,9,9,18,27,55,45,43,45,45,46,
+0,0,0,0,41,43,42,44,44,44,43,44,4,4,5,4,45,43,43,45,45,43,44,45,46,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="entities">
+  <object id="1" name="PlayerStart" gid="76" x="80" y="80" width="16" height="16"/>
+  <object id="5" template="templates/ExitDoor.tx" x="432" y="96"/>
+  <object id="27" template="templates/Salt.tx" x="224" y="192"/>
+  <object id="28" template="templates/Salt.tx" x="240" y="192"/>
+  <object id="29" template="templates/Salt.tx" x="256" y="192"/>
+  <object id="30" template="templates/Salt.tx" x="256" y="208"/>
+  <object id="31" template="templates/Salt.tx" x="256" y="224"/>
+  <object id="32" template="templates/Salt.tx" x="256" y="240"/>
+  <object id="33" template="templates/Salt.tx" x="192" y="208"/>
+  <object id="34" template="templates/Salt.tx" x="224" y="256"/>
+  <object id="35" template="templates/Salt.tx" x="208" y="256"/>
+  <object id="36" template="templates/Salt.tx" x="192" y="240"/>
+  <object id="37" template="templates/Salt.tx" x="192" y="224"/>
+  <object id="39" template="templates/Salt.tx" x="208" y="192"/>
+  <object id="40" template="templates/Salt.tx" x="192" y="192"/>
+  <object id="41" template="templates/Salt.tx" x="240" y="256"/>
+  <object id="42" template="templates/Salt.tx" x="256" y="256"/>
+  <object id="43" template="templates/Salt.tx" x="192" y="256"/>
+  <object id="44" template="templates/Tomb-GoldenKey.tx" x="224" y="224"/>
+  <object id="45" template="templates/RED/PressurePlate-RED.tx" x="208" y="208"/>
+  <object id="48" template="templates/BLUE/PressurePlate-BLUE.tx" x="208" y="240"/>
+  <object id="49" template="templates/GREEN/PressurePlate-GREEN.tx" x="240" y="208"/>
+  <object id="50" template="templates/PINK/PressurePlate-PINK.tx" x="240" y="240"/>
+  <object id="51" template="templates/Light.tx" x="112" y="144"/>
+  <object id="53" template="templates/MovableMirror_DR.tx" x="112" y="112"/>
+  <object id="55" template="templates/Tomb.tx" x="368" y="96"/>
+  <object id="56" template="templates/GREEN/Gate-GREEN.tx" x="320" y="96"/>
+  <object id="57" template="templates/Coffee.tx" x="128" y="192"/>
+  <object id="58" template="templates/Coffee.tx" x="336" y="240"/>
+  <object id="61" template="templates/BLUE/Gate-BLUE.tx" x="304" y="336"/>
+  <object id="62" template="templates/RED/Gate-RED.tx" x="144" y="176"/>
+  <object id="63" template="templates/PINK/Gate-PINK.tx" x="128" y="320"/>
+  <object id="64" template="templates/Boulder.tx" x="128" y="176"/>
+  <object id="65" template="templates/MovableMirror_UL.tx" x="112" y="192"/>
+  <object id="66" template="templates/MovableMirror_DR.tx" x="48" y="192"/>
+  <object id="67" template="templates/MovableMirror_UR.tx" x="64" y="304"/>
+  <object id="87" template="templates/Spikes.tx" x="352" y="128"/>
+  <object id="88" template="templates/Spikes.tx" x="368" y="128"/>
+  <object id="90" template="templates/MovableMirror_UL.tx" x="128" y="288"/>
+  <object id="94" template="templates/MovableMirror_UL.tx" x="160" y="96"/>
+  <object id="95" template="templates/Boulder.tx" x="208" y="128"/>
+  <object id="96" template="templates/Spikes.tx" x="304" y="240"/>
+  <object id="97" template="templates/Boulder.tx" x="208" y="112"/>
+  <object id="99" template="templates/Spikes.tx" x="96" y="272"/>
+ </objectgroup>
+</map>

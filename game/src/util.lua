@@ -309,4 +309,11 @@ function util.randomRange(min, max)
     return math.random() * (max - min) + min
 end
 
+function util.countTrues(...)
+    local count = 0
+    for argNum = 1, select('#', ...) do
+        if select(argNum, ...) == true then count = count + 1 end
+    end
+    return count
+end
 

@@ -53,14 +53,20 @@ function LightSource:updateLight()
     local currPos = self:getPos()
     local currDirectLighter = self
     local animStepCounter = 0
-    for stepIdx = 1, 600 do
+    local breakNext = false
+    for stepIdx = 1, 200 do
         local currCell = WORLD:getCell(currPos)
+        if breakNext then break end
+        local alreadyLitByUs = not not currCell.litBySet[self]
+
         table.insert(self.illuminatedCellsList, currCell)
         currCell.litBySet[self] = { idx = animStepCounter, time = lastLitTimeMap[currCell] or GAMETIME }
         if not lastLitTimeMap[currCell] then animStepCounter = animStepCounter + 1 end
         currCell.directlyLitBySet[currDirectLighter] = self
         local mirrors = currCell:findEntsOfClass(Mirror)
         if #mirrors > 0 then
+            if alreadyLitByUs then breakNext = true end
+
             local lightFromDir = type(currDir) == "number" and math.indexWrap(currDir + 2, 4) or currDir
             local newDir = mirrors[1]:redirectLight(lightFromDir)
             if newDir == nil then

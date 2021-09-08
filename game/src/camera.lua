@@ -78,6 +78,19 @@ function TheCamera:specialRender(dt)
         end
 
         WORLD:specialRenderAfter()
+
+        if IS_DEBUG then
+            love.graphics.setColor(1, 1, 1, 1)
+            for _, dti in ipairs(Engine.updateDebugText) do
+                if dti.type == 'world' then
+                    local scale = 0.03
+                    local text = tostring(dti.text)
+                    local font = Engine:getAsset('devfont').handle
+                    local sizeW, sizeH = font:getWidth(text) * scale, font:getHeight() * scale
+                    love.graphics.print(text, font, dti.pos.x - sizeW / 2, dti.pos.y - sizeH / 2, 0, scale, scale)
+                end
+            end
+        end
     end
 
     love.graphics.pop()

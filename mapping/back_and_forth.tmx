@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="24">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="25">
  <editorsettings>
   <export target="../game/src/maps/back_and_forth.lua" format="lua"/>
  </editorsettings>
@@ -37,7 +37,6 @@
   <object id="4" name="Spikes" gid="93" x="224" y="128" width="16" height="16"/>
   <object id="5" template="templates/ExitDoor.tx" x="320" y="304"/>
   <object id="6" template="templates/Tomb-GoldenKey.tx" x="272" y="128"/>
-  <object id="7" template="templates/Gate-COLOR.tx" name="Gate-GREEN" x="144" y="288"/>
   <object id="8" name="Coffee" gid="90" x="48" y="128" width="16" height="16"/>
   <object id="14" template="templates/Salt.tx" x="224" y="288"/>
   <object id="15" template="templates/Salt.tx" x="224" y="304"/>
@@ -48,5 +47,6 @@
   <object id="21" name="Spikes" gid="93" x="240" y="112" width="16" height="16"/>
   <object id="22" name="Spikes" gid="93" x="240" y="128" width="16" height="16"/>
   <object id="23" name="Spikes" gid="93" x="240" y="144" width="16" height="16"/>
+  <object id="24" template="templates/GREEN/Gate-GREEN.tx" x="144" y="288"/>
  </objectgroup>
 </map>

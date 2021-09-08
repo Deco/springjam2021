@@ -23,14 +23,17 @@ function Vampire:setup(data)
     self.stage = util.default(self.stage, data.startIdle and VampireStage.Idle or VampireStage.Wakeup)
     self.stageChangeTime = self.stageChangeTime or GAMETIME
     self.lastMoveTime = self.lastMoveTime or GAMETIME
+
     self.movePath = self.movePath or nil
-    self.lastPathingTime = self.lastPathingTime or GAMETIME
+    self.lastUpdateMoveGoalTime = self.lastUpdateMoveGoalTime or GAMETIME
+    self.pathingCount = self.pathingCount or 0
+
     --self.nextBurpTime = self.nextBurpTime or GAMETIME + math.random(30, 45)
 end
 
 function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust end
 function Vampire:blocksVision() return false end
-function Vampire:blocksLight() return true end
+function Vampire:blocksLight() return false end
 function Vampire:activatesFloorSensors() return true end
 
 function Vampire:update(time, dt)
@@ -42,14 +45,18 @@ function Vampire:update(time, dt)
     end
 
     local updateMoveGoal = function(force)
-        local fuckingSlow = self:getPos():dist(GAMESTATE.player:getPos()) > 6 and 0.25 or 0.1
-        if not force and GAMETIME < self.lastPathingTime + fuckingSlow then
+        local fuckingSlow = self:getPos():dist(GAMESTATE.player:getPos()) > 6 and 0.2 + 0.02 * math.random() or 0.1
+        if not force and GAMETIME < self.lastUpdateMoveGoalTime + fuckingSlow then
             return nil
         end
-        self.lastPathingTime = GAMETIME
+        local delta = GAMETIME - self.lastUpdateMoveGoalTime
+        self.lastUpdateMoveGoalTime = GAMETIME
 
         if GAMESTATE.player.alive then
             if WORLD:canSee(self:getPos(), GAMESTATE.player:getPos(), self) then
+                SCREENTEXT('pathing ' .. self.id .. ' ' .. self.pathingCount .. ' ' .. delta)
+                self.pathingCount = self.pathingCount + 1
+
                 local moveGoal = GAMESTATE.player:getPos()
                 local path = WORLD:pathFind(self:getPos(), moveGoal, self, function(me, targetCell)
                     if #targetCell:getBreakables(me) > 0 then return true end
@@ -92,11 +99,11 @@ function Vampire:update(time, dt)
         --end
     end
     if self.stage == VampireStage.Alerted then
-        updateMoveGoal()
-
         if GAMETIME < self.stageChangeTime + vampireAlertDelay then
             --
         elseif GAMETIME > self.lastMoveTime + 5 * ONETICK then
+            updateMoveGoal()
+
             self.lastMoveTime = GAMETIME
             local stop = false
             if #self.movePath == 0 then

@@ -17,7 +17,7 @@ function PressurePlate:onTouch(other)
         self.touchersSet[other] = true
         WORLD:refreshLogicGroup(self.logicGroupName)
         local isSatisfied = self:shouldConsiderSatisfied()
-        if isSatisfied and not wasSatisfied then
+        if isSatisfied and not wasSatisfied and GAMETIME > 1.0 then
             EmitSound('sfx/input.wav', self)
         end
     end

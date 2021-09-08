@@ -18,14 +18,15 @@ local astar = {}
 --@param heuristic
 --@param ...
 function astar.Create(starting_node, target_node, neighbour_iterator, walkable_check, heuristic)
+    local startingH = heuristic(starting_node, target_node)
     return SHAPED({
         node_status = {
             [starting_node] = { -- 1) Add the starting node to the open list
                 list = false, -- true = on the closed list, false = on the open list
                 parent = nil,
-                f = 0, -- g+h
+                f = startingH, -- g+h
                 g = 0, -- length of path from starting node to current node (current.g = parent.g + heuristic(parent, curent))
-                h = heuristic(starting_node, target_node), -- estimated distance to target node
+                h = startingH, -- estimated distance to target node
                 c = 1,
             }
         },
@@ -99,6 +100,17 @@ function astar.Step(object)
     return false
 end
 
+function astar.ParentTraceback(object, target_node)
+    local current_node = object.target_node
+    local path, pathi, pathn = { current_node }, 1, current_node
+    while path[pathi] do
+        pathi = pathi + 1
+        pathn = object.node_status[pathn].parent
+        path[pathi] = pathn
+    end
+    return path
+end
+
 ---astar.CalculatePath
 --@param starting_node
 --@param target_node
@@ -112,7 +124,7 @@ function astar.CalculatePath(starting_node, target_node, neighbour_iterator, wal
     while not finished do
         finished, found, path = astar.Step(object)
     end
-    return found, path
+    return found, path, object
 end
 
 return astar

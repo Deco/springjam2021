@@ -12,7 +12,8 @@ end
 
 Engine.assetKeyInfoMap = Engine.assetKeyInfoMap or {}
 
-_G.GAMETIME = -1
+GMAKER 'GAMETIME'
+_G.GAMETIME = type(_G.GAMETIME) == 'table' and -1 or _G.GAMETIME -- aaahh
 _G.ONETICK = 1 / 60
 _G.SCREENTEXTSCALE = 0.2
 
@@ -34,12 +35,15 @@ function Engine:load(args)
 
     self.debugFast = self.debugFast or 1
     self.entitiesList = {}
+    self.tempEntitiesList = nil
     self.nextId = 0
     self.accumulatedUpdateTime = 0
     self.entitiesThatJustDiedList = {}
-    self.drawDebugScreenText = {}
-    self.updateDebugScreenText = {}
-    self.currDebugScreenText = nil
+    self.drawDebugText = {}
+    self.updateDebugText = {}
+    self.debugText = nil
+
+    self.blockSpawned = false
 
     self.menu = TheMenu.new('special case for root')
     self.camera = nil
@@ -95,6 +99,7 @@ function Engine:EntityClass(name)
         if not rawget(class, 'dontPutInEntitiesList') then
             table.insert(self.entitiesList, instance)
         end
+        if self.tempEntitiesList ~= nil then table.insert(self.tempEntitiesList, instance) end
         if type(owner) ~= 'string' then
             --print(string.format("[%s E%i] -> [%s E%i]", owner.__name, owner.id, name, instance.id))
             owner.ownedSet[instance] = true
@@ -112,7 +117,10 @@ function Engine:EntityClass(name)
         )
         BLOCK_NONREPEATABLE_STUFF = false
 
-        self:callEntMethod(instance, 'spawned', nil)
+        if not self.blockSpawned then
+            self:callEntMethod(instance, 'spawned', nil)
+            if WORLD and WORLD.valid then WORLD:onEntSpawned(instance) end
+        end
 
         return instance
     end
@@ -135,6 +143,7 @@ function Engine:Remove(ent)
     if not rawget(ent.class, 'dontPutInEntitiesList') then
         table.remove(self.entitiesList, util.findIndex(self.entitiesList, ent))
     end
+    if self.tempEntitiesList ~= nil then table.remove(self.tempEntitiesList, util.findIndex(self.tempEntitiesList, ent)) end
     local entityClassInfo = getEntityClassInfo(ent.class)
     entityClassInfo.instancesSet[ent] = nil
     for owned in pairs(ent.ownedSet) do
@@ -150,13 +159,15 @@ function Engine:update(time, dt)
     self.menu:specialUpdate(time, dt)
 
     if IS_DEBUG then
-        self.debugFast = love.keyboard.isDown('f4') and 3 or 1
+        self.debugFast = love.keyboard.isDown('lctrl') and 3 or 1
     end
 
     if not self.menu.isPaused then
         while self.accumulatedUpdateTime - ONETICK > 0.0 do
-            self.updateDebugScreenText = {}
-            self.currDebugScreenText = self.updateDebugScreenText
+            self.updateDebugText = util.filterList(self.updateDebugText, function(dti)
+                return dti.duration ~= nil and love.timer.getTime() < dti.startTime + dti.duration
+            end)
+            self.currDebugText = self.updateDebugText
 
             self.accumulatedUpdateTime = self.accumulatedUpdateTime - ONETICK
             GAMETIME = GAMETIME + ONETICK * self.debugFast
@@ -178,7 +189,7 @@ function Engine:update(time, dt)
             end
             self.entitiesThatJustDiedList = {}
 
-            self.currDebugScreenText = nil
+            self.currDebugText = nil
         end
     end
 
@@ -187,10 +198,10 @@ end
 
 function Engine:draw()
     self.DP:startCycle()
-    self.currDebugScreenText = self.drawDebugScreenText
+    self.currDebugText = self.drawDebugText
 
     local pixelSize = Vec(love.graphics.getDimensions())
-    love.graphics.setColor(36 / 255, 19 / 255, 26 / 255, 1)
+    love.graphics.setColor(37 / 255, 19 / 255, 26 / 255, 1)
     love.graphics.rectangle('fill', 0, 0, pixelSize:xy())
 
     local dt = love.timer.getTime() - self.lastDrawTime
@@ -236,16 +247,22 @@ function Engine:draw()
         love.graphics.setFont(Engine:getAsset('devfont').handle)
         --love.graphics.print(string.format("FT (ms): %3.3f", love.timer.getAverageDelta()), 10, 10)
         local screenTextIdx = 0
-        for _, text in ipairs(self.updateDebugScreenText) do
-            love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
-            screenTextIdx = screenTextIdx + 1
+        for _, dti in ipairs(self.updateDebugText) do
+            if dti.type == 'screen' then
+                love.graphics.print(tostring(dti.text), 10, 10 + 20 * screenTextIdx)
+                screenTextIdx = screenTextIdx + 1
+            end
         end
-        for _, text in ipairs(self.drawDebugScreenText) do
-            love.graphics.print(tostring(text), 10, 10 + 20 * screenTextIdx)
-            screenTextIdx = screenTextIdx + 1
+        for _, dti in ipairs(self.drawDebugText) do
+            if dti.type == 'draw' then
+                love.graphics.print(tostring(dti.text), 10, 10 + 20 * screenTextIdx)
+                screenTextIdx = screenTextIdx + 1
+            end
         end
-        self.drawDebugScreenText = {}
-        self.currDebugScreenText = nil
+        self.drawDebugText = util.filterList(self.drawDebugText, function(dti)
+            return dti.duration ~= nil and love.timer.getTime() < dti.startTime + dti.duration
+        end)
+        self.currDebugText = nil
         love.graphics.pop()
     end
 
@@ -261,8 +278,15 @@ function Engine:draw()
 end
 
 function _G.SCREENTEXT(text)
-    if Engine.currDebugScreenText then
-        table.insert(Engine.currDebugScreenText, text)
+    if Engine.currDebugText then
+        table.insert(Engine.currDebugText, { type = 'screen', text = text })
+    end
+end
+
+function _G.WORLDTEXT(pos, text, duration)
+    duration = duration or 1.0
+    if Engine.currDebugText then
+        table.insert(Engine.currDebugText, { type = 'world', pos = pos, text = text, startTime = love.timer.getTime(), duration = duration })
     end
 end
 
@@ -288,6 +312,8 @@ function Engine:onKeyPressed(key, scancode, isrepeat)
             GAMESTATE.player.inventory.coffee.count = GAMESTATE.player.inventory.coffee.count + 1
         elseif key == 'k' then
             GAMESTATE.player.inventory.goldenKey.count = GAMESTATE.player.inventory.goldenKey.count + 1
+        elseif key == 'v' and WORLD and WORLD.valid then
+            Vampire.new(WORLD, { pos = self:getMouseWorldPos() })
         end
 
         if tonumber(key, 10) ~= nil then
@@ -311,6 +337,13 @@ function Engine:onTextInput(text)
     self.menu:onTextInput(text)
 end
 
+function Engine:getMouseWorldPos(mousePosOrNil)
+    mousePosOrNil = mousePosOrNil or Vec(love.mouse.getPosition())
+    local trans = self.camera:getTransform()
+    local worldPos = Vec(trans:inverseTransformPoint(mousePosOrNil:xy()))
+    return worldPos
+end
+
 function Engine:onMouseMoved(x, y, dx, dy, istouch)
     --
 end
@@ -320,9 +353,15 @@ function Engine:onMousePressed(x, y, button, istouch)
         local trans = self.camera:getTransform()
         local worldPos = Vec(trans:inverseTransformPoint(x, y))
         print(worldPos)
+        --self.currDebugText = Engine.updateDebugText
+        --WORLDTEXT(worldPos, 'test')
+        --self.currDebugText = nil
         if GAMESTATE and WORLD then
             --local cell = WORLD:trace(GAMESTATE.player:getPos(), worldPos)
             --cell.isWall = not cell.isWall
+        end
+        if button == 2 and IS_DEBUG then
+            GAMESTATE.player:setPos(worldPos)
         end
     end
 end

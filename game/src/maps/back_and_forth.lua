@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 3,
-  nextobjectid = 24,
+  nextobjectid = 25,
   properties = {},
   tilesets = {
     {
@@ -420,20 +420,6 @@ return {
           properties = {}
         },
         {
-          id = 7,
-          name = "Gate-GREEN",
-          type = "",
-          shape = "rectangle",
-          x = 144,
-          y = 288,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 8,
           name = "Coffee",
           type = "",
@@ -570,6 +556,20 @@ return {
           height = 16,
           rotation = 0,
           gid = 93,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 24,
+          name = "Gate-GREEN",
+          type = "",
+          shape = "rectangle",
+          x = 144,
+          y = 288,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 37,
           visible = true,
           properties = {}
         }

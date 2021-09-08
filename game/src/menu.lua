@@ -66,8 +66,8 @@ function TheMenu:specialUpdate(time, dt)
 
     -- https://suit.readthedocs.io/en/latest/layout.html#
     local winW, winH = love.graphics.getDimensions()
-    local menuW = 400
-    local menuY = 130
+    local menuW = 600
+    local menuY = 10
     local menuButtonH = 80
 
     if self.stage == MenuStage.Loading then
@@ -96,6 +96,10 @@ function TheMenu:specialUpdate(time, dt)
             self.ambientSoundSource:setLooping(true)
         end
 
+        if not love.window.hasFocus() and not IS_DEBUG then
+            self.isPaused = true
+        end
+
         if self.isPaused then
             if not self.wasPaused then
                 Engine:onPause()
@@ -105,8 +109,33 @@ function TheMenu:specialUpdate(time, dt)
 
             suit.Label("Paused", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
 
+            if suit.Button("Resume", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+                self.isPaused = false
+            end
+
+            if suit.Button("Restart Level", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+                self:loadLevel('curr', true)
+                self.isPaused = false
+            end
+
+            if suit.Button("Skip Level", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+                self:loadLevel('next')
+                self.isPaused = false
+            end
+
+            if suit.Button("Restart Game", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+                self:loadLevel(1)
+                self.isPaused = false
+            end
+
+            if suit.Button("Quit Game", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+                love.event.quit()
+            end
+
+            suit.Label("", { font = self.jfcFontForSuit }, suit.layout:row(200, 80))
+
             suit.layout:push(suit.layout:row(nil, 40))
-            suit.Label("Master Volume", {font = self.jfcFontForSuit }, suit.layout:col(200, 20))
+            suit.Label("Master Volume", { font = self.jfcFontForSuit }, suit.layout:col(200, 20))
             if suit.Slider(self.volumeSlider, suit.layout:col(menuW - 240)).changed then
                 self.settings.volume = self.volumeSlider.value
                 love.audio.setVolume(self.settings.volume)
@@ -115,24 +144,15 @@ function TheMenu:specialUpdate(time, dt)
             suit.layout:pop()
 
             suit.layout:push(suit.layout:row(nil, 140))
-            if suit.Button("Cancel", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
+            if suit.Button("Cancel", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
                 self:loadPreferences()
                 self.isPaused = false
             end
-            if suit.Button("Save", {font = self.jfcFontForSuit}, suit.layout:col(menuW/2 - 5/2, menuButtonH/2)).hit then
+            if suit.Button("Save", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
                 self:savePreferences()
                 self.isPaused = false
             end
             suit.layout:pop()
-
-            if suit.Button("Restart Level", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
-                self:loadLevel('curr', true)
-                self.isPaused = false
-            end
-
-            if suit.Button("Quit Game", {font = self.jfcBigFontForSuit}, suit.layout:row(nil, menuButtonH)).hit then
-                love.event.quit()
-            end
         else
             if self.wasPaused then
                 Engine:onResume()
@@ -175,6 +195,7 @@ local levels = {
     --{ tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
     { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
     { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+    { tiledmap = Engine:getAsset('src/maps/remote_control.lua'), label = "Remote Control", },
 
     --{ tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
     --{ tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
@@ -223,7 +244,7 @@ function TheMenu:specialRender()
         self.fadeFrac = math.remapClamp(GAMETIME, 0, 1, 1, 0)
     end
 
-    love.mouse.setVisible(not (self.stage == MenuStage.Playing and not self.isPaused))
+    love.mouse.setVisible(self.stage ~= MenuStage.Playing or self.isPaused or IS_DEBUG)
 
     love.graphics.setColor(0, 0, 0, self.fadeFrac)
     love.graphics.rectangle('fill', 0, 0, winW, winH)
@@ -237,6 +258,8 @@ function TheMenu:specialRender()
         text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
     elseif self.thanksForPlaying then
         text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
+    elseif self.stage == MenuStage.Playing then
+        --text = "ESCAPE to resume.\nF to toggle fullscreen."
     end
 
     local textW, textH = promptFont.handle:getWidth(text), promptFont.handle:getHeight(text)

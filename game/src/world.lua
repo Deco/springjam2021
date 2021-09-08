@@ -14,6 +14,8 @@ function World:setup(data)
     self.grid = self.grid or {}
     self.bounds = self.bounds or AABBfromXYWH(0, 0, 0, 0)
 
+    self.tiledIdToEntMap = {}
+
     self.playerStartPos = self.playerStartPos or nil
     self.haltRetouchy = false
 
@@ -25,6 +27,8 @@ function World:setup(data)
 end
 
 function World:initLevel()
+    Engine.blockSpawned = false
+    Engine.tempEntitiesList = {}
     self.haltRetouchy = true
     for logicGroupName, logicGroup in pairs(self.logicGroups) do
         logicGroup.inputsList = {}
@@ -43,51 +47,60 @@ function World:initLevel()
         local pos = Vec(self.level.tiledmap.handle:convertPixelToTile(object.x, object.y))
         local name, extraData, extraData2 = unpack(util.splitString(object.name, '-'))
 
+        local ent = nil
         if name == 'PlayerStart' then
             self.playerStartPos = pos
         elseif name == 'Boulder' then
-            Boulder.new(self, { pos = pos })
+            ent = Boulder.new(self, { pos = pos })
         elseif name == 'BoulderRound' then
-            BoulderRound.new(self, { pos = pos })
+            ent = BoulderRound.new(self, { pos = pos })
         elseif name == 'Crate' then
-            Crate.new(self, { pos = pos })
+            ent = Crate.new(self, { pos = pos })
         elseif name == 'Coffee' then
-            Coffee.new(self, { pos = pos })
+            ent = Coffee.new(self, { pos = pos })
         elseif name == 'Salt' then
-            Salt.new(self, { pos = pos })
+            ent = Salt.new(self, { pos = pos })
         elseif name == 'GoldenKey' then
-            Key.new(self, { pos = pos })
+            ent = Key.new(self, { pos = pos })
         elseif name == 'Tomb' then
-            Tomb.new(self, { pos = pos, alreadyOpen = (extraData == 'Open'), hasGoldenKey = (extraData == 'GoldenKey') })
+            ent = Tomb.new(self, { pos = pos, alreadyOpen = (extraData == 'Open'), hasGoldenKey = (extraData == 'GoldenKey') })
         elseif name == 'Vampire' then
-            Vampire.new(self, { pos = pos, startIdle = true })
+            ent = Vampire.new(self, { pos = pos, startIdle = true })
         elseif name == 'Spikes' then
-            Spikes.new(self, { pos = pos })
+            ent = Spikes.new(self, { pos = pos })
         elseif name == 'Light' then
-            local ent = LightSource.new(self, { pos = pos })
+            ent = LightSource.new(self, { pos = pos })
         elseif name == 'RotatingMirror' then
-            Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Rotating })
+            ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Rotating })
         elseif name == 'MovableMirror' then
-            Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Moving })
+            ent = Mirror.new(self, { pos = pos, facingDiagDir = Diagonal[object.properties["initialFacingDir"]], kind = MirrorKind.Moving })
         elseif name == 'ExitDoor' then
-            ExitDoor.new(self, { pos = pos })
+            ent = ExitDoor.new(self, { pos = pos })
         elseif name == 'PressurePlate' then
-            local ent = PressurePlate.new(self, { pos = pos, logicGroupName = extraData })
+            ent = PressurePlate.new(self, { pos = pos, logicGroupName = extraData })
             table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'ToggleSwitch' or name == 'Toggle' then
-            local ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = extraData })
+            ent = ToggleSwitch.new(self, { pos = pos, logicGroupName = extraData })
             table.insert(self:getLogicGroup(extraData).inputsList, ent)
         elseif name == 'Gate' then
-            local ent = Gate.new(self, { pos = pos, logicGroupName = extraData, mode = extraData2 or "AND" })
+            ent = Gate.new(self, { pos = pos, logicGroupName = extraData, mode = extraData2 or "AND" })
             table.insert(self:getLogicGroup(extraData).outputsList, ent)
         end
+        --self.tiledIdToEntMap[object.id]
     end
 
     GAMESTATE.player:setPos(WORLD.playerStartPos)
     GAMESTATE.player._lastPos = WORLD.playerStartPos + (Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and Vec(0, -20) or Vec(0, 0))
 
     self.haltRetouchy = false
-    for _, ent in ipairs(Engine.entitiesList) do
+    Engine.blockSpawned = false
+    local tempEntitiesList = Engine.tempEntitiesList
+    Engine.tempEntitiesList = {}
+
+    for _, ent in ipairs(tempEntitiesList) do
+        Engine:callEntMethod(ent, 'spawned', nil)
+    end
+    for _, ent in ipairs(tempEntitiesList) do
         local retouchy = rawget(ent, 'retouchy')
         if retouchy then
             retouchy(ent, nil, WORLD:getCell(ent:getPos()))
@@ -134,6 +147,8 @@ function World:specialRenderAfter()
     --love.graphics.setLineWidth(0.05)
     --love.graphics.rectangle('line', viewBounds.x0 + 6, viewBounds.y0 + 6, (viewBounds:size() - 2 * Vec(6, 6)):xy())
 
+    local alpha = 0.6
+
     SCREENTEXT(viewBounds)
     for x = viewBounds.x0, viewBounds.x1 do
         for y = viewBounds.y0, viewBounds.y1 do
@@ -151,11 +166,11 @@ function World:specialRenderAfter()
                     end
                 end
                 if horizFrac > 0 then
-                    love.graphics.setColor(1, 1, 1, horizFrac)
+                    love.graphics.setColor(1, 1, 1, horizFrac * alpha)
                     love.graphics.draw(self.lightHoriImage.handle, x, y + 4 / 16, 0, 1 / 16, 1 / 16 / 2)
                 end
                 if vertFrac > 0 then
-                    love.graphics.setColor(1, 1, 1, vertFrac)
+                    love.graphics.setColor(1, 1, 1, vertFrac * alpha)
                     love.graphics.draw(self.lightVertImage.handle, x + 4 / 16, y, 0, 1 / 16 / 2, 1 / 16)
                 end
             end
@@ -189,7 +204,7 @@ function World:getCell(pos)
     end
     local cell = row[pos.x]
     if cell == nil then
-        cell = Cell.new(self, { pos = pos, isWall = true, })
+        cell = Cell.new(self, { pos = pos, isPit = true, })
         row[pos.x] = cell
         isNew = true
     end
@@ -237,6 +252,13 @@ function World:refreshLight()
             ent:updateLight()
         end
     end
+end
+
+function World:onEntSpawned(ent)
+    local blocksLightFunc = rawget(ent, 'blocksLight')
+    if blocksLightFunc and blocksLightFunc(ent) then self:refreshLight() end
+    --local activatesFloorSensorsFunc = rawget(ent, 'activatesFloorSensors')
+    --if activatesFloorSensorsFunc and activatesFloorSensorsFunc(ent) then self:updateLight() end
 end
 
 function World:canSee(v0, v1, entOrNil)
@@ -339,9 +361,15 @@ local astar = require "lib.astar"
 function World:pathFind(v0, v1, entOrNil, extraTraversalPassTest)
     local startCell, goalCell = self:getCell(v0), self:getCell(v1)
 
-    local found, path, status = astar.CalculatePath(
+    --local i = 0
+    --local closestCell, closestCellDist = nil, math.inf
+    local found, path, astarObject = astar.CalculatePath(
         startCell, goalCell,
         function(cell)
+            --i = i + 1
+            --local dist = cell.pos:dist(goalCell.pos)
+            --WORLDTEXT(cell.pos + Vec(0.5, 0.5), string.format("%d", i), 0.2)
+
             return {
                 self:getCell(cell.pos + Vec(0, -1)),
                 self:getCell(cell.pos + Vec(1, -1)),
@@ -359,13 +387,23 @@ function World:pathFind(v0, v1, entOrNil, extraTraversalPassTest)
             return neighbour:traversalPassTest(entOrNil)
         end,
         function(cell, target)
-            return cell.pos:dist(target.pos)
+            local dist = cell.pos:dist(target.pos)
+            --if closestCell == nil or dist < closestCellDist then
+            --    closestCell, closestCellDist = target, dist
+            --end
+            return dist
         end
     )
 
     self.debugPath = path
 
-    return found and util.reverseList(path) or nil
+    if found then
+        return util.reverseList(path)
+    --elseif giveClosest and closestCell ~= nil then
+        --WORLDTEXT(closestCell.pos + Vec(0.5, 0.5), 'wtf', 5 * ONETICK)
+        --return self:pathFind(v0, closestCell.pos, entOrNil, extraTraversalPassTest, false)
+    end
+    return nil
 end
 
 Cell = Engine:EntityClass('Cell')
