@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="49">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="55">
  <editorsettings>
   <export target="../game/src/maps/laser_push.lua" format="lua"/>
  </editorsettings>
@@ -68,5 +68,12 @@
   <object id="46" template="templates/Salt.tx" x="208" y="160"/>
   <object id="47" template="templates/Salt.tx" x="192" y="160"/>
   <object id="48" template="templates/Salt.tx" x="160" y="208"/>
+ </objectgroup>
+ <objectgroup id="4" name="reverb">
+  <object id="49" template="templates/reverb_zones/small_room.tx" x="176" y="240" width="64" height="64"/>
+  <object id="50" template="templates/reverb_zones/corridor.tx" x="208" y="160" width="16" height="80"/>
+  <object id="51" template="templates/reverb_zones/corridor.tx" x="160" y="176" width="16" height="80"/>
+  <object id="52" template="templates/reverb_zones/medium_room.tx" x="96" y="256" width="80" height="32"/>
+  <object id="54" template="templates/reverb_zones/medium_room.tx" x="32" y="32" width="192" height="144"/>
  </objectgroup>
 </map>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="21">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="15" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="22">
  <editorsettings>
   <export target="../game/src/maps/pits.lua" format="lua"/>
  </editorsettings>
@@ -33,5 +33,8 @@
   <object id="18" name="Gate-GREEN" gid="37" x="64" y="96" width="16" height="16"/>
   <object id="19" template="templates/Spikes.tx" x="48" y="96"/>
   <object id="20" template="templates/Spikes.tx" x="64" y="16"/>
+ </objectgroup>
+ <objectgroup id="3" name="reverb">
+  <object id="21" template="templates/reverb_zones/large_room.tx" x="16" y="16" width="208" height="176"/>
  </objectgroup>
 </map>

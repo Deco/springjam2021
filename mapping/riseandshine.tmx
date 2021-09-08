@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="69">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="41" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="75">
  <editorsettings>
   <export target="../game/src/maps/riseandshine.lua" format="lua"/>
  </editorsettings>
@@ -110,5 +110,10 @@
   <object id="63" template="templates/Salt.tx" x="112" y="224"/>
   <object id="64" template="templates/Salt.tx" x="128" y="224"/>
   <object id="68" template="templates/Salt.tx" x="144" y="224"/>
+ </objectgroup>
+ <objectgroup id="4" name="reverb">
+  <object id="70" template="templates/reverb_zones/medium_room.tx" x="48" y="112" width="112" height="128"/>
+  <object id="71" template="templates/reverb_zones/large_room.tx" x="48" y="240" width="240" height="144"/>
+  <object id="74" template="templates/reverb_zones/large_room.tx" x="240" y="192" width="48" height="48"/>
  </objectgroup>
 </map>

@@ -8,8 +8,8 @@ return {
   height = 64,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 4,
-  nextobjectid = 75,
+  nextlayerid = 5,
+  nextobjectid = 89,
   properties = {},
   tilesets = {
     {
@@ -1101,6 +1101,86 @@ return {
           height = 16,
           rotation = 0,
           gid = 85,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 4,
+      name = "reverb",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 76,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 288,
+          y = 224,
+          width = 560,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 85,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 176,
+          width = 272,
+          height = 144,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 86,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 336,
+          y = 336,
+          width = 208,
+          height = 160,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 87,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 848,
+          y = 0,
+          width = 288,
+          height = 816,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 88,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 544,
+          y = 272,
+          width = 304,
+          height = 464,
+          rotation = 0,
           visible = true,
           properties = {}
         }

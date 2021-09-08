@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="25">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="29" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="28">
  <editorsettings>
   <export target="../game/src/maps/back_and_forth.lua" format="lua"/>
  </editorsettings>
@@ -48,5 +48,9 @@
   <object id="22" name="Spikes" gid="93" x="240" y="128" width="16" height="16"/>
   <object id="23" name="Spikes" gid="93" x="240" y="144" width="16" height="16"/>
   <object id="24" template="templates/GREEN/Gate-GREEN.tx" x="144" y="288"/>
+ </objectgroup>
+ <objectgroup id="3" name="reverb">
+  <object id="25" template="templates/reverb_zones/large_room.tx" x="0" y="16" width="320" height="256"/>
+  <object id="27" template="templates/reverb_zones/small_room.tx" x="96" y="272" width="240" height="80"/>
  </objectgroup>
 </map>

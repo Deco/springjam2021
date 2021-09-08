@@ -8,8 +8,8 @@ return {
   height = 22,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 3,
-  nextobjectid = 25,
+  nextlayerid = 4,
+  nextobjectid = 28,
   properties = {},
   tilesets = {
     {
@@ -570,6 +570,47 @@ return {
           height = 16,
           rotation = 0,
           gid = 37,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 3,
+      name = "reverb",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 25,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 16,
+          width = 320,
+          height = 256,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 27,
+          name = "small_room",
+          type = "",
+          shape = "rectangle",
+          x = 96,
+          y = 272,
+          width = 240,
+          height = 80,
+          rotation = 0,
           visible = true,
           properties = {}
         }

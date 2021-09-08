@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="46">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="52">
  <editorsettings>
   <export target="../game/src/maps/spikes.lua" format="lua"/>
  </editorsettings>
@@ -72,5 +72,10 @@
   <object id="42" template="templates/MovableMirror_UL.tx" x="48" y="144"/>
   <object id="43" template="templates/MovableMirror_DR.tx" x="48" y="64"/>
   <object id="44" template="templates/MovableMirror_DL.tx" x="144" y="64"/>
+ </objectgroup>
+ <objectgroup id="4" name="reverb">
+  <object id="46" template="templates/reverb_zones/medium_room.tx" x="112" y="128" width="192" height="176"/>
+  <object id="50" template="templates/reverb_zones/small_room.tx" x="224" y="80" width="80" height="48"/>
+  <object id="51" template="templates/reverb_zones/medium_room.tx" x="176" y="80" width="48" height="48"/>
  </objectgroup>
 </map>

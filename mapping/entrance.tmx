@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="72" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="75">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="72" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="89">
  <editorsettings>
   <export target="../game/src/maps/entrance.lua" format="lua"/>
  </editorsettings>
@@ -187,5 +187,12 @@
   <object id="72" template="templates/Salt.tx" x="592" y="464"/>
   <object id="73" template="templates/Salt.tx" x="608" y="448"/>
   <object id="74" template="templates/Tomb-Open.tx" x="864" y="0"/>
+ </objectgroup>
+ <objectgroup id="4" name="reverb">
+  <object id="76" template="templates/reverb_zones/medium_room.tx" x="288" y="224" width="560" height="48"/>
+  <object id="85" template="templates/reverb_zones/large_room.tx" x="16" y="176" width="272" height="144"/>
+  <object id="86" template="templates/reverb_zones/large_room.tx" x="336" y="336" width="208" height="160"/>
+  <object id="87" template="templates/reverb_zones/medium_room.tx" x="848" y="0" width="288" height="816"/>
+  <object id="88" template="templates/reverb_zones/medium_room.tx" x="544" y="272" width="304" height="464"/>
  </objectgroup>
 </map>
