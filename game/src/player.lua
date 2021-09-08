@@ -98,6 +98,19 @@ function Player:processInput(time, dt)
             local moveDir = possibleDirs[1]
             self.lastMoveTime = GAMETIME
             self:tryMove(moveDir)
+            EmitSound({
+                'sfx/robe_walk_01.ogg',
+                'sfx/robe_walk_02.ogg',
+                'sfx/robe_walk_03.ogg',
+                'sfx/robe_walk_04.ogg',
+                'sfx/robe_walk_05.ogg',
+                'sfx/robe_walk_06.ogg',
+                'sfx/robe_walk_07.ogg',
+                'sfx/robe_walk_08.ogg',
+                'sfx/robe_walk_09.ogg',
+                'sfx/robe_walk_10.ogg',
+                'sfx/robe_walk_11.ogg'
+            }, self)
             self.lastMoveDir = moveDir
         elseif someMoveDir then
             self.lastMoveDir = someMoveDir
@@ -149,6 +162,14 @@ function Player:onTouch(other)
     elseif other.class == Vampire and other.stage ~= VampireStage.Dust then
         self:youAreDead()
         print('DEAD')
+    elseif other.class == Salt then
+        EmitSound({
+            'sfx/salt_walk_01.ogg',
+            'sfx/salt_walk_02.ogg',
+            'sfx/salt_walk_03.ogg',
+            'sfx/salt_walk_04.ogg',
+            'sfx/salt_walk_05.ogg'
+        }, self)
     end
 end
 

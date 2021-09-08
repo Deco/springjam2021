@@ -109,6 +109,26 @@ local assets = {
     ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
     ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
 
+    ['sfx/beans-short.ogg'] = { type = 'sfx', volume = 0.2, },
+
+    ['sfx/salt_walk_01.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/salt_walk_02.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/salt_walk_03.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/salt_walk_04.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/salt_walk_05.ogg'] = { type = 'sfx', volume = 0.2, },
+
+    ['sfx/robe_walk_01.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_02.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_03.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_04.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_05.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_06.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_07.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_08.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_09.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_10.ogg'] = { type = 'sfx', volume = 0.2, },
+    ['sfx/robe_walk_11.ogg'] = { type = 'sfx', volume = 0.2, },
+
     ['sfx/ambience.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3, global = true },
 
     ['corridor'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_LONGPASSAGE', path = false },
