@@ -108,11 +108,18 @@ local assets = {
     ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
     ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
 
-    ['sfx/ambience.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3 },
+    ['sfx/ambience.mp3'] = { type = 'sfx', sourceType = 'stream', trim = 3, global = true },
+
+    ['corridor'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_LONGPASSAGE', path = false },
+    ['small_room'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_SMALLROOM', path = false },
+    ['medium_room'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_LARGEROOM', path = false },
+    ['large_room'] = { type = 'reverb', presetName = 'REVERB_PRESET_CASTLE_HALL', path = false },
+    ['open'] = { type = 'reverb', presetName = 'REVERB_PRESET_MOUNTAINS', path = false },
 
 }
 
 for assetKey, assetDescription in pairs(assets) do
+    assetDescription.key = assetKey
     if assetDescription.path == nil then
         assetDescription.path = assetKey
     end

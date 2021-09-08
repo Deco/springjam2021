@@ -1,5 +1,6 @@
 --
 local sti = require("lib.sti")
+local openal_presets = require "lib.openal_presets"
 
 GMAKER 'Engine' -- singleton
 
@@ -426,9 +427,30 @@ local AssetTypes = {
         end,
         fallback = { handle = love.graphics.newImage('art/missing.png'), fullSize = Vec(900, 900), frameSize = Vec(900, 900), quads = {}, },
     },
+    reverb = {
+        extensions = {},
+        create = function(info)
+            if love.audio.isEffectsSupported() then
+                local success = love.audio.setEffect(info.key, openal_presets:GetReverbPreset(info.presetName))
+                if success then
+                    --love.audio.setEffect(info.key, true)
+                end
+            end
+        end,
+        destroy = function(info)
+            if love.audio.isEffectsSupported() then
+                --love.audio.setEffect(info.key, false)
+            end
+        end,
+        fallback = { handle = nil, },
+    },
     sfx = {
         extensions = { "wav", "mp3", "ogg" },
-        create = function(info) info.handle = love.audio.newSource(info.path, info.sourceType or 'static') end,
+        create = function(info)
+            info.handle = love.audio.newSource(info.path, info.sourceType or 'static')
+            --love.audio.setEffect('REVERB_PRESET_CAVE', openal_presets:GetReverbPreset('REVERB_PRESET_MOUNTAINS'))
+            --info.handle:setEffect('REVERB_PRESET_CAVE', true)
+        end,
         destroy = function(info) info.handle = info.handle:release() end,
         fallback = { handle = love.audio.newSource('sfx/missing.mp3', 'static'), },
     },

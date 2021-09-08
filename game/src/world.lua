@@ -194,6 +194,30 @@ function World:specialRenderAfter()
     --end
 end
 
+function World:getReverbZone(pos)
+    local type = 'open' -- default to open
+    if not self.level.tiledmap.handle.layers.reverb then
+        return type
+    end
+
+    local pixelPos = Vec(self.level.tiledmap.handle:convertTileToPixel(pos.x, pos.y))
+
+    local smallestArea = nil
+    for _, object in pairs(self.level.tiledmap.handle.layers.reverb.objects) do
+        local area = object.width * object.height
+        if smallestArea ~= nil and area > smallestArea then
+            -- skip, we already have a more specific one
+        else
+            if pixelPos.x >= object.x and pixelPos.x <= (object.x + object.width) and pixelPos.y >= object.y and pixelPos.y <= (object.y + object.height) then
+                smallestArea = area
+                type = object.name
+            end
+        end
+    end
+
+    return type
+end
+
 function World:getCell(pos)
     local isNew = false
     local row = self.grid[pos.y]
