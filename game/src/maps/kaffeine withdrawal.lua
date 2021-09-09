@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 100,
+  nextobjectid = 102,
   properties = {},
   tilesets = {
     {
@@ -481,7 +481,7 @@ return {
           name = "Light",
           type = "",
           shape = "rectangle",
-          x = 32,
+          x = 48,
           y = 32,
           width = 16,
           height = 16,
@@ -551,7 +551,7 @@ return {
           name = "GoldenKey",
           type = "",
           shape = "rectangle",
-          x = 0,
+          x = 272,
           y = 112,
           width = 16,
           height = 16,
@@ -565,7 +565,7 @@ return {
           name = "MovableMirror-DR",
           type = "",
           shape = "rectangle",
-          x = 32,
+          x = 48,
           y = 32,
           width = 16,
           height = 16,
@@ -581,8 +581,8 @@ return {
           name = "MovableMirror-UR",
           type = "",
           shape = "rectangle",
-          x = 48,
-          y = 48,
+          x = 32,
+          y = 64,
           width = 16,
           height = 16,
           rotation = 0,
@@ -597,8 +597,8 @@ return {
           name = "MovableMirror-UL",
           type = "",
           shape = "rectangle",
-          x = 128,
-          y = 128,
+          x = 144,
+          y = 112,
           width = 16,
           height = 16,
           rotation = 0,
@@ -629,8 +629,8 @@ return {
           name = "MovableMirror-DL",
           type = "",
           shape = "rectangle",
-          x = 192,
-          y = 32,
+          x = 144,
+          y = 80,
           width = 16,
           height = 16,
           rotation = 0,
@@ -727,8 +727,8 @@ return {
           }
         },
         {
-          id = 97,
-          name = "RotatingMirror-UL",
+          id = 101,
+          name = "RotatingMirror-UR",
           type = "",
           shape = "rectangle",
           x = 48,
@@ -736,10 +736,10 @@ return {
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 2147483750,
+          gid = 102,
           visible = true,
           properties = {
-            ["initialFacingDir"] = "UpLeft"
+            ["initialFacingDir"] = "UpRight"
           }
         }
       }
