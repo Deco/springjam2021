@@ -58,7 +58,6 @@ do
         self.overridePitch = data.pitch
     end
     function SFX:spawned()
-        self:updateAudioSource()
         --self.source:stop()
         self.source:setLooping(not not self.asset.looping)
         self.source:seek(self.asset.trim or 0)
@@ -73,6 +72,8 @@ do
             end
         end
         self.source:play()
+
+        self:updateAudioSource()
     end
     function SFX:removed()
         self.source:stop()
@@ -80,13 +81,13 @@ do
     end
     function SFX:updateAudioSource()
         --if self.owner ~= WORLD then
-        --    local offset = self.owner:getPos() - Engine.camera:getPos()
-        --    self.source:setPosition(offset.x, offset.y, 0)
-        --    local vol = math.remapClamp(offset:mag(), 8, 20, 1.0, 0.12)
+        --    local offset = self.owner:getPos() - Engine.camera.viewPos
+        --    --self.source:setPosition(offset.x, offset.y, 0)
+        --    local vol = math.remapClamp(offset:mag(), 7, 20, 1.0, 0.01)
         --    vol = vol * (self.asset.volume or 1)
         --    self.source:setVolume(vol)
+        --    SCREENTEXT(string.format('%s %.3f', tostring(self), offset:mag()))
         --end
-        --SCREENTEXT(string.format('%s %.3f', tostring(self), vol))
     end
     function SFX:render()
         self:updateAudioSource() -- done in render, not update, to ensure maximum update rate

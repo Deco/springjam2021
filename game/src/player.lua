@@ -138,6 +138,9 @@ function Player:onKeyPressed(key, scancode)
             candidate:onUse(self)
         end
     end
+    if key == 'b' then
+        --EmitSound('sfx/beanslol', self)
+    end
     if IS_DEBUG and key == 'l' then
         --self:showTopPrompt("Testing! Testing! Testing! Testing! Testing!")
         --SpawnVFX('art/fx/explosion.png', self:getPos())

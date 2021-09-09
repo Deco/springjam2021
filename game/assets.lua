@@ -79,6 +79,7 @@ local assets = {
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 
     ['sfx/Beans.ogg'] = { type = 'sfx', trim = 2.8, duration = 1.4, pitch = 0.5, volume = 0.1, },
+    ['sfx/beanslol'] = { path = 'sfx/Beans.ogg', type = 'sfx', },
     ['sfx/Boulder_Move_00.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
     ['sfx/Boulder_Move_01.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
     ['sfx/Boulder_Move_02.ogg'] = { type = 'sfx', trim = 0.1, duration = 0.2, pitch = 1.2, volume = 0.4, },
@@ -108,8 +109,8 @@ local assets = {
     ['sfx/door.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.15, },
     ['sfx/burp.wav'] = { type = 'sfx', pitch = 0.7, volume = 0.05, },
     ['sfx/death.wav'] = { type = 'sfx', volume = 0.7, pitch = 0.8, },
-    ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.3, },
-    ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.3, },
+    ['sfx/Inventory_Open_00.mp3'] = { type = 'sfx', volume = 0.1, },
+    ['sfx/Inventory_Open_01.mp3'] = { type = 'sfx', volume = 0.1, },
 
     ['sfx/beans-short.ogg'] = { type = 'sfx', volume = 0.2, },
 
