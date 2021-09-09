@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="218">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="226">
  <editorsettings>
   <export target="../game/src/maps/hide_and_seek.lua" format="lua"/>
  </editorsettings>
@@ -46,8 +46,8 @@
 0,0,0,0,0,0,0,0,0,0,5,9,3,4,4,8,5,2,4,19,42,44,42,20,36,11,3,4,46,79,79,18,17,26,41,56,28,51,46,1,8,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,2,30,19,28,27,28,28,10,29,30,10,8,20,20,36,31,79,79,79,79,79,19,9,3,4,4,8,5,2,4,19,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,2,3,2,3,27,51,45,44,42,43,44,56,28,29,26,21,79,79,79,79,79,17,30,19,28,29,28,10,27,29,28,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,2,20,36,1,5,3,4,36,21,18,17,26,41,56,28,79,79,41,8,4,3,2,4,2,4,4,4,4,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,3,20,36,31,18,10,20,6,11,19,9,3,4,4,8,41,2,4,19,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,2,20,36,1,5,3,4,36,21,18,17,26,41,56,28,41,5,3,8,4,3,2,4,2,4,4,4,4,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,3,20,36,31,18,10,20,6,11,19,9,3,4,4,8,19,10,20,19,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,3,29,26,21,27,20,20,36,11,17,30,19,28,29,28,10,27,29,28,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,3,17,26,41,56,28,51,46,1,8,30,9,19,30,27,7,17,9,10,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,5,9,3,4,4,8,5,2,4,19,30,18,5,5,5,2,5,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -132,7 +132,7 @@
   <object id="176" template="templates/Salt.tx" x="496" y="688"/>
   <object id="177" template="templates/Salt.tx" x="480" y="688"/>
   <object id="178" template="templates/Salt.tx" x="464" y="688"/>
-  <object id="186" template="templates/Boulder.tx" x="464" y="672"/>
+  <object id="186" template="templates/Boulder.tx" x="464" y="656"/>
   <object id="187" template="templates/MovableMirror_DR.tx" x="464" y="512"/>
   <object id="188" template="templates/PINK/PressurePlate-PINK.tx" x="320" y="544"/>
   <object id="189" template="templates/Salt.tx" x="320" y="400"/>
@@ -161,7 +161,12 @@
   <object id="214" template="templates/Salt.tx" x="256" y="256"/>
   <object id="215" template="templates/Salt.tx" x="256" y="272"/>
   <object id="216" template="templates/Salt.tx" x="256" y="288"/>
-  <object id="217" template="templates/Spikes.tx" x="432" y="656"/>
+  <object id="218" template="templates/Salt.tx" x="448" y="352"/>
+  <object id="219" template="templates/Salt.tx" x="448" y="336"/>
+  <object id="221" template="templates/Salt.tx" x="448" y="656"/>
+  <object id="222" template="templates/Spikes.tx" x="432" y="672"/>
+  <object id="224" template="templates/Salt.tx" x="464" y="672"/>
+  <object id="225" template="templates/Salt.tx" x="480" y="672"/>
  </objectgroup>
  <layer id="3" name="scatter" width="64" height="64" visible="0" locked="1">
   <data encoding="csv">
