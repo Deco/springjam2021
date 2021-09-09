@@ -4,7 +4,7 @@ Spring Jam 2021
 
 ## TODO
 - Fullscreen menu option + persistence (see volume)
-- Death Counter
+- Death Counter (includes, or have a separate counter for, restarts?)
 - Clear time counter
 - Level select menu (w/ minimap thumbnail)
 
