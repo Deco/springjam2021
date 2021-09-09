@@ -1,5 +1,6 @@
 _G.RenderingDepth = {
     -- under
+    Salt = 90,
     Spikes = 100,
     Devices = 120,
     VampireDead = 150,

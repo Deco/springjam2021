@@ -24,7 +24,8 @@ function TheCamera:specialRender(dt)
         self.viewPos = self:getPos()
     end
 
-    local viewDiff = self:getPos() - self.viewPos
+    local goalViewPos = self:getPos() --+ Vec(0.5, 0.5)
+    local viewDiff = goalViewPos - self.viewPos
     local viewSpeed = math.remapClamp(viewDiff:mag(), 3, 7, 7.5, 25)
     self.viewPos = self.viewPos + viewDiff:normalized() * math.clamp(dt * viewSpeed, 0, viewDiff:mag())
 
@@ -82,7 +83,8 @@ function TheCamera:specialRender(dt)
     end
 
     love.graphics.pop()
-    love.audio.setPosition(self.viewPos.x, self.viewPos.y, 10)
+    local v = self.viewPos
+    love.audio.setPosition(v.x, v.y, 8)
     -- being 8 units above the board softens stereo pans
     -- but! we must set reference for dynamic sounds to match
     Engine.DP:popEvent()
@@ -133,6 +135,8 @@ function TheCamera:getTransform()
 
     -- translate by camera's offset in world
     --trans:translate((-self:getPos()):xy())
+    --local hmm = Vec(math.floorTo(self.viewPos.x, 1 / 16) + 1 / 8, math.floorTo(self.viewPos.y, 1 / 16) + 1 / 8)
+    --trans:translate((-hmm):xy())
     trans:translate((-self.viewPos):xy())
 
     return trans

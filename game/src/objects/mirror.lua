@@ -21,6 +21,7 @@ function Mirror:setup(data)
 end
 
 function Mirror:blocksTraversal() return true end
+function Mirror:blocksVision() return true end
 function Mirror:blocksLight() return true end
 function Mirror:isMovable() return self.kind == MirrorKind.Moving end
 function Mirror:activatesFloorSensors() return true end

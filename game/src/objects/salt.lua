@@ -1,6 +1,7 @@
 Salt = Engine:EntityClass('Salt')
 
 function Salt:setup(data)
+    self.renderDepth = RenderingDepth.Salt
     self.image = Engine:getAsset('art/salt.png')
     BasicEntSetup(self, data)
 end
