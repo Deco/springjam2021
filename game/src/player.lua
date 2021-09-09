@@ -146,7 +146,7 @@ function Player:onKeyPressed(key, scancode)
         --SpawnVFX('art/fx/explosion.png', self:getPos())
         --WORLD:pathFind(self:getPos(), Vec(3, 3))
         --EmitSound('sfx/Beans.ogg', self)
-        EmitSound('sfx/Dragon_Growl_01.mp3', self)
+        EmitSound('sfx/Dragon_Growl_01.ogg', self)
     end
 end
 
@@ -156,7 +156,7 @@ function Player:onTouch(other)
         EmitSound({ 'sfx/Key_Get_00.ogg', 'sfx/Key_Get_01.ogg' }, self)
         Engine:Remove(other)
     elseif other.class == Coffee then
-        EmitSound('sfx/bottle.wav', self)
+        EmitSound('sfx/bottle.ogg', self)
         self:giveItem('coffee')
         Engine:Remove(other)
     elseif other.class == Spikes then
@@ -179,7 +179,7 @@ end
 function Player:youAreDead()
     if self.alive then
         self.alive = false
-        EmitSound('sfx/death.wav', self, { pitch = util.randomRange(0.6, 0.66), })
+        EmitSound('sfx/death.ogg', self, { pitch = util.randomRange(0.6, 0.66), })
     end
 end
 

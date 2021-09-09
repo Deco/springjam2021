@@ -451,7 +451,7 @@ local AssetTypes = {
             --info.handle:setEffect('REVERB_PRESET_CAVE', true)
         end,
         destroy = function(info) info.handle = info.handle:release() end,
-        fallback = { handle = love.audio.newSource('sfx/missing.mp3', 'static'), },
+        fallback = { handle = love.audio.newSource('sfx/missing.ogg', 'static'), },
     },
     vfx = {
         extensions = {},

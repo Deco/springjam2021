@@ -19,9 +19,9 @@ function ToggleSwitch:onTouch(other)
         WORLD:refreshLogicGroup(self.logicGroupName)
         local isSatisfied = self:shouldConsiderSatisfied()
         if isSatisfied and not wasSatisfied and GAMETIME > 0.1 then
-            EmitSound('sfx/input.wav', self)
+            EmitSound('sfx/input.ogg', self)
         elseif not isSatisfied and wasSatisfied then
-            EmitSound('sfx/input-off.wav', self)
+            EmitSound('sfx/input-off.ogg', self)
         end
     end
 end

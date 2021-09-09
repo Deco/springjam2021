@@ -18,7 +18,7 @@ function Crate:makeBroke()
 end
 
 function Crate:onShoved()
-    EmitSound({ 'sfx/Inventory_Open_00.mp3', 'sfx/Inventory_Open_01.mp3' }, self)
+    EmitSound({ 'sfx/Inventory_Open_00.ogg', 'sfx/Inventory_Open_01.ogg' }, self)
 end
 
 function Crate:render()

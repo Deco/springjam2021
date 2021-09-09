@@ -44,6 +44,7 @@ function Vampire:update(time, dt)
         self.stageChangeTime = GAMETIME
         EmitSound('sfx/Beans.ogg', self)
         EmitSound('sfx/Vampire_Death.ogg', self)
+        EmitSound('sfx/Burn_to_Ash.ogg', self, { pitch = util.randomRange(0.9, 1.1), })
     end
 
     local updateMoveGoal = function()
@@ -91,7 +92,7 @@ function Vampire:update(time, dt)
         end
         --elseif not self.nextBurpTime or GAMETIME > self.nextBurpTime then
         --    self.nextBurpTime = GAMETIME + math.random(7.0, 11.0)
-        --    EmitSound('sfx/burp.wav', self, { pitch = math.random(0.45, 1.0) })
+        --    EmitSound('sfx/burp.ogg', self, { pitch = math.random(0.45, 1.0) })
         --end
     end
     if self.stage == VampireStage.Alerted then

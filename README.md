@@ -4,11 +4,9 @@ Spring Jam 2021
 
 ## TODO
 - Fullscreen menu option + persistence (see volume)
-- Walking sounds? 
-- Salt crunch?
-- Death Counter
+- Death Counter (includes, or have a separate counter for, restarts?)
 - Clear time counter
-
+- Level select menu (w/ minimap thumbnail)
 
 ## (Morning Gory SOUND LIST)
 

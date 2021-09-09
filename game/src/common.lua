@@ -63,10 +63,19 @@ do
         self.source:seek(self.asset.trim or 0)
         self.source:setPitch(self.overridePitch or self.asset.pitch or 1.0)
         self.source:setVolume(self.asset.volume or 1.0)
+        
+        local pos = self.owner:getPos()
+
+        if not self.asset.global then
+            if self.owner == WORLD then
+                self.source:setRelative(true)
+            else
+                self.source:setPosition(pos.x, pos.y, 0)
+                self.source:setAttenuationDistances(8, 26)
+            end
+        end
         if not self.asset.global and love.audio.isEffectsSupported() and self.owner ~= WORLD then
-            local pos = self.owner:getPos()
             local reverbType = WORLD:getReverbZone(pos)
-            --print("REVERB", reverbType)
             if reverbType then
                 self.source:setEffect(reverbType)
             end
