@@ -43,7 +43,6 @@ function Engine:load(args)
     self.drawDebugText = {}
     self.updateDebugText = {}
     self.debugText = nil
-
     self.blockSpawned = false
 
     self.menu = TheMenu.new('special case for root')

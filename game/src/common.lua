@@ -71,6 +71,8 @@ do
             if self.owner == WORLD then
                 self.source:setRelative(true)
             else
+                --WORLDTEXT(pos, 'sfx-' .. self.asset.path)
+                print(pos:dist(Engine.camera.viewPos), self.asset.path)
                 self.source:setPosition(pos.x, pos.y, 0)
                 self.source:setAttenuationDistances(8, 26)
             end
