@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="191">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="217">
  <editorsettings>
   <export target="../game/src/maps/hide_and_seek.lua" format="lua"/>
  </editorsettings>
@@ -114,7 +114,6 @@
   <object id="142" template="templates/Spikes.tx" x="416" y="432"/>
   <object id="143" template="templates/Spikes.tx" x="352" y="432"/>
   <object id="144" template="templates/Salt.tx" x="256" y="464"/>
-  <object id="145" template="templates/Salt.tx" x="240" y="592"/>
   <object id="148" template="templates/PINK/PressurePlate-PINK.tx" x="448" y="448"/>
   <object id="149" template="templates/BLUE/PressurePlate-BLUE.tx" x="368" y="576"/>
   <object id="150" template="templates/Salt.tx" x="624" y="624"/>
@@ -140,6 +139,30 @@
   <object id="188" template="templates/PINK/PressurePlate-PINK.tx" x="320" y="544"/>
   <object id="189" template="templates/Salt.tx" x="320" y="400"/>
   <object id="190" template="templates/Salt.tx" x="320" y="416"/>
+  <object id="191" template="templates/Spikes.tx" x="224" y="624"/>
+  <object id="192" template="templates/Spikes.tx" x="288" y="608"/>
+  <object id="193" template="templates/Spikes.tx" x="240" y="592"/>
+  <object id="194" template="templates/Spikes.tx" x="256" y="400"/>
+  <object id="196" template="templates/Spikes.tx" x="336" y="720"/>
+  <object id="197" template="templates/Spikes.tx" x="320" y="720"/>
+  <object id="198" template="templates/Spikes.tx" x="528" y="624"/>
+  <object id="199" template="templates/Spikes.tx" x="544" y="624"/>
+  <object id="200" template="templates/Spikes.tx" x="560" y="624"/>
+  <object id="201" template="templates/Spikes.tx" x="576" y="432"/>
+  <object id="202" template="templates/Spikes.tx" x="576" y="448"/>
+  <object id="203" template="templates/Spikes.tx" x="576" y="464"/>
+  <object id="204" template="templates/Spikes.tx" x="512" y="352"/>
+  <object id="205" template="templates/Spikes.tx" x="387" y="302"/>
+  <object id="206" template="templates/Spikes.tx" x="512" y="336"/>
+  <object id="207" template="templates/Salt.tx" x="512" y="256"/>
+  <object id="209" template="templates/Salt.tx" x="496" y="256"/>
+  <object id="210" template="templates/Salt.tx" x="480" y="256"/>
+  <object id="211" template="templates/Salt.tx" x="256" y="192"/>
+  <object id="212" template="templates/Salt.tx" x="256" y="208"/>
+  <object id="213" template="templates/Salt.tx" x="256" y="224"/>
+  <object id="214" template="templates/Salt.tx" x="256" y="256"/>
+  <object id="215" template="templates/Salt.tx" x="256" y="272"/>
+  <object id="216" template="templates/Salt.tx" x="256" y="288"/>
  </objectgroup>
  <layer id="3" name="scatter" width="64" height="64" visible="0" locked="1">
   <data encoding="csv">
