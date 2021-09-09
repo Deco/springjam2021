@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 73,
+  nextobjectid = 100,
   properties = {},
   tilesets = {
     {
@@ -298,22 +298,22 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        1, 38, 3, 4, 5, 2, 3, 54, 7, 55, 3, 4, 5, 36, 11, 18, 6,
-        11, 28, 27, 29, 8, 19, 8, 11, 19, 26, 27, 19, 9, 6, 11, 7, 6,
-        21, 18, 7, 7, 8, 8, 19, 41, 20, 46, 29, 19, 17, 3, 4, 9, 16,
-        31, 8, 18, 27, 7, 19, 9, 28, 30, 8, 18, 29, 7, 18, 8, 9, 26,
-        11, 19, 27, 7, 17, 17, 8, 7, 29, 27, 7, 28, 9, 29, 9, 8, 36,
-        21, 18, 19, 18, 19, 19, 19, 29, 10, 17, 29, 29, 19, 29, 29, 9, 16,
-        4, 5, 4, 19, 18, 28, 8, 17, 20, 10, 27, 20, 17, 19, 3, 5, 3,
-        17, 27, 10, 17, 19, 28, 8, 29, 10, 18, 18, 18, 30, 19, 10, 27, 18,
-        54, 44, 44, 30, 29, 9, 9, 29, 10, 29, 19, 10, 30, 8, 45, 44, 51,
-        31, 27, 29, 8, 28, 8, 17, 19, 10, 7, 19, 8, 9, 7, 28, 7, 26,
-        11, 17, 9, 7, 7, 27, 18, 20, 20, 27, 28, 7, 29, 19, 9, 7, 36,
-        21, 18, 29, 28, 28, 10, 18, 28, 19, 28, 9, 10, 18, 29, 27, 9, 16,
-        31, 8, 27, 27, 18, 27, 9, 7, 29, 20, 17, 9, 29, 19, 27, 19, 26,
-        11, 27, 19, 17, 27, 17, 28, 1, 10, 36, 29, 9, 7, 17, 17, 9, 36,
-        1, 19, 9, 8, 29, 28, 7, 21, 20, 26, 17, 19, 19, 27, 29, 29, 16,
-        41, 42, 43, 44, 45, 42, 42, 54, 7, 55, 43, 44, 45, 42, 45, 43, 46
+        1, 38, 3, 4, 5, 2, 55, 54, 7, 55, 3, 4, 79, 26, 11, 18, 6,
+        11, 28, 27, 29, 8, 19, 36, 11, 19, 26, 101, 19, 9, 6, 11, 7, 6,
+        21, 18, 7, 7, 8, 4, 46, 41, 20, 46, 79, 19, 17, 26, 11, 9, 16,
+        31, 8, 18, 27, 7, 19, 9, 28, 30, 8, 79, 29, 7, 26, 11, 9, 26,
+        11, 19, 27, 101, 101, 101, 101, 7, 29, 27, 79, 18, 101, 2, 3, 8, 36,
+        21, 18, 19, 18, 19, 79, 79, 101, 10, 17, 29, 29, 19, 29, 29, 9, 16,
+        4, 5, 4, 19, 18, 28, 79, 1, 20, 10, 27, 20, 17, 19, 3, 5, 3,
+        17, 27, 10, 17, 19, 101, 8, 29, 10, 18, 18, 18, 30, 19, 10, 27, 18,
+        54, 44, 44, 18, 3, 18, 18, 29, 10, 29, 101, 3, 3, 8, 3, 4, 51,
+        31, 27, 29, 8, 28, 8, 101, 101, 10, 7, 18, 8, 9, 7, 28, 101, 79,
+        11, 17, 9, 7, 7, 27, 79, 79, 20, 27, 101, 7, 29, 19, 9, 79, 79,
+        21, 18, 29, 28, 28, 10, 79, 28, 19, 18, 79, 101, 101, 101, 18, 18, 79,
+        31, 5, 2, 4, 5, 2, 79, 79, 29, 101, 79, 27, 79, 79, 101, 101, 79,
+        79, 101, 19, 17, 101, 101, 79, 1, 10, 36, 79, 101, 79, 79, 79, 79, 79,
+        79, 79, 101, 8, 29, 28, 7, 21, 20, 26, 18, 18, 79, 79, 79, 79, 79,
+        79, 79, 79, 44, 45, 42, 42, 54, 7, 55, 43, 101, 79, 79, 79, 79, 79
       }
     },
     {
@@ -383,7 +383,7 @@ return {
           name = "Vampire",
           type = "",
           shape = "rectangle",
-          x = 0,
+          x = 16,
           y = 112,
           width = 16,
           height = 16,
@@ -421,7 +421,7 @@ return {
           properties = {}
         },
         {
-          id = 41,
+          id = 42,
           name = "Gate-RED",
           type = "",
           shape = "rectangle",
@@ -435,40 +435,12 @@ return {
           properties = {}
         },
         {
-          id = 42,
-          name = "Gate-RED",
-          type = "",
-          shape = "rectangle",
-          x = 128,
-          y = 32,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 43,
+          id = 44,
           name = "Gate-RED",
           type = "",
           shape = "rectangle",
           x = 224,
           y = 112,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 44,
-          name = "Gate-RED",
-          type = "",
-          shape = "rectangle",
-          x = 128,
-          y = 208,
           width = 16,
           height = 16,
           rotation = 0,
@@ -519,54 +491,6 @@ return {
           properties = {}
         },
         {
-          id = 48,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 32,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 49,
-          name = "MovableMirror-UR",
-          type = "",
-          shape = "rectangle",
-          x = 32,
-          y = 80,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 105,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpRight"
-          }
-        },
-        {
-          id = 50,
-          name = "MovableMirror-DL",
-          type = "",
-          shape = "rectangle",
-          x = 64,
-          y = 80,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225577,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
           id = 51,
           name = "Gate-BLUE",
           type = "",
@@ -581,11 +505,11 @@ return {
           properties = {}
         },
         {
-          id = 52,
+          id = 59,
           name = "PressurePlate-BLUE",
           type = "",
           shape = "rectangle",
-          x = 64,
+          x = 48,
           y = 112,
           width = 16,
           height = 16,
@@ -595,192 +519,18 @@ return {
           properties = {}
         },
         {
-          id = 54,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 64,
-          y = 160,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 55,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 16,
-          y = 160,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 56,
-          name = "MovableMirror-UR",
-          type = "",
-          shape = "rectangle",
-          x = 16,
-          y = 224,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 105,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpRight"
-          }
-        },
-        {
-          id = 57,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 80,
-          y = 224,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
-          id = 58,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 80,
-          y = 48,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 59,
-          name = "PressurePlate-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 128,
-          y = 48,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 104,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 61,
-          name = "MovableMirror-DL",
-          type = "",
-          shape = "rectangle",
-          x = 160,
-          y = 48,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 3221225577,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownLeft"
-          }
-        },
-        {
-          id = 63,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 160,
-          y = 80,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
-        },
-        {
           id = 64,
           name = "PressurePlate-BLUE",
           type = "",
           shape = "rectangle",
-          x = 128,
-          y = 160,
+          x = 192,
+          y = 112,
           width = 16,
           height = 16,
           rotation = 0,
           gid = 104,
           visible = true,
           properties = {}
-        },
-        {
-          id = 65,
-          name = "MovableMirror-DR",
-          type = "",
-          shape = "rectangle",
-          x = 112,
-          y = 80,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 1073741929,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "DownRight"
-          }
-        },
-        {
-          id = 66,
-          name = "MovableMirror-UR",
-          type = "",
-          shape = "rectangle",
-          x = 112,
-          y = 128,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 105,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpRight"
-          }
-        },
-        {
-          id = 67,
-          name = "MovableMirror-UL",
-          type = "",
-          shape = "rectangle",
-          x = 144,
-          y = 128,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 2147483753,
-          visible = true,
-          properties = {
-            ["initialFacingDir"] = "UpLeft"
-          }
         },
         {
           id = 70,
@@ -797,12 +547,120 @@ return {
           properties = {}
         },
         {
-          id = 71,
-          name = "PressurePlate-BLUE",
+          id = 72,
+          name = "GoldenKey",
           type = "",
           shape = "rectangle",
-          x = 144,
+          x = 0,
           y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 100,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 76,
+          name = "MovableMirror-DR",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 1073741929,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownRight"
+          }
+        },
+        {
+          id = 78,
+          name = "MovableMirror-UR",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 105,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 81,
+          name = "MovableMirror-UL",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 128,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483753,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
+        },
+        {
+          id = 83,
+          name = "MovableMirror-UR",
+          type = "",
+          shape = "rectangle",
+          x = 64,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 105,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 87,
+          name = "MovableMirror-DL",
+          type = "",
+          shape = "rectangle",
+          x = 192,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 3221225577,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "DownLeft"
+          }
+        },
+        {
+          id = 89,
+          name = "Gate-GREEN",
+          type = "",
+          shape = "rectangle",
+          x = 240,
+          y = 64,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 37,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 90,
+          name = "PressurePlate-GREEN",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 48,
           width = 16,
           height = 16,
           rotation = 0,
@@ -811,18 +669,78 @@ return {
           properties = {}
         },
         {
-          id = 72,
-          name = "GoldenKey",
+          id = 91,
+          name = "PressurePlate-GREEN",
           type = "",
           shape = "rectangle",
-          x = 32,
+          x = 128,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 104,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 92,
+          name = "Gate-BLUE",
+          type = "",
+          shape = "rectangle",
+          x = 128,
           y = 32,
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 100,
+          gid = 37,
           visible = true,
           properties = {}
+        },
+        {
+          id = 93,
+          name = "Gate-BLUE",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 37,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 95,
+          name = "RotatingMirror-UR",
+          type = "",
+          shape = "rectangle",
+          x = 144,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 102,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpRight"
+          }
+        },
+        {
+          id = 97,
+          name = "RotatingMirror-UL",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2147483750,
+          visible = true,
+          properties = {
+            ["initialFacingDir"] = "UpLeft"
+          }
         }
       }
     }

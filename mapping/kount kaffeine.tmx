@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="17" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="73">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="17" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="100">
  <editorsettings>
   <export target="../game/src/maps/kaffeine withdrawal.lua" format="lua"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset/dungeon-tileset.tsx"/>
  <layer id="1" name="map" width="17" height="16">
   <data encoding="csv">
-1,38,3,4,5,2,3,54,7,55,3,4,5,36,11,18,6,
-11,28,27,29,8,19,8,11,19,26,27,19,9,6,11,7,6,
-21,18,7,7,8,8,19,41,20,46,29,19,17,3,4,9,16,
-31,8,18,27,7,19,9,28,30,8,18,29,7,18,8,9,26,
-11,19,27,7,17,17,8,7,29,27,7,28,9,29,9,8,36,
-21,18,19,18,19,19,19,29,10,17,29,29,19,29,29,9,16,
-4,5,4,19,18,28,8,17,20,10,27,20,17,19,3,5,3,
-17,27,10,17,19,28,8,29,10,18,18,18,30,19,10,27,18,
-54,44,44,30,29,9,9,29,10,29,19,10,30,8,45,44,51,
-31,27,29,8,28,8,17,19,10,7,19,8,9,7,28,7,26,
-11,17,9,7,7,27,18,20,20,27,28,7,29,19,9,7,36,
-21,18,29,28,28,10,18,28,19,28,9,10,18,29,27,9,16,
-31,8,27,27,18,27,9,7,29,20,17,9,29,19,27,19,26,
-11,27,19,17,27,17,28,1,10,36,29,9,7,17,17,9,36,
-1,19,9,8,29,28,7,21,20,26,17,19,19,27,29,29,16,
-41,42,43,44,45,42,42,54,7,55,43,44,45,42,45,43,46
+1,38,3,4,5,2,55,54,7,55,3,4,79,26,11,18,6,
+11,28,27,29,8,19,36,11,19,26,101,19,9,6,11,7,6,
+21,18,7,7,8,4,46,41,20,46,79,19,17,26,11,9,16,
+31,8,18,27,7,19,9,28,30,8,79,29,7,26,11,9,26,
+11,19,27,101,101,101,101,7,29,27,79,18,101,2,3,8,36,
+21,18,19,18,19,79,79,101,10,17,29,29,19,29,29,9,16,
+4,5,4,19,18,28,79,1,20,10,27,20,17,19,3,5,3,
+17,27,10,17,19,101,8,29,10,18,18,18,30,19,10,27,18,
+54,44,44,18,3,18,18,29,10,29,101,3,3,8,3,4,51,
+31,27,29,8,28,8,101,101,10,7,18,8,9,7,28,101,79,
+11,17,9,7,7,27,79,79,20,27,101,7,29,19,9,79,79,
+21,18,29,28,28,10,79,28,19,18,79,101,101,101,18,18,79,
+31,5,2,4,5,2,79,79,29,101,79,27,79,79,101,101,79,
+79,101,19,17,101,101,79,1,10,36,79,101,79,79,79,79,79,
+79,79,101,8,29,28,7,21,20,26,18,18,79,79,79,79,79,
+79,79,79,44,45,42,42,54,7,55,43,101,79,79,79,79,79
 </data>
  </layer>
- <layer id="3" name="scatter" width="17" height="16">
+ <layer id="3" name="scatter" width="17" height="16" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -46,35 +46,30 @@
  </layer>
  <objectgroup id="2" name="entities">
   <object id="37" template="templates/Vampire.tx" x="128" y="0"/>
-  <object id="38" template="templates/Vampire.tx" x="0" y="112"/>
+  <object id="38" template="templates/Vampire.tx" x="16" y="112"/>
   <object id="39" template="templates/Vampire.tx" x="128" y="240"/>
   <object id="40" template="templates/Vampire.tx" x="256" y="112"/>
-  <object id="41" template="templates/RED/Gate-RED.tx" x="32" y="112"/>
-  <object id="42" template="templates/RED/Gate-RED.tx" x="128" y="32"/>
-  <object id="43" template="templates/RED/Gate-RED.tx" x="224" y="112"/>
-  <object id="44" template="templates/RED/Gate-RED.tx" x="128" y="208"/>
+  <object id="42" template="templates/RED/Gate-RED.tx" x="32" y="112"/>
+  <object id="44" template="templates/RED/Gate-RED.tx" x="224" y="112"/>
   <object id="45" template="templates/RED/PressurePlate-RED.tx" x="128" y="112"/>
   <object id="46" template="templates/ExitDoor.tx" x="240" y="0"/>
   <object id="47" template="templates/Light.tx" x="32" y="32"/>
-  <object id="48" template="templates/MovableMirror_DR.tx" x="32" y="32"/>
-  <object id="49" template="templates/MovableMirror_UR.tx" x="32" y="80"/>
-  <object id="50" template="templates/MovableMirror_DL.tx" x="64" y="80"/>
   <object id="51" template="templates/BLUE/Gate-BLUE.tx" x="240" y="32"/>
-  <object id="52" template="templates/BLUE/PressurePlate-BLUE.tx" x="64" y="112"/>
-  <object id="54" template="templates/MovableMirror_UL.tx" x="64" y="160"/>
-  <object id="55" template="templates/MovableMirror_DR.tx" x="16" y="160"/>
-  <object id="56" template="templates/MovableMirror_UR.tx" x="16" y="224"/>
-  <object id="57" template="templates/MovableMirror_UL.tx" x="80" y="224"/>
-  <object id="58" template="templates/MovableMirror_DR.tx" x="80" y="48"/>
-  <object id="59" template="templates/BLUE/PressurePlate-BLUE.tx" x="128" y="48"/>
-  <object id="61" template="templates/MovableMirror_DL.tx" x="160" y="48"/>
-  <object id="63" template="templates/MovableMirror_UL.tx" x="160" y="80"/>
-  <object id="64" template="templates/BLUE/PressurePlate-BLUE.tx" x="128" y="160"/>
-  <object id="65" template="templates/MovableMirror_DR.tx" x="112" y="80"/>
-  <object id="66" template="templates/MovableMirror_UR.tx" x="112" y="128"/>
-  <object id="67" template="templates/MovableMirror_UL.tx" x="144" y="128"/>
+  <object id="59" template="templates/BLUE/PressurePlate-BLUE.tx" x="48" y="112"/>
+  <object id="64" template="templates/BLUE/PressurePlate-BLUE.tx" x="192" y="112"/>
   <object id="70" template="templates/PlayerStart.tx" x="16" y="16"/>
-  <object id="71" template="templates/BLUE/PressurePlate-BLUE.tx" x="144" y="112"/>
-  <object id="72" template="templates/GoldenKey.tx" x="32" y="32"/>
+  <object id="72" template="templates/GoldenKey.tx" x="0" y="112"/>
+  <object id="76" template="templates/MovableMirror_DR.tx" x="32" y="32"/>
+  <object id="78" template="templates/MovableMirror_UR.tx" x="48" y="48"/>
+  <object id="81" template="templates/MovableMirror_UL.tx" x="128" y="128"/>
+  <object id="83" template="templates/MovableMirror_UR.tx" x="64" y="144"/>
+  <object id="87" template="templates/MovableMirror_DL.tx" x="192" y="32"/>
+  <object id="89" template="templates/GREEN/Gate-GREEN.tx" x="240" y="64"/>
+  <object id="90" template="templates/GREEN/PressurePlate-GREEN.tx" x="128" y="48"/>
+  <object id="91" template="templates/GREEN/PressurePlate-GREEN.tx" x="128" y="160"/>
+  <object id="92" template="templates/BLUE/Gate-BLUE.tx" x="128" y="32"/>
+  <object id="93" template="templates/BLUE/Gate-BLUE.tx" x="128" y="208"/>
+  <object id="95" template="templates/RotatingMirror_UR.tx" x="144" y="48"/>
+  <object id="97" template="templates/RotatingMirror_UL.tx" x="48" y="80"/>
  </objectgroup>
 </map>
