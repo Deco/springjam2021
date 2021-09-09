@@ -258,7 +258,7 @@ function TheMenu:specialRender()
 
     local text = ""
     if self.stage == MenuStage.MainMenu then
-        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
+        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nSHIFT to accelerate time.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
     elseif self.thanksForPlaying then
         text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
     elseif self.stage == MenuStage.Playing then

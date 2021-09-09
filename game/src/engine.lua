@@ -34,7 +34,7 @@ function Engine:load(args)
     self.UP:enable(true)
     self.lastDrawTime = 0
 
-    self.debugFast = self.debugFast or 1
+    self.timeRate = self.timeRate or 1
     self.entitiesList = {}
     self.tempEntitiesList = nil
     self.nextId = 0
@@ -158,9 +158,9 @@ function Engine:update(time, dt)
 
     self.menu:specialUpdate(time, dt)
 
-    if IS_DEBUG then
-        self.debugFast = love.keyboard.isDown('lctrl') and 3 or 1
-    end
+    --if IS_DEBUG then
+    self.timeRate = (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and 3 or 1
+    --end
 
     if not self.menu.isPaused then
         while self.accumulatedUpdateTime - ONETICK > 0.0 do
@@ -170,7 +170,7 @@ function Engine:update(time, dt)
             self.currDebugText = self.updateDebugText
 
             self.accumulatedUpdateTime = self.accumulatedUpdateTime - ONETICK
-            GAMETIME = GAMETIME + ONETICK * self.debugFast
+            GAMETIME = GAMETIME + ONETICK * self.timeRate
 
             for _, ent in ipairs(self.entitiesList) do
                 --self.UP:pushEvent(string.format('update %s', tostring(ent)))
