@@ -71,9 +71,8 @@ do
                 self.source:setRelative(true)
             else
                 --WORLDTEXT(pos, 'sfx-' .. self.asset.path)
-                print(pos:dist(Engine.camera.viewPos), self.asset.path)
                 self.source:setPosition(pos.x, pos.y, 0)
-                self.source:setAttenuationDistances(8, 26)
+                self.source:setAttenuationDistances(10, 26)
             end
         end
         if not self.asset.global and love.audio.isEffectsSupported() and self.owner ~= WORLD then

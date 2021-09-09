@@ -82,7 +82,7 @@ function TheCamera:specialRender(dt)
     end
 
     love.graphics.pop()
-    love.audio.setPosition(self.viewPos.x, self.viewPos.y, 8)
+    love.audio.setPosition(self.viewPos.x, self.viewPos.y, 10)
     -- being 8 units above the board softens stereo pans
     -- but! we must set reference for dynamic sounds to match
     Engine.DP:popEvent()

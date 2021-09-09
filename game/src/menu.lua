@@ -192,7 +192,7 @@ local levels = {
     { tiledmap = Engine:getAsset('src/maps/pits.lua'), label = "Pits", },
     { tiledmap = Engine:getAsset('src/maps/lighty_mcLightface.lua'), label = "Lighty McLightface", },
     { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Mission Probable", },
-    --{ tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
+    { tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
     { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
     { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
 }
