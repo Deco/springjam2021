@@ -886,20 +886,6 @@ return {
           properties = {}
         },
         {
-          id = 132,
-          name = "Gate-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 368,
-          y = 592,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 37,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 133,
           name = "Spikes",
           type = "",
@@ -962,20 +948,6 @@ return {
           shape = "rectangle",
           x = 448,
           y = 448,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 104,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 149,
-          name = "PressurePlate-BLUE",
-          type = "",
-          shape = "rectangle",
-          x = 368,
-          y = 576,
           width = 16,
           height = 16,
           rotation = 0,

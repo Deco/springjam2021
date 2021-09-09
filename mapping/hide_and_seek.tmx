@@ -109,13 +109,11 @@
   <object id="128" template="templates/Tomb-Open.tx" x="448" y="304"/>
   <object id="129" template="templates/PINK/Gate-PINK.tx" name="Gate-PINK-OR" x="448" y="464"/>
   <object id="130" template="templates/PINK/PressurePlate-PINK.tx" x="448" y="480"/>
-  <object id="132" template="templates/BLUE/Gate-BLUE.tx" x="368" y="592"/>
   <object id="133" template="templates/Spikes.tx" x="288" y="704"/>
   <object id="142" template="templates/Spikes.tx" x="416" y="432"/>
   <object id="143" template="templates/Spikes.tx" x="352" y="432"/>
   <object id="144" template="templates/Salt.tx" x="256" y="464"/>
   <object id="148" template="templates/PINK/PressurePlate-PINK.tx" x="448" y="448"/>
-  <object id="149" template="templates/BLUE/PressurePlate-BLUE.tx" x="368" y="576"/>
   <object id="150" template="templates/Salt.tx" x="624" y="624"/>
   <object id="151" template="templates/Salt.tx" x="608" y="624"/>
   <object id="154" template="templates/Tomb-Open.tx" x="288" y="656"/>
