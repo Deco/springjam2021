@@ -15,14 +15,19 @@ local DEFAULT_SETTINGS = {
     volume = 1
 }
 
+function TheMenu:applyPreferences()
+    love.audio.setVolume(self.settings.volume)
+    love.window.setFullscreen(self.settings.fullscreen, 'desktop')
+end
+
 function TheMenu:loadPreferences()
     self.settings = DEFAULT_SETTINGS
     if love.filesystem.getInfo('userpreferences.lua') ~= nil then
         self.settings = util.mergeTables(self.settings, bitser.loadLoveFile('userpreferences.lua'))
-        print("Loaded preferences")
-
         self.volumeSlider = { value = self.settings.volume, min = 0, max = 1 }
-        love.audio.setVolume(self.settings.volume)
+        self:applyPreferences()
+        --love.audio.setVolume(self.settings.volume)
+        --love.window.setFullscreen(self.settings.fullscreen, 'desktop')
     end
 end
 
@@ -89,7 +94,6 @@ function TheMenu:specialUpdate(time, dt)
         --end
 
     elseif self.stage == MenuStage.Playing then
-
         if not self.ambientSoundSource:isPlaying() then
             self.ambientSoundSource:setVolume(0.1)
             self.ambientSoundSource:play()
@@ -309,7 +313,9 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
     end
 
     if key == 'f' then
-        love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
+        self.settings.fullscreen = not self.settings.fullscreen
+        self:applyPreferences()
+        self:savePreferences()
     end
 
     if IS_DEBUG and key == 'f1' then
