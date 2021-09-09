@@ -9,6 +9,7 @@ _G.TombStage = {
 local tombOpeningDuration = 2.5
 
 function Tomb:setup(data)
+    self.renderDepth = RenderingDepth.Tomb
     self.openedImage = Engine:getAsset('art/Koffeen_open.png')
     self.closedImage = Engine:getAsset('art/koffeen.png')
     self.openingAnim = Engine:getAsset('art/Koffeen_open-Sheet.png')

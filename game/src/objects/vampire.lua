@@ -13,7 +13,7 @@ local vampireAlertDelay = 1.15
 local vampireDyingDelay = 1.0
 
 function Vampire:setup(data)
-    self.renderDepth = RenderingDepth.VampireAlive
+    self.renderDepth = self.renderDepth or RenderingDepth.VampireAlive
     self.leftImage = Engine:getAsset('art/vampire_left.png')
     self.rightImage = Engine:getAsset('art/vampire.png')
     self.dustImage = Engine:getAsset('art/dust.png')
