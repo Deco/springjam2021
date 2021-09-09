@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="226">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="228">
  <editorsettings>
   <export target="../game/src/maps/hide_and_seek.lua" format="lua"/>
  </editorsettings>
@@ -165,6 +165,8 @@
   <object id="222" template="templates/Spikes.tx" x="432" y="672"/>
   <object id="224" template="templates/Salt.tx" x="464" y="672"/>
   <object id="225" template="templates/Salt.tx" x="480" y="672"/>
+  <object id="226" template="templates/Salt.tx" x="368" y="576"/>
+  <object id="227" template="templates/Salt.tx" x="368" y="592"/>
  </objectgroup>
  <layer id="3" name="scatter" width="64" height="64" visible="0" locked="1">
   <data encoding="csv">
