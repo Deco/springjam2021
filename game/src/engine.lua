@@ -201,8 +201,7 @@ function Engine:draw()
     self.currDebugText = self.drawDebugText
 
     local pixelSize = Vec(love.graphics.getDimensions())
-    love.graphics.setColor(37 / 255, 19 / 255, 26 / 255, 1)
-    love.graphics.rectangle('fill', 0, 0, pixelSize:xy())
+    love.graphics.clear(37 / 255, 19 / 255, 26 / 255, 1, 1, 1)
 
     local dt = love.timer.getTime() - self.lastDrawTime
 
@@ -473,7 +472,7 @@ local AssetTypes = {
     shader = {
         extensions = {},
         create = function(info) info.handle = love.graphics.newShader(info.src) end,
-        destroy = function(info) info.handle = info.handle:destroy() end,
+        destroy = function(info) info.handle = info.handle:release() end,
         fallback = { handle = love.graphics.newShader [[vec4 effect(vec4 c, Image t, vec2 tc, vec2 sc) { return vec4(1.0, 0.0, 0.0, 1.0); } ]], },
     }
 }

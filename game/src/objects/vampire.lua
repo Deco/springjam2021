@@ -27,12 +27,13 @@ function Vampire:setup(data)
 
     self.moveGoal = self.moveGoal or nil
     self.movePath = self.movePath or nil
+    self.forcePathingNextMove = util.default(self.forcePathingNextMove, false)
     self.lastPathingTime = self.lastPathingTime or GAMETIME
 
     --self.nextBurpTime = self.nextBurpTime or GAMETIME + math.random(30, 45)
 end
 
-function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust end
+function Vampire:blocksTraversal() return self.stage ~= VampireStage.Dust and self.stage ~= VampireStage.Dying end
 function Vampire:blocksVision() return false end
 function Vampire:blocksLight() return false end
 function Vampire:activatesFloorSensors() return true end
@@ -53,8 +54,10 @@ function Vampire:update(time, dt)
             canSee = true
         end
 
-        if self.moveGoal and (self.movePath == nil or GAMETIME > self.lastPathingTime + 0.2 + 0.02 * math.random()) then
+        if self.moveGoal and (self.movePath == nil or self.forcePathingNextMove or GAMETIME > self.lastPathingTime + 0.2 + 0.02 * math.random()) then
             self.lastPathingTime = GAMETIME
+            self.forcePathingNextMove= false
+            --SCREENTEXT('pathing ' .. self.id .. ' ' .. 0 .. ' ' .. 0)
             local path = WORLD:pathFind(self:getPos(), self.moveGoal, self, function(me, targetCell)
                 if #targetCell:getBreakables(me) > 0 then return true end
             end)
@@ -78,11 +81,14 @@ function Vampire:update(time, dt)
     if self.stage == VampireStage.Idle then
         updateMoveGoal()
         if self.moveGoal ~= nil then
-            self.lastHorzMoveDir = self.moveGoal.x < self:getPos().x and Cardinal.Left or Cardinal.Right
+            if self.moveGoal.x ~= self:getPos().x then
+                self.lastHorzMoveDir = self.moveGoal.x < self:getPos().x and Cardinal.Left or Cardinal.Right
+            end
             self.stage = VampireStage.Alerted
             self.stageChangeTime = GAMETIME
             EmitSound('sfx/Beans.ogg', self)
             EmitSound('sfx/Vamp_Alert-00.ogg', self)
+            --EmitSound('sfx/beanslol', self)
         end
         --elseif not self.nextBurpTime or GAMETIME > self.nextBurpTime then
         --    self.nextBurpTime = GAMETIME + math.random(7.0, 11.0)
@@ -102,9 +108,8 @@ function Vampire:update(time, dt)
                     breakable:makeBroke(self)
                 end
                 if nextCell:traversalPassTest(self) then
-                    local currPos = self:getPos()
-                    if nextPos.x ~= currPos.x then
-                        self.lastHorzMoveDir = nextPos.x < currPos.x and Cardinal.Left or Cardinal.Right
+                    if nextPos.x ~= self:getPos().x then
+                        self.lastHorzMoveDir = nextPos.x < self:getPos().x and Cardinal.Left or Cardinal.Right
                     end
                     self:setPos(nextPos)
                     EmitSound({
@@ -115,18 +120,21 @@ function Vampire:update(time, dt)
                     }, self, { pitch = util.randomRange(0.9, 1.1), })
                     self.lastMoveTime = GAMETIME
                 end
-            else
-                if canSee then
-                    -- stay alert, but we can't reach our target so stay still
-                else
-                    -- reached our goal and we can't see the player, so return to idle
-                    self.stage = VampireStage.Idle
-                    self.stageChangeTime = GAMETIME
-                    print('-> IDLE')
-                    self.moveGoal = nil
-                    self.movePath = nil
-                    --self.nextBurpTime = GAMETIME + math.random(9.0, 15.0)
+                if #self.movePath == 0 then self.forcePathingNextMove = true end
+            elseif canSee then
+                -- stay alert, but we can't reach our target so stay still
+                if self.moveGoal.x ~= self:getPos().x then
+                    self.lastHorzMoveDir = self.moveGoal.x < self:getPos().x and Cardinal.Left or Cardinal.Right
                 end
+            else
+                -- reached our goal and we can't see the player, so return to idle
+                self.stage = VampireStage.Idle
+                self.stageChangeTime = GAMETIME
+                print('-> IDLE')
+                self.moveGoal = nil
+                self.movePath = nil
+                --self.nextBurpTime = GAMETIME + math.random(9.0, 15.0)
+
             end
         end
     end
