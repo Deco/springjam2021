@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 5,
-  nextobjectid = 266,
+  nextobjectid = 268,
   properties = {},
   tilesets = {
     {
@@ -1936,8 +1936,8 @@ return {
           shape = "rectangle",
           x = 480,
           y = 496,
-          width = 48,
-          height = 80,
+          width = 112,
+          height = 208,
           rotation = 0,
           visible = true,
           properties = {}
@@ -1964,6 +1964,32 @@ return {
           y = 480,
           width = 160,
           height = 128,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 266,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 352,
+          y = 608,
+          width = 176,
+          height = 112,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 267,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 384,
+          y = 368,
+          width = 144,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}

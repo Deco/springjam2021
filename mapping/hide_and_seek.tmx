@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="266">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="268">
  <editorsettings>
   <export target="../game/src/maps/hide_and_seek.lua" format="lua"/>
  </editorsettings>
@@ -247,8 +247,10 @@
   <object id="260" template="templates/reverb_zones/small_room.tx" x="306.75" y="364.75" width="48" height="32"/>
   <object id="261" template="templates/reverb_zones/small_room.tx" x="176" y="416" width="48" height="32"/>
   <object id="262" template="templates/reverb_zones/open.tx" x="384" y="592" width="112" height="48"/>
-  <object id="263" template="templates/reverb_zones/medium_room.tx" x="480" y="496" width="48" height="80"/>
+  <object id="263" template="templates/reverb_zones/medium_room.tx" x="480" y="496" width="112" height="208"/>
   <object id="264" template="templates/reverb_zones/medium_room.tx" x="304" y="544" width="176" height="32"/>
   <object id="265" template="templates/reverb_zones/medium_room.tx" x="176" y="480" width="160" height="128"/>
+  <object id="266" template="templates/reverb_zones/medium_room.tx" x="352" y="608" width="176" height="112"/>
+  <object id="267" template="templates/reverb_zones/medium_room.tx" x="384" y="368" width="144" height="32"/>
  </objectgroup>
 </map>
