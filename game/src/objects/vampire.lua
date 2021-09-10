@@ -96,11 +96,10 @@ function Vampire:update(time, dt)
         --end
     end
     if self.stage == VampireStage.Alerted then
+        local canSee = updateMoveGoal()
         if GAMETIME < self.stageChangeTime + vampireAlertDelay then
             --
         elseif GAMETIME > self.lastMoveTime + 5 * ONETICK then
-            local canSee = updateMoveGoal()
-
             if #self.movePath > 0 then
                 local nextPos = table.remove(self.movePath, 1)
                 local nextCell = WORLD:getCell(nextPos)
