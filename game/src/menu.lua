@@ -225,6 +225,7 @@ if IS_DEBUG then
     local extraLevels = {
         { tiledmap = Engine:getAsset('src/maps/remote_control.lua'), label = "Remote Control", },
         { tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
+        { tiledmap = Engine:getAsset('src/maps/test_level.lua'), label = "Test Level", },
     }
     for _, levelInfo in ipairs(extraLevels) do table.insert(levels, levelInfo) end
 end
