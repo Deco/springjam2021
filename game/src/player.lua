@@ -10,33 +10,40 @@ function Player:setup(data)
             desired = false,
             idle = Engine:getAsset('art/player/idle_up.png'),
             moving = Engine:getAsset('art/player/walking_up-sheet.png'),
+            die = nil,
         },
         [Cardinal.Right] = {
             keys = { 'right', 'd' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_right.png'),
             moving = Engine:getAsset('art/player/walking_right-sheet.png'),
+            die = Engine:getAsset('art/player/die_right-sheet.png'),
         },
         [Cardinal.Down] = {
             keys = { 'down', 's' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_down.png'),
             moving = Engine:getAsset('art/player/walking_down-sheet.png'),
+            die = nil,
         },
         [Cardinal.Left] = {
             keys = { 'left', 'a' },
             desired = false,
             idle = Engine:getAsset('art/player/idle_left.png'),
             moving = Engine:getAsset('art/player/walking_left-sheet.png'),
+            die = Engine:getAsset('art/player/die_left-sheet.png'),
         },
     }
-    self.inputActive = false
+    self.inputActive = util.default(true, self.inputActive)
+    self.movedAtAll = util.default(false, self.movedAtAll)
     self.lastMoveDir = self.lastMoveDir or Cardinal.Right
+    self.lastHorzMoveDir = self.lastHorzMoveDir or Cardinal.Right
     BasicEntSetup(self, data)
 
     self.lastMoveTime = self.lastMoveTime or 0
 
     self.alive = util.default(self.alive, true)
+    self.deathTime = self.deathTime or nil
 
     self.topPrompts = {}
 
@@ -63,7 +70,11 @@ function Player:spawned()
 end
 
 function Player:update(time, dt)
-    if self.inputActive then
+    if Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and GAMETIME < 4.0 then
+        -- aaaahhhh
+        GAMESTATE.player._lastPos = WORLD.playerStartPos + Vec(0, -20)
+
+    elseif self.inputActive then
         self:processInput(time, dt)
     end
     SCREENTEXT(self:getPos())
@@ -98,6 +109,7 @@ function Player:processInput(time, dt)
             local moveDir = possibleDirs[1]
             self.lastMoveTime = GAMETIME
             self:tryMove(moveDir)
+            self.movedAtAll = true
             EmitSound({
                 'sfx/robe_walk_01.ogg',
                 'sfx/robe_walk_02.ogg',
@@ -115,6 +127,9 @@ function Player:processInput(time, dt)
         elseif someMoveDir then
             self.lastMoveDir = someMoveDir
         end
+        if self.lastMoveDir == Cardinal.Left or self.lastMoveDir == Cardinal.Right then
+            self.lastHorzMoveDir = self.lastMoveDir
+        end
 
         for dir, dirInfo in pairs(self.directionInfo) do
             dirInfo.desired = false
@@ -123,6 +138,8 @@ function Player:processInput(time, dt)
 end
 
 function Player:onKeyPressed(key, scancode)
+    if not self.inputActive then return end
+
     for dir, dirInfo in pairs(self.directionInfo) do
         if util.some(dirInfo.keys, function(dirKey) return dirKey == key end) then
             dirInfo.desired = true
@@ -179,6 +196,7 @@ end
 function Player:youAreDead()
     if self.alive then
         self.alive = false
+        self.deathTime = GAMETIME
         EmitSound('sfx/death.ogg', self, { pitch = util.randomRange(0.6, 0.66), })
     end
 end
@@ -223,10 +241,14 @@ function Player:render(dt, isMoving)
         love.graphics.setColor(0.3, 0, 0, 1)
     end
     local ass = self.directionInfo[self.lastMoveDir]
-    if self.alive then
+    if Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and GAMETIME < 4.5 then
+        DrawSimpleEntAnim(self, self.directionInfo[Cardinal.Right].die, math.remapClamp(GAMETIME, 0.6, 3.5, 1.0, 0.0))
+    elseif self.alive then
         DrawSimpleEntAnim(self, ass.moving, 2 * GAMETIME)
     else
-        DrawSimpleEntImage(self, ass.idle)
+        --DrawSimpleEntImage(self, ass.idle)
+        ass = self.directionInfo[self.lastHorzMoveDir]
+        DrawSimpleEntAnim(self, ass.die, math.remapClamp(GAMETIME - self.deathTime, 0, 0.6, 0.0, 1.0))
     end
 
     --love.graphics.setColor(1, 1, 0, 1)
@@ -239,6 +261,9 @@ function Player:screenRender()
     local text = ""
     for _, candidate in ipairs(self:getUseCandidates()) do
         text = text .. (candidate:getUsePrompt(self) or "") .. "\n"
+    end
+    if GAMETIME > self.lastMoveTime + (self.movedAtAll and 7.0 or 45.0) then
+        text = text .. "WASD or ARROW KEYS to move.\n"
     end
     local textW = promptFont.handle:getWidth(text) * SCREENTEXTSCALE
     love.graphics.setColor(1, 1, 1, 1)

@@ -92,7 +92,8 @@ function World:initLevel()
     end
 
     GAMESTATE.player:setPos(WORLD.playerStartPos)
-    GAMESTATE.player._lastPos = WORLD.playerStartPos + (Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and Vec(0, -20) or Vec(0, 0))
+    --GAMESTATE.player._lastPos = WORLD.playerStartPos + (Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and Vec(0, -20) or Vec(0, 0))
+    GAMESTATE.player._lastPos = WORLD.playerStartPos
 
     self.haltRetouchy = false
     Engine.blockSpawned = false

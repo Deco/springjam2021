@@ -32,6 +32,8 @@ local assets = {
     ['art/player/walking_right-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
     ['art/player/walking_down-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
     ['art/player/walking_left-sheet.png'] = { type = 'anim', frames = 4, loop = true, },
+    ['art/player/die_left-sheet.png'] = { type = 'anim', frames = 4, loop = false, },
+    ['art/player/die_right-sheet.png'] = { type = 'anim', frames = 4, loop = false, },
 
     ['art/wall.png'] = { type = 'image' },
 
@@ -75,6 +77,7 @@ local assets = {
     ['art/tree.png'] = { type = 'image' },
     ['art/lit.png'] = { type = 'image' },
     ['art/Morning_Gory.png'] = { type = 'image' },
+    ['art/ash.png'] = { type = 'image' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 
