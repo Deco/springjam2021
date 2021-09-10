@@ -216,14 +216,17 @@ local levels = {
     { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Mission Probable", },
     { tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
     { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
+    { tiledmap = Engine:getAsset('src/maps/rolling_out.lua'), label = "Rolling Out", },
     { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+    { tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
 }
 
 if IS_DEBUG then
-    table.insert(levels, { tiledmap = Engine:getAsset('src/maps/rolling_out.lua'), label = "Rolling Out", })
-    table.insert(levels, { tiledmap = Engine:getAsset('src/maps/remote_control.lua'), label = "Remote Control", })
-    table.insert(levels, { tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", })
-    table.insert(levels, { tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", })
+    local extraLevels = {
+        { tiledmap = Engine:getAsset('src/maps/remote_control.lua'), label = "Remote Control", },
+        { tiledmap = Engine:getAsset('src/maps/zigzag.lua'), label = "Zig Zag", },
+    }
+    for _, levelInfo in ipairs(extraLevels) do table.insert(levels, levelInfo) end
 end
 
 function TheMenu:gotoStage(newStage)

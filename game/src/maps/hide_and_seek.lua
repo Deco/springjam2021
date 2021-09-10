@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 4,
-  nextobjectid = 248,
+  nextobjectid = 250,
   properties = {},
   tilesets = {
     {
@@ -677,7 +677,7 @@ return {
           type = "",
           shape = "rectangle",
           x = 432,
-          y = 608,
+          y = 624,
           width = 16,
           height = 16,
           rotation = 0,
@@ -1658,12 +1658,12 @@ return {
           properties = {}
         },
         {
-          id = 246,
+          id = 247,
           name = "Salt",
           type = "",
           shape = "rectangle",
           x = 432,
-          y = 576,
+          y = 608,
           width = 16,
           height = 16,
           rotation = 0,
@@ -1672,8 +1672,8 @@ return {
           properties = {}
         },
         {
-          id = 247,
-          name = "Salt",
+          id = 248,
+          name = "Spikes",
           type = "",
           shape = "rectangle",
           x = 432,
@@ -1681,7 +1681,21 @@ return {
           width = 16,
           height = 16,
           rotation = 0,
-          gid = 106,
+          gid = 40,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 249,
+          name = "Spikes",
+          type = "",
+          shape = "rectangle",
+          x = 432,
+          y = 576,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 40,
           visible = true,
           properties = {}
         }
