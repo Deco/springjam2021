@@ -51,6 +51,7 @@ function TheMenu:setup()
     self.targetLevel = self.targetLevel or nil
     self.targetLevelIdx = self.targetLevelIdx or nil
     self.gameState = self.gameState or nil
+    self.leveltimes = self.leveltimes or {}
 
     love.window.setTitle(self.gameTitle)
 
@@ -187,7 +188,6 @@ function TheMenu:specialUpdate(time, dt)
         end
 
     elseif self.stage == MenuStage.Gameover then
-
         suit.Label("", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
 
         suit.Label("Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 8 * menuButtonH))
@@ -240,7 +240,12 @@ function TheMenu:gotoStage(newStage)
             self.targetLevelIdx = 1
             self.targetLevel = levels[self.targetLevelIdx]
         end
+
+        self.leveltimes[self.targetLevelIdx] = GAMETIME
         GAMETIME = 0
+        for _,score in pairs(self.leveltimes) do
+            print(score)
+        end
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
     self.stage = newStage
@@ -333,6 +338,19 @@ function TheMenu:specialRender()
         local textW, lineH = actualTextW * scale, actualTextH * scale
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.printf(controls, winW - textW - 18, winH - 5 * lineH, actualTextW, 'right', 0, scale, scale)
+    end
+
+    if self.stage == MenuStage.Gameover then
+            local promptFont = Engine:getAsset('PromptFont')
+            local text = ""
+            for lvl,score in pairs(self.leveltimes) do
+                        text = text .. string.format("Level %d completed in %.2fs\n", tostring(lvl), tostring(score))
+            end
+            love.graphics.setFont(promptFont.handle)
+            local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
+            local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.printf(text, 10, 54 , 1200, 'left', 0, scale, scale)
     end
 
     love.graphics.reset()
