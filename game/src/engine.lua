@@ -17,6 +17,7 @@ GMAKER 'GAMETIME'
 _G.GAMETIME = type(_G.GAMETIME) == 'table' and -1 or _G.GAMETIME -- aaahh
 _G.ONETICK = 1 / 60
 _G.SCREENTEXTSCALE = 0.2
+_G.ALLOW_ACCELERATE = false
 
 _G.ProfileMode = {
     Off = 0,
@@ -158,9 +159,9 @@ function Engine:update(time, dt)
 
     self.menu:specialUpdate(time, dt)
 
-    --if IS_DEBUG then
-    self.timeRate = (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and 3 or 1
-    --end
+    if ALLOW_ACCELERATE or IS_DEBUG then
+        self.timeRate = (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and 3 or 1
+    end
 
     if not self.menu.isPaused then
         while self.accumulatedUpdateTime - ONETICK > 0.0 do
