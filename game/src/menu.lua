@@ -240,12 +240,7 @@ function TheMenu:gotoStage(newStage)
             self.targetLevelIdx = 1
             self.targetLevel = levels[self.targetLevelIdx]
         end
-
-        self.leveltimes[self.targetLevelIdx] = GAMETIME
         GAMETIME = 0
-        for _,score in pairs(self.leveltimes) do
-            print(score)
-        end
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
     self.stage = newStage
@@ -341,16 +336,21 @@ function TheMenu:specialRender()
     end
 
     if self.stage == MenuStage.Gameover then
-            local promptFont = Engine:getAsset('PromptFont')
-            local text = ""
-            for lvl,score in pairs(self.leveltimes) do
-                        text = text .. string.format("Level %d completed in %.2fs\n", tostring(lvl), tostring(score))
+        local promptFont = Engine:getAsset('PromptFont')
+        local text = ""
+        for lvlIdx in ipairs(levels) do
+            local score = self.leveltimes[lvlIdx]
+            if score ~= nil then
+                text = text .. string.format("Level %d completed in %.2fs\n", lvlIdx, score)
+            else
+                text = text .. string.format("Level %d not completed.\n", lvlIdx)
             end
-            love.graphics.setFont(promptFont.handle)
-            local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
-            local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
-            love.graphics.setColor(1, 1, 1, 1)
-            love.graphics.printf(text, 10, 54 , 1200, 'left', 0, scale, scale)
+        end
+        love.graphics.setFont(promptFont.handle)
+        local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
+        local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.printf(text, 10, 54, 1200, 'left', 0, scale, scale)
     end
 
     love.graphics.reset()

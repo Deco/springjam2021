@@ -46,6 +46,7 @@ function ExitDoor:update()
     if self.activateTime then
         Engine.menu:setFade(math.remapClamp(GAMETIME - self.activateTime, 0, 1.2, 0, 1))
         if GAMETIME > self.activateTime + 2.0 then
+            Engine.menu.leveltimes[Engine.menu.targetLevelIdx] = GAMETIME -- aaaaaahh
             Engine.menu:loadLevel('next')
         end
     end
