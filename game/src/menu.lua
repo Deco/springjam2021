@@ -323,15 +323,16 @@ function TheMenu:specialRender()
         love.graphics.rectangle('fill', (winW - 600) / 2, winH - 360, 600, winH)
     end
     if self.stage == MenuStage.MainMenu or (self.stage == MenuStage.Playing and self.isPaused) then
-        local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
+        local scale = math.remapClamp(winH, 720, 1440, 0.4, 0.7)
         local controls = "WASD or ARROW KEYS to move.\nE or SPACE to interact."
         if ALLOW_ACCELERATE then
             controls = controls .. "\nSHIFT to accelerate time."
         end
         controls = controls .. "\nR to restart."
-        local textW, lineH = promptFont.handle:getWidth(controls) * scale, promptFont.handle:getHeight(controls) * scale
+        local actualTextW, actualTextH = promptFont.handle:getWidth(controls), promptFont.handle:getHeight(controls)
+        local textW, lineH = actualTextW * scale, actualTextH * scale
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.printf(controls, winW - textW - 15, winH - 5 * lineH, 1200, 'left', 0, scale, scale)
+        love.graphics.printf(controls, winW - textW - 18, winH - 5 * lineH, actualTextW, 'right', 0, scale, scale)
     end
 
     love.graphics.reset()
