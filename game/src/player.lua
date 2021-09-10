@@ -73,6 +73,9 @@ function Player:update(time, dt)
     if Engine.menu.targetLevelIdx == 1 and not Engine.menu.wasRestart and GAMETIME < 4.0 then
         -- aaaahhhh
         GAMESTATE.player._lastPos = WORLD.playerStartPos + Vec(0, -20)
+        for dir, dirInfo in pairs(self.directionInfo) do
+            dirInfo.desired = false
+        end
 
     elseif self.inputActive then
         self:processInput(time, dt)
