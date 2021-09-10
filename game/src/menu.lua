@@ -216,9 +216,9 @@ local levels = {
     { tiledmap = Engine:getAsset('src/maps/pipework.lua'), label = "Mission Probable", },
     { tiledmap = Engine:getAsset('src/maps/kaffeine withdrawal.lua'), label = "Kaffeine Withdrawal", },
     { tiledmap = Engine:getAsset('src/maps/tubular.lua'), label = "Tubular", },
-    { tiledmap = Engine:getAsset('src/maps/rolling_out.lua'), label = "Rolling Out", },
-    { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
     { tiledmap = Engine:getAsset('src/maps/hide_and_seek.lua'), label = "Hide and Seek", },
+    { tiledmap = Engine:getAsset('src/maps/seafloor_cavern.lua'), label = "Sea Floor Cavern", },
+    { tiledmap = Engine:getAsset('src/maps/rolling_out.lua'), label = "Rolling Out", },
 }
 
 if IS_DEBUG then
