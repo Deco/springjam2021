@@ -336,16 +336,20 @@ function TheMenu:specialRender()
     end
 
     if self.stage == MenuStage.Gameover then
-        local promptFont = Engine:getAsset('PromptFont')
         local text = ""
+        local totalTime = 0
         for lvlIdx in ipairs(levels) do
-            local score = self.leveltimes[lvlIdx]
-            if score ~= nil then
-                text = text .. string.format("Level %d completed in %.2fs\n", lvlIdx, score)
+            local time = self.leveltimes[lvlIdx]
+            if time ~= nil then
+                text = text .. string.format("Level %d completed in %.2fs\n", lvlIdx, time)
+                totalTime = totalTime + time
             else
                 text = text .. string.format("Level %d not completed.\n", lvlIdx)
             end
         end
+        text = text .. string.format("Total completion time %.2fs\n", totalTime)
+
+        local promptFont = Engine:getAsset('PromptFont')
         love.graphics.setFont(promptFont.handle)
         local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
         local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
