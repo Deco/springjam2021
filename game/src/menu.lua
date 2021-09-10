@@ -39,10 +39,11 @@ function TheMenu:setup()
     --self.font = Engine:getAsset('fonts/HelvetiPixel.ttf:24').handle
     --self.bigFont = Engine:getAsset('fonts/HelvetiPixel.ttf:60').handle
     self.jfcFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 24)
-    self.jfcBigFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 60)
-    self.gameTitle = "Morning Gory"
+    self.jfcBigFontForSuit = love.graphics.newFont('fonts/HelvetiPixel.ttf', 40)
+    self.gameTitle = self.gameTitle or "Morning Gory"
 
     self.stage = self.stage or MenuStage.Loading
+    self.stageChangeWallTime = self.stageChangeWallTime or love.timer.getTime()
     self.isPaused = util.default(self.isPaused, false)
     self.wasPaused = util.default(self.wasPaused, false)
     self.wasRestart = util.default(self.wasRestart, false)
@@ -53,12 +54,10 @@ function TheMenu:setup()
 
     love.window.setTitle(self.gameTitle)
 
-    self.ambientSound = Engine:getAsset('sfx/ambience.mp3')
-    self.ambientSoundSource = self.ambientSound.handle:clone()
-    self.volumeSlider = { value = self.settings.volume, min = 0, max = 1 }
-    self.fadeFrac = 0.0
-
-    self.thanksForPlaying = false
+    self.ambientSound = self.ambientSound or Engine:getAsset('sfx/ambience.mp3')
+    self.ambientSoundSource = self.ambientSoundSource or self.ambientSound.handle:clone()
+    self.volumeSlider = self.volumeSlider or { value = self.settings.volume, min = 0, max = 1 }
+    self.fadeFrac = self.fadeFrac or 0.0
 end
 
 function TheMenu:specialUpdate(time, dt)
@@ -67,8 +66,43 @@ function TheMenu:specialUpdate(time, dt)
     -- https://suit.readthedocs.io/en/latest/layout.html#
     local winW, winH = love.graphics.getDimensions()
     local menuW = 600
-    local menuY = 10
-    local menuButtonH = 80
+    local menuY = winH - 700
+    local menuButtonH = 60
+
+    local doCommonMenuButtons = function()
+
+        if suit.Button('Toggle Fullscreen', { font = self.jfcBigFontForSuit }, suit.layout:row(menuW, menuButtonH)).hit then
+            love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
+        end
+
+        if suit.Button("Quit Game", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
+            love.event.quit()
+        end
+
+        suit.Label("", { font = self.jfcFontForSuit }, suit.layout:row(200, 70))
+
+        suit.layout:push(suit.layout:row(nil, 40))
+        suit.Label("Master Volume", { font = self.jfcFontForSuit }, suit.layout:col(200, 20))
+        if suit.Slider(self.volumeSlider, suit.layout:col(menuW - 240)).changed then
+            self.settings.volume = self.volumeSlider.value
+            love.audio.setVolume(self.settings.volume)
+        end
+        suit.Label(("%.02f"):format(self.volumeSlider.value), suit.layout:col(40))
+        suit.layout:pop()
+
+        suit.layout:push(suit.layout:row(nil, 140))
+        if suit.Button("Cancel", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
+            self:loadPreferences()
+            self.isPaused = false
+        end
+        if suit.Button("Save", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
+            self:savePreferences()
+            if self.isPaused then self.isPaused = false end
+        end
+        suit.layout:pop()
+    end
+
+    suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
 
     if self.stage == MenuStage.Loading then
         -- todo if loading starts to take a bit?
@@ -83,10 +117,14 @@ function TheMenu:specialUpdate(time, dt)
         --if suit.Button('Play', suit.layout:row(menuW, menuButtonH)).hit then
         --    self:gotoStage(MenuStage.Playing)
         --end
-        --
-        --if suit.Button('Toggle Fullscreen', suit.layout:row(menuW, menuButtonH)).hit then
-        --    love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
-        --end
+
+        suit.Label("", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 5 * menuButtonH))
+
+        if suit.Button("Start Game", { font = self.jfcBigFontForSuit }, suit.layout:row(menuW, menuButtonH)).hit then
+            self:loadLevel(1)
+        end
+
+        doCommonMenuButtons()
 
     elseif self.stage == MenuStage.Playing then
 
@@ -105,7 +143,7 @@ function TheMenu:specialUpdate(time, dt)
                 Engine:onPause()
             end
 
-            suit.layout:reset(winW / 2 - menuW / 2, menuY, 5, 5) -- /* offX, offY, padX, padY */
+            --suit.ImageButton(Engine:getAsset('art/ash.png').handle, suit.layout:row(menuW, 2 * menuButtonH))
 
             suit.Label("Paused", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
 
@@ -124,35 +162,12 @@ function TheMenu:specialUpdate(time, dt)
             end
 
             if suit.Button("Restart Game", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
-                self:loadLevel(1)
-                self.isPaused = false
+                --self:loadLevel(1)
+                --self.isPaused = false
+                self:gotoStage(MenuStage.Loading)
             end
 
-            if suit.Button("Quit Game", { font = self.jfcBigFontForSuit }, suit.layout:row(nil, menuButtonH)).hit then
-                love.event.quit()
-            end
-
-            suit.Label("", { font = self.jfcFontForSuit }, suit.layout:row(200, 80))
-
-            suit.layout:push(suit.layout:row(nil, 40))
-            suit.Label("Master Volume", { font = self.jfcFontForSuit }, suit.layout:col(200, 20))
-            if suit.Slider(self.volumeSlider, suit.layout:col(menuW - 240)).changed then
-                self.settings.volume = self.volumeSlider.value
-                love.audio.setVolume(self.settings.volume)
-            end
-            suit.Label(("%.02f"):format(self.volumeSlider.value), suit.layout:col(40))
-            suit.layout:pop()
-
-            suit.layout:push(suit.layout:row(nil, 140))
-            if suit.Button("Cancel", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
-                self:loadPreferences()
-                self.isPaused = false
-            end
-            if suit.Button("Save", { font = self.jfcFontForSuit }, suit.layout:col(menuW / 2 - 5 / 2, menuButtonH / 2)).hit then
-                self:savePreferences()
-                self.isPaused = false
-            end
-            suit.layout:pop()
+            doCommonMenuButtons()
         else
             if self.wasPaused then
                 Engine:onResume()
@@ -172,7 +187,14 @@ function TheMenu:specialUpdate(time, dt)
         end
 
     elseif self.stage == MenuStage.Gameover then
-        -- todo
+
+        suit.Label("", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
+
+        suit.Label("Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 8 * menuButtonH))
+
+        if suit.Button("Continue", { font = self.jfcBigFontForSuit }, suit.layout:row(menuW, menuButtonH)).hit then
+            self:gotoStage(MenuStage.Loading)
+        end
     end
 
     if IS_DEBUG then
@@ -218,21 +240,29 @@ function TheMenu:gotoStage(newStage)
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
     self.stage = newStage
+    self.stageChangeWallTime = love.timer.getTime()
 end
 
 function TheMenu:loadLevel(targetIdx, isRestart)
     self.fadeFrac = 1.0
-    self.wasRestart = isRestart
+    self.wasRestart = isRestart or false
+    local isGameover = false
     if targetIdx == 'curr' then
         targetIdx = self.targetLevelIdx
     elseif targetIdx == 'next' then
         targetIdx = math.indexWrap(self.targetLevelIdx + 1, #levels)
-        self.thanksForPlaying = (targetIdx < self.targetLevelIdx)
+        if targetIdx == 1 then
+            isGameover = true
+        end
     end
     if levels[targetIdx] then
         self.targetLevelIdx = targetIdx
         self.targetLevel = levels[self.targetLevelIdx]
-        self:gotoStage(MenuStage.Playing)
+        if not isGameover then
+            self:gotoStage(MenuStage.Playing)
+        else
+            self:gotoStage(MenuStage.Gameover)
+        end
     end
 end
 
@@ -256,21 +286,16 @@ function TheMenu:specialRender()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(promptFont.handle)
 
-    local text = ""
-    if self.stage == MenuStage.MainMenu then
-        text = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nSHIFT to accelerate time.\nR to restart.\nESCAPE to pause.\n\nF to toggle fullscreen.\nR to start game now."
-    elseif self.thanksForPlaying then
-        text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan"
-    elseif self.stage == MenuStage.Playing then
-        --text = "ESCAPE to resume.\nF to toggle fullscreen."
-    end
-
-    local textW, textH = promptFont.handle:getWidth(text), promptFont.handle:getHeight(text)
-    love.graphics.printf(text, winW / 2 - 1200 / 2, winH / 2 - 130, 1200, 'center')
-    if text ~= "" then
-        local img = Engine:getAsset('art/Morning_Gory.png').handle
-        love.graphics.draw(img, winW / 2 - img:getWidth() / 2, winH / 2 - img:getHeight() / 2 - 240)
-    end
+    --local text, showSplash = "", false
+    --if self.stage == MenuStage.MainMenu then
+    --    showSplash = true
+    --    --text = controls .. "\nR to start game now."
+    --elseif self.stage == MenuStage.Gameover then
+    --    showSplash = true
+    --    text = "Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan\n\n\nPress any key to continue."
+    --elseif self.stage == MenuStage.Playing and self.isPaused then
+    --    text = "ESCAPE to resume.\nF to toggle fullscreen."
+    --end
 
     if self.isPaused then
         love.graphics.setColor(0, 0, 0, 0.7)
@@ -280,6 +305,27 @@ function TheMenu:specialRender()
         love.graphics.setColor(1, 0, 0, 0.1)
         love.graphics.rectangle('fill', 0, 0, winW, winH)
     end
+
+    if self.stage == MenuStage.MainMenu or self.stage == MenuStage.Gameover then
+        local img = Engine:getAsset('art/ash.png').handle
+        local vertSize = winH / 720 * 400
+        local scale = vertSize / img:getHeight()
+        local imgSize = Vec(img:getWidth(), img:getHeight()) * scale
+        love.graphics.draw(img, winW / 2 - imgSize.x / 2, 30, 0, scale, scale)
+    end
+    if self.stage == MenuStage.Gameover then
+        -- AAAAAAHHHHH
+        love.graphics.setColor(0, 0, 0, 0.4)
+        love.graphics.rectangle('fill', (winW - 600) / 2, winH - 360, 600, winH)
+    end
+    if self.stage == MenuStage.MainMenu or (self.stage == MenuStage.Playing and self.isPaused) then
+        local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
+        local controls = "WASD or ARROW KEYS to move.\nE or SPACE to interact.\nSHIFT to accelerate time.\nR to restart."
+        local textW, lineH = promptFont.handle:getWidth(controls) * scale, promptFont.handle:getHeight(controls) * scale
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.printf(controls, winW - textW - 15, winH - 5 * lineH, 1200, 'left', 0, scale, scale)
+    end
+
     love.graphics.reset()
     love.graphics.push()
     suit.draw()
@@ -293,6 +339,10 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
     end
 
     if isrepeat then return end
+
+    --if self.stage == MenuStage.Gameover and love.timer.getTime() > self.stageChangeWallTime + 0.6 then
+    --    self:gotoStage(MenuStage.MainMenu)
+    --end
 
     if key == 'escape' and self.stage == MenuStage.Playing then
         self.isPaused = not self.isPaused
@@ -308,12 +358,17 @@ function TheMenu:onKeyPressed(key, scancode, isrepeat)
         self:gotoStage(MenuStage.Playing)
     end
 
-    if key == 'f' then
-        love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
-    end
+    --if key == 'f' then
+    --    love.window.setFullscreen(not love.window.getFullscreen(), 'desktop')
+    --end
 
     if IS_DEBUG and key == 'f1' then
         self:gotoStage(MenuStage.Loading)
+        return
+    end
+
+    if IS_DEBUG and key == 'f12' then
+        self:gotoStage(MenuStage.Gameover)
         return
     end
 

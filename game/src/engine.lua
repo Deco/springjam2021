@@ -201,7 +201,11 @@ function Engine:draw()
     self.currDebugText = self.drawDebugText
 
     local pixelSize = Vec(love.graphics.getDimensions())
-    love.graphics.clear(37 / 255, 19 / 255, 26 / 255, 1, 1, 1)
+    if self.menu.stage == MenuStage.Playing then
+        love.graphics.clear(37 / 255, 19 / 255, 26 / 255, 1, 1, 1)
+    else
+        love.graphics.clear(0, 0, 0, 1, 1, 1)
+    end
 
     local dt = love.timer.getTime() - self.lastDrawTime
 
