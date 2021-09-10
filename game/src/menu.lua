@@ -343,9 +343,12 @@ function TheMenu:specialRender()
     if self.stage == MenuStage.Gameover then
             local promptFont = Engine:getAsset('PromptFont')
             local text = ""
+            local total_time = 0
             for lvl,score in pairs(self.leveltimes) do
                         text = text .. string.format("Level %d completed in %.2fs\n", tostring(lvl), tostring(score))
+                        total_time = total_time + score
             end
+            text = text .. string.format("Total completion time %.2fs\n", tostring(total_time))
             love.graphics.setFont(promptFont.handle)
             local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
             local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
