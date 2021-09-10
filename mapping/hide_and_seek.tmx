@@ -72,7 +72,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="entities">
+ <objectgroup id="2" name="entities" visible="0">
   <object id="20" template="templates/PlayerStart.tx" x="224" y="144"/>
   <object id="37" template="templates/ExitDoor.tx" x="320" y="144"/>
   <object id="38" template="templates/RED/Gate-RED.tx" name="Gate-RED-OR" x="256" y="176"/>
@@ -240,7 +240,7 @@
  </layer>
  <objectgroup id="4" name="reverb">
   <object id="254" template="templates/reverb_zones/medium_room.tx" x="208" y="128" width="112" height="48"/>
-  <object id="256" template="templates/reverb_zones/corridor.tx" x="128" y="192" width="544" height="560"/>
+  <object id="256" template="templates/reverb_zones/corridor.tx" x="112" y="176" width="560" height="592"/>
   <object id="257" template="templates/reverb_zones/small_room.tx" x="432" y="304" width="48" height="32"/>
   <object id="258" template="templates/reverb_zones/small_room.tx" x="496" y="432" width="48" height="32"/>
   <object id="259" template="templates/reverb_zones/small_room.tx" x="368" y="480" width="48" height="32"/>
