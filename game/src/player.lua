@@ -262,7 +262,7 @@ function Player:screenRender()
     for _, candidate in ipairs(self:getUseCandidates()) do
         text = text .. (candidate:getUsePrompt(self) or "") .. "\n"
     end
-    if GAMETIME > self.lastMoveTime + (self.movedAtAll and 7.0 or 45.0) then
+    if GAMETIME > self.lastMoveTime + (self.movedAtAll and 45.0 or 7.0) then
         text = text .. "WASD or ARROW KEYS to move.\n"
     end
     local textW = promptFont.handle:getWidth(text) * SCREENTEXTSCALE
