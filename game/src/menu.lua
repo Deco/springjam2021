@@ -51,6 +51,7 @@ function TheMenu:setup()
     self.targetLevel = self.targetLevel or nil
     self.targetLevelIdx = self.targetLevelIdx or nil
     self.gameState = self.gameState or nil
+    self.leveltimes = self.leveltimes or {}
 
     love.window.setTitle(self.gameTitle)
 
@@ -187,7 +188,6 @@ function TheMenu:specialUpdate(time, dt)
         end
 
     elseif self.stage == MenuStage.Gameover then
-
         suit.Label("", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 2 * menuButtonH))
 
         suit.Label("Thanks for playing!\n\nMorning Gory\nMade for Spring Jam 2021\nBy Ettiene, Keegan, Luke and Declan", { align = "center", font = self.jfcBigFontForSuit }, suit.layout:row(menuW, 8 * menuButtonH))
@@ -239,7 +239,12 @@ function TheMenu:gotoStage(newStage)
             self.targetLevelIdx = 1
             self.targetLevel = levels[self.targetLevelIdx]
         end
+
+        self.leveltimes[self.targetLevelIdx] = GAMETIME
         GAMETIME = 0
+        for _,score in pairs(self.leveltimes) do
+            print(score)
+        end
         self.gameState = GameState.new(self, { level = self.targetLevel, })
     end
     self.stage = newStage
@@ -327,6 +332,25 @@ function TheMenu:specialRender()
         local textW, lineH = promptFont.handle:getWidth(controls) * scale, promptFont.handle:getHeight(controls) * scale
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.printf(controls, winW - textW - 15, winH - 5 * lineH, 1200, 'left', 0, scale, scale)
+    end
+
+    if self.stage == MenuStage.Gameover then
+            local promptFont = Engine:getAsset('PromptFont')
+            local text = " 8=====>~~~~~~"
+            for lvl,score in pairs(self.leveltimes) do
+                        text = tostring("LEVEL: " .. lvl .. tostring(score) "\n"
+                        end
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.setFont(promptFont.handle)
+            local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
+            local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
+            love.graphics.setColor(1, 1, 1, 1)
+            love.graphics.printf(text, 10, 10 , 1200, 'left', 0, scale, scale)
+
+
+
+
+            end
     end
 
     love.graphics.reset()
