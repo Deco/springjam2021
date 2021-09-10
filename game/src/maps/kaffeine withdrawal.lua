@@ -8,8 +8,8 @@ return {
   height = 16,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 4,
-  nextobjectid = 102,
+  nextlayerid = 5,
+  nextobjectid = 110,
   properties = {},
   tilesets = {
     {
@@ -741,6 +741,99 @@ return {
           properties = {
             ["initialFacingDir"] = "UpRight"
           }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 4,
+      name = "reverb",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 102,
+          name = "corridor",
+          type = "",
+          shape = "rectangle",
+          x = 208,
+          y = 80,
+          width = 64,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 103,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 16,
+          width = 192,
+          height = 80,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 104,
+          name = "large_room",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 96,
+          width = 176,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 105,
+          name = "medium_room",
+          type = "",
+          shape = "rectangle",
+          x = 16,
+          y = 144,
+          width = 80,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 108,
+          name = "corridor",
+          type = "",
+          shape = "rectangle",
+          x = 224,
+          y = 112,
+          width = 64,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 109,
+          name = "corridor",
+          type = "",
+          shape = "rectangle",
+          x = 240,
+          y = 0,
+          width = 16,
+          height = 80,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     }
