@@ -125,6 +125,9 @@ local assets = {
     ['sfx/salt_walk_04.ogg'] = { type = 'sfx', volume = 0.1, },
     ['sfx/salt_walk_05.ogg'] = { type = 'sfx', volume = 0.1, },
 
+    ['sfx/snow_walk_01.ogg'] = { type = 'sfx', volume = 0.1, },
+    ['sfx/snow_walk_02.ogg'] = { type = 'sfx', volume = 0.1, },
+
     ['sfx/robe_walk_01.ogg'] = { type = 'sfx', volume = 0.12, },
     ['sfx/robe_walk_02.ogg'] = { type = 'sfx', volume = 0.12, },
     ['sfx/robe_walk_03.ogg'] = { type = 'sfx', volume = 0.12, },

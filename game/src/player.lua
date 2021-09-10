@@ -167,11 +167,11 @@ function Player:onTouch(other)
         print('DEAD')
     elseif other.class == Salt then
         EmitSound({
-            'sfx/salt_walk_01.ogg',
-            'sfx/salt_walk_02.ogg',
-            'sfx/salt_walk_03.ogg',
-            'sfx/salt_walk_04.ogg',
-            'sfx/salt_walk_05.ogg'
+            'sfx/snow_walk_01.ogg',
+            'sfx/snow_walk_02.ogg',
+            --'sfx/salt_walk_03.ogg',
+            --'sfx/salt_walk_04.ogg',
+            --'sfx/salt_walk_05.ogg'
         }, self)
     end
 end
