@@ -343,19 +343,14 @@ function TheMenu:specialRender()
             local promptFont = Engine:getAsset('PromptFont')
             local text = " 8=====>~~~~~~"
             for lvl,score in pairs(self.leveltimes) do
-                        text = tostring("LEVEL: " .. lvl .. tostring(score) "\n"
-                        end
+                        text = tostring("LEVEL: " .. lvl .. tostring(score) "\n")
+            end
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.setFont(promptFont.handle)
             local scale = math.remapClamp(winH, 720, 1440, 0.45, 0.7)
             local textW, lineH = promptFont.handle:getWidth(text) * scale, promptFont.handle:getHeight(text) * scale
             love.graphics.setColor(1, 1, 1, 1)
             love.graphics.printf(text, 10, 10 , 1200, 'left', 0, scale, scale)
-
-
-
-
-            end
     end
 
     love.graphics.reset()
