@@ -196,6 +196,16 @@ function World:specialRenderAfter()
                                         horizFrac = math.max(horizFrac, vertFrac)
                                         vertFrac = horizFrac
                                     end
+                                else
+                                    if ent.facingDiagDir == Diagonal.UpRight then
+                                        allowUp, allowRight = false
+                                    elseif ent.facingDiagDir == Diagonal.DownRight then
+                                        allowDown, allowRight = false
+                                    elseif ent.facingDiagDir == Diagonal.DownLeft then
+                                        allowDown, allowLeft = false
+                                    elseif ent.facingDiagDir == Diagonal.UpLeft then
+                                        allowUp, allowLeft = false
+                                    end
                                 end
                             else
                                 allowLeft, allowRight, allowUp, allowDown = fromLeft, fromRight, fromUp, fromDown
