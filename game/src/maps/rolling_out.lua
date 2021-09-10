@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 223,
+  nextobjectid = 224,
   properties = {},
   tilesets = {
     {
@@ -505,20 +505,6 @@ return {
           properties = {}
         },
         {
-          id = 70,
-          name = "Tomb",
-          type = "",
-          shape = "rectangle",
-          x = 352,
-          y = 256,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 85,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 71,
           name = "PressurePlate-BLUE",
           type = "",
@@ -993,20 +979,6 @@ return {
           }
         },
         {
-          id = 150,
-          name = "GoldenKey",
-          type = "",
-          shape = "rectangle",
-          x = 352,
-          y = 256,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          gid = 100,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 151,
           name = "Boulder",
           type = "",
@@ -1383,6 +1355,20 @@ return {
           height = 16,
           rotation = 0,
           gid = 106,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 223,
+          name = "Tomb-GoldenKey",
+          type = "",
+          shape = "rectangle",
+          x = 352,
+          y = 256,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 85,
           visible = true,
           properties = {}
         }
