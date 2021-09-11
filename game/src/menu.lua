@@ -282,9 +282,10 @@ function TheMenu:specialRender()
     end
 
     love.mouse.setVisible(self.stage ~= MenuStage.Playing or self.isPaused or IS_DEBUG)
-
-    love.graphics.setColor(0, 0, 0, self.fadeFrac)
-    love.graphics.rectangle('fill', 0, 0, winW, winH)
+    if self.stage ~= MenuStage.MainMenu then
+        love.graphics.setColor(0, 0, 0, self.fadeFrac)
+        love.graphics.rectangle('fill', 0, 0, winW, winH)
+    end
 
     local promptFont = Engine:getAsset('PromptFont')
     love.graphics.setColor(1, 1, 1, 1)
@@ -311,11 +312,23 @@ function TheMenu:specialRender()
     end
 
     if self.stage == MenuStage.MainMenu or self.stage == MenuStage.Gameover then
-        local img = Engine:getAsset('art/ash.png').handle
+        local bgVideo = Engine:getAsset('art/menu/purplesmoke.ogv').handle
+        if not bgVideo:isPlaying() then
+            bgVideo:rewind()
+            bgVideo:play()
+        end
+        love.graphics.draw(bgVideo, 0, 0, 0, winH / bgVideo:getHeight(), winH / bgVideo:getHeight())
+
+        local img = Engine:getAsset('art/menu/logo.png').handle
         local vertSize = winH / 720 * 400
         local scale = vertSize / img:getHeight()
         local imgSize = Vec(img:getWidth(), img:getHeight()) * scale
         love.graphics.draw(img, winW / 2 - imgSize.x / 2, 30, 0, scale, scale)
+
+        local vampImg = Engine:getAsset('art/menu/vamp.png').handle
+        local vampScale = (winH / vampImg:getHeight()) / 1.5
+        local vampImgSize = Vec(vampImg:getWidth(), vampImg:getHeight()) * vampScale
+        love.graphics.draw(vampImg, winW - vampImgSize.x, winH - vampImgSize.y, 0, vampScale, vampScale)
     end
     if self.stage == MenuStage.Gameover then
         -- AAAAAAHHHHH

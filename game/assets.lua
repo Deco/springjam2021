@@ -79,6 +79,9 @@ local assets = {
     ['art/lit.png'] = { type = 'image' },
     ['art/Morning_Gory.png'] = { type = 'image' },
     ['art/ash.png'] = { type = 'image' },
+    ['art/menu/logo.png'] = { type = 'image' },
+    ['art/menu/vamp.png'] = { type = 'image' },
+    ['art/menu/purplesmoke.ogv'] = { type = 'video' },
 
     ['art/fx/explosion.png'] = { type = 'vfx', lifetime = 2.0, size = Vec(4, 4), opacity = 0.3 },
 

@@ -205,7 +205,7 @@ function Engine:draw()
     if self.menu.stage == MenuStage.Playing then
         love.graphics.clear(37 / 255, 19 / 255, 26 / 255, 1, 1, 1)
     else
-        love.graphics.clear(0, 0, 0, 1, 1, 1)
+        love.graphics.clear(18/255,0/255,10/255, 1, 1, 1)
     end
 
     local dt = love.timer.getTime() - self.lastDrawTime
@@ -409,6 +409,18 @@ local AssetTypes = {
             info.size = nil
         end,
         fallback = { handle = love.graphics.newImage('art/missing.png'), size = Vec(900, 900) },
+    },
+    video = {
+        extensions = { "ogv", "ogg" },
+        create = function(info)
+            info.handle = love.graphics.newVideo(info.path, {audio = false})
+            info.size = Vec(info.handle:getWidth(), info.handle:getHeight())
+        end,
+        destroy = function(info)
+            info.handle = info.handle:release()
+            info.size = nil
+        end,
+        fallback = { handle = nil },
     },
     anim = {
         extensions = {},
